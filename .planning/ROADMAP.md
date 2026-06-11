@@ -39,6 +39,15 @@ Plans:
 **Goal:** From an empty dashboard, the user searches a city name, the app geocodes and fetches current weather from Open-Meteo, and shows it as a card. This is the first full vertical slice (form -> validation -> store -> axios + Vue Query -> UI).
 **Mode:** mvp
 **Requirements:** STATE-01, STATE-03, SRCH-01, SRCH-02, SRCH-03, DATA-01, DATA-02, DATA-03, WTHR-01
+**Plans:** 2 plansPlans:
+**Wave 1**
+
+- [ ] 02-01-PLAN.md — Data backbone: register Pinia + Vue Query, Open-Meteo axios client, WMO util, in-memory cities store, useCurrentWeather composable (+ store unit test)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 02-02-PLAN.md — UI slice: debounced validated city-search autocomplete, weather card with loading/error/content + remove, DashboardPage assembly with empty-state prompt
+
 **Success Criteria**:
 
 1. User types a city, validation blocks empty/invalid input (vee-validate + yup), and a valid search resolves to coordinates via Open-Meteo geocoding

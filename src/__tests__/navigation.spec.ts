@@ -4,6 +4,8 @@ import { createRouter, createMemoryHistory, type Router } from 'vue-router'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+import { createPinia } from 'pinia'
+import { VueQueryPlugin } from '@tanstack/vue-query'
 
 import App from '@/App.vue'
 import DashboardPage from '@/pages/DashboardPage.vue'
@@ -48,9 +50,11 @@ function buildRouter(): Router {
 
 function mountApp(router: Router) {
   const vuetify = createVuetify({ components, directives })
+  // DashboardPage now reads the cities store (Pinia) and its cards use Vue Query, so
+  // both plugins must be installed for the dashboard route to mount under test.
   return mount(App, {
     global: {
-      plugins: [router, vuetify],
+      plugins: [router, vuetify, createPinia(), VueQueryPlugin],
     },
   })
 }

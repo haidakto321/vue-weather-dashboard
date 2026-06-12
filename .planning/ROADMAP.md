@@ -11,7 +11,7 @@
 |---|-------|------|--------------|
 | 1 | 1/1 | Complete    | 2026-06-11 |
 | 2 | First Weather Slice | Search a city and see its current weather, end to end | STATE-01/03, SRCH-01/02/03, DATA-01/02/03, WTHR-01 |
-| 3 | Detail & Charts | Open a city, see multi-day forecast and a chart | NAV-02, WTHR-02, CHRT-01/02 |
+| 3 | 1/1 | Complete   | 2026-06-12 |
 | 4 | Preferences, i18n & Tests | Units/theme/language preferences, persistence, and tests | UI-02, STATE-02, CMPS-01, I18N-01/02, PERS-01, TEST-01/02/03 |
 
 ---
@@ -39,14 +39,14 @@ Plans:
 **Goal:** From an empty dashboard, the user searches a city name, the app geocodes and fetches current weather from Open-Meteo, and shows it as a card. This is the first full vertical slice (form -> validation -> store -> axios + Vue Query -> UI).
 **Mode:** mvp
 **Requirements:** STATE-01, STATE-03, SRCH-01, SRCH-02, SRCH-03, DATA-01, DATA-02, DATA-03, WTHR-01
-**Plans:** 2 plansPlans:
+**Plans:** 2/2 plans complete
 **Wave 1**
 
-- [ ] 02-01-PLAN.md — Data backbone: register Pinia + Vue Query, Open-Meteo axios client, WMO util, in-memory cities store, useCurrentWeather composable (+ store unit test)
+- [x] 02-01-PLAN.md — Data backbone: register Pinia + Vue Query, Open-Meteo axios client, WMO util, in-memory cities store, useCurrentWeather composable (+ store unit test)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 02-02-PLAN.md — UI slice: debounced validated city-search autocomplete, weather card with loading/error/content + remove, DashboardPage assembly with empty-state prompt
+- [x] 02-02-PLAN.md — UI slice: debounced validated city-search autocomplete, weather card with loading/error/content + remove, DashboardPage assembly with empty-state prompt
 
 **Success Criteria**:
 
@@ -59,6 +59,11 @@ Plans:
 **Goal:** Clicking a city opens its detail page (route param), which shows a multi-day forecast and a temperature chart that reacts to the selected city.
 **Mode:** mvp
 **Requirements:** NAV-02, WTHR-02, CHRT-01, CHRT-02
+**Plans:** 1/1 plans complete
+Plans:
+
+- [x] 03-01-PLAN.md — Detail slice: clickable card links -> /city/:id, route-param-driven CityDetailPage, fetchForecast (axios) + useForecast (Vue Query), multi-day ForecastList, reactive Chart.js/vue-chartjs temperature chart (+ component test)
+
 **Success Criteria**:
 
 1. City Detail route reads the city from its route params and loads that city's forecast

@@ -16,11 +16,14 @@ function toggleDrawer() {
 }
 
 // Each link uses a router target. Vuetify highlights the matching item automatically via
-// router-link active state (NAV-03). City Detail points at a concrete sample id so the
-// link is navigable this phase.
+// router-link active state (NAV-03). City Detail is now reached by clicking a dashboard
+// card; the drawer keeps a "City Detail" entry (so navigation stays discoverable and the
+// nav test's three-item expectation holds), but it no longer hardcodes a fake city id.
+// It navigates to a placeholder detail route which - matching no saved city - renders the
+// friendly "city not found / back to dashboard" state instead of a dead link.
 const navLinks = [
   { title: 'Dashboard', icon: 'mdi-view-dashboard', to: { name: 'dashboard' } },
-  { title: 'City Detail', icon: 'mdi-city', to: { name: 'city-detail', params: { id: 'tokyo' } } },
+  { title: 'City Detail', icon: 'mdi-city', to: { name: 'city-detail', params: { id: 'detail' } } },
   { title: 'Settings', icon: 'mdi-cog', to: { name: 'settings' } },
 ]
 </script>

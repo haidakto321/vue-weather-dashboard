@@ -131,3 +131,175 @@ anything the user should know. Plan-prescribed work is not repeated here.
 - Per user + project rules, NO `git add` / `git commit` was run. All files are left
   unstaged for the user to review and commit. STATE.md / ROADMAP.md were not edited
   (orchestrator owns those).
+
+# Implementation Notes - Phase 2 (First Weather Slice)
+
+## Execution mode
+
+- Invoked via `/gsd-execute-phase 2`. Global CLAUDE.md says "Never use git add / git
+  commit", but GSD execute-phase commits each task atomically. Conflict surfaced to the
+  user; user chose **"No commits, inline"**. So both plans ran inline (no subagents, no
+  worktrees, no git). All changes sit in the working tree for the user to commit.
+
+## Plan 02-01 (data backbone)
+
+- **Deps**: installed exactly the 5 pre-approved (pinia, axios, @tanstack/vue-query,
+  vee-validate, yup). vee-validate + yup installed here though only used in 02-02, per
+  the plan, so 02-02 has no install step.
+- **Pinia store style**: options API (`state`/`getters`/`actions`) over setup-store
+  style - reads more simply for a beginner, `this`-based actions stay obvious. Added the
+  optional `hasCities` getter because 02-02's empty-state needs it.
+- **Dedupe key** (`cityKey`): geocoding `id` when present, else `lat,lon,name` (D-05).
+- **Deviation - dropped `useCurrentWeatherRef`**: plan allowed "SavedCity or its reactive
+  ref". 02-02's `WeatherCard` takes a plain `SavedCity` prop and calls
+  `useCurrentWeather(city)`, so a ref-accepting overload was unused surface area. Removed
+  it (no over-engineering). Re-add a ref overload if a future card swaps cities without
+  remount.
+- **axios timeout**: added a 10s timeout on the shared client (not in plan) so a hung
+  request surfaces as a network error instead of spinning forever - feeds D-08.
+
+## Plan 02-02 (UI slice)
+
+- **Deviation - navigation.spec.ts edited (not in 02-02 files_modified)**: DashboardPage
+  now calls `useCitiesStore()` and renders `CitySearch`, so the existing nav test's
+  `mountApp` (router + vuetify only) would throw "no active Pinia". Added
+  `createPinia()` + `VueQueryPlugin` to the test's `global.plugins`. Same category as
+  Phase 1's jsdom shims - test-harness plumbing, not a scope change. Without it the
+  plan's own acceptance ("navigation spec still green") was impossible.
+- **CitySearch echo guard**: selecting an item makes Vuetify write the item title back
+  into the search box, which would re-trigger `@update:search` and geocode again. Added a
+  one-shot `suppressSearch` flag to swallow that echo. Debounce is hand-rolled with
+  `setTimeout` (no lodash, per plan).
+- **Autocomplete**: `return-object` + `no-filter` so selection yields a full `GeoCity`
+  and Vuetify does not re-filter server results. `item-value="id"` paired with
+  `return-object`.
+- **Error mapping (D-08)**: used axios `isAxiosError` + `error.response?.status === 404`
+  for not-found vs the generic network message. NOTE: Open-Meteo's forecast endpoint
+  generally returns 200 for valid coordinates, so in practice the 404 branch is rare;
+  most failures (offline, timeout, 5xx) fall through to the network message. Geocoding
+  not-found is an empty array handled in CitySearch (no card created), matching D-08's
+  "empty geocoding result" path. The card-level 404 mapping is the defensive fallback.
+- **Temp/wind rounding**: `Math.round` on temperature and wind for a clean card; humidity
+  shown as-is (already integer %).
+
+## Verification (both plans)
+
+- `npm run lint` - pass
+- `npx vue-tsc --noEmit -p tsconfig.app.json` - no errors
+- `npm test` - 3 files, 9 tests pass (sample, navigation x4, cities store x4)
+- `npm run build` - vue-tsc + vite build succeed (421 modules)
+- Bundle note: total JS ~495 kB (gzip 166 kB) - mostly Vuetify + mdi webfont. Fine for a
+  study artifact; tree-shaking/icon-subset is a later optimization, not this phase.
+
+## Git
+
+- Per the user's "No commits, inline" choice this run, NO `git add` / `git commit` was
+  run. All Phase 2 changes are in the working tree for the user to review and commit.
+  STATE.md / ROADMAP.md left for the user / a committed run to update.
+
+# Implementation Notes - Phase 3 (Detail & Charts)
+
+## Execution mode
+
+- Same "No commits, inline" mode as Phase 2: ran inline on the main working tree, no
+  subagents/worktrees, NO `git add` / `git commit`. STATE.md / ROADMAP.md left untouched
+  (the orchestrator owns those). Stopped at the blocking human-verify checkpoint (Task 4)
+  without self-approving it.
+
+## Dependencies (the only two added this phase)
+
+- Installed exactly the pre-agreed chart stack: `chart.js@4.5.1` and `vue-chartjs@5.3.3`
+  (caret ranges `^4.5.1` / `^5.3.3` in package.json). vue-chartjs 5 peer-depends on
+  chart.js ^4, so they are compatible. npm also pulled chart.js's own single dependency
+  `@kurkle/color` (transitive, not a direct dep) - 3 packages added total, 0 vulnerabilities.
+  No other charting or date library was added.
+
+## DailyForecast shape (parallel arrays)
+
+- Chose four parallel arrays (`dates`, `tempMax`, `tempMin`, `weatherCodes`), all the same
+  length and index order, instead of an array of per-day objects. Reason: this maps with
+  zero reshaping to BOTH consumers - Chart.js wants `labels: dates` + datasets that are
+  plain number arrays (`tempMax` / `tempMin` go straight in), and the list just zips the
+  arrays by index. One shape, two views. It also mirrors the Open-Meteo `daily` response
+  (which is itself parallel arrays), so `fetchForecast` is a thin rename, not a transform.
+
+## fetchForecast query choices
+
+- `forecast_days=7` (the composable always asks for 7; the page shows a week) and
+  `timezone=auto` so each daily bucket aligns to the city's own local calendar day rather
+  than UTC. Requested `daily=temperature_2m_max,temperature_2m_min,weather_code`. Reused
+  the shared `http` axios client + `FORECAST_URL` and a local `DailyForecastResponse`
+  interface (no `any`, strict mode clean). `signal` is forwarded for cancellation.
+
+## useForecast keyed by city.key (CHRT-02 mechanism)
+
+- `useForecast` mirrors `useCurrentWeather` exactly: `useQuery` keyed `['forecast',
+  city.key]`, `staleTime` 5 min. Keying by `city.key` is the whole CHRT-02 reactivity
+  story - navigating to a different saved city is a different key, so Vue Query returns
+  that city's data and the chart/list re-render. No manual `chart.update()` anywhere.
+
+## CityDetailPage: reactive query key via a Proxy (deviation)
+
+- `useForecast(city)` reads `city.key` to build its query key, but the resolved city is a
+  `computed` that can change as `:id` changes (or start as "not found"). Passing the plain
+  computed value would freeze the key at mount. DECISION: keep a `queryCity` ref (updated
+  by a `watch` on the resolved city) and pass `useForecast` a small `Proxy<SavedCity>`
+  whose getters read `queryCity.value`. That keeps Vue Query's reactive key live, so
+  navigating between saved cities re-keys and refetches (CHRT-02) without remounting the
+  page. The not-found branch renders before any forecast content, so the placeholder query
+  city (empty key) is never displayed.
+
+## AppShell City Detail link (was hardcoded id: 'tokyo')
+
+- The Phase-1 drawer link hardcoded `params: { id: 'tokyo' }`, which no longer resolves to
+  a real saved city. Replaced with `params: { id: 'detail' }` - still a navigable, present,
+  "City Detail"-labeled item (so navigation.spec's three-item / active-route expectations
+  hold), but matching no saved city it now lands on the friendly not-found state rather than
+  a dead/fake city. Real detail pages are reached by clicking a dashboard card.
+
+## Test-harness plumbing: cityDetail.spec shared Pinia (deviation, like Phase 2)
+
+- The new spec first failed GREEN because it seeded the store via `setActivePinia(createPinia())`
+  but `mount` installed a SEPARATE `createPinia()` plugin - so the component read an empty,
+  different Pinia and the param resolved to "city not found". FIX: create ONE Pinia per test,
+  set it active for seeding AND pass that same instance into `global.plugins`. Same category
+  as Phase 2's navigation-spec Pinia plumbing - test wiring, not a scope/assertion change.
+  The cityDetail assertions (real "London" name + forecast-list + forecast-chart markers)
+  were never weakened.
+
+## jsdom canvas warning (not a failure)
+
+- Under jsdom, `HTMLCanvasElement.getContext()` is unimplemented, so Chart.js logs a
+  "Not implemented" warning when `<Line>` mounts. This does NOT fail the test: the spec
+  asserts the `[data-testid="forecast-chart"]` CONTAINER exists, not that pixels render
+  (the plan explicitly allows this). No `canvas` npm package was added - that would be an
+  unapproved dependency for a non-issue.
+
+## Verification (Phase 3, Tasks 1-3)
+
+- `npx vitest run src/__tests__/cityDetail.spec.ts` - 1 passed (GREEN).
+- `npm run lint` - pass (exit 0, no warnings).
+- `npx vue-tsc --noEmit -p tsconfig.app.json` - no type errors (strict mode).
+- `npm test` (full suite) - 4 files, 10 tests pass (sample, navigation x4, cities store x4,
+  cityDetail x1); no regressions.
+- No `v-html` in any new component (XSS gate). Stopped at the blocking human-verify
+  checkpoint (Task 4) without self-approving.
+
+## Fix found during Phase 3 human-verify (Phase 2 component: CitySearch.vue)
+
+- Bug: after a successful search + select, the search box showed the red "Enter a city
+  name" required-validation error (and stayed until a tab switch remounted the field).
+- Cause: `onSelect` cleared the term with `term.value = ''`; the v-autocomplete then echoed
+  an empty `@update:search`, whose debounced `validate()` ran the yup `.required()` rule on
+  an empty string and surfaced the error. An empty box is the resting state, not an error.
+- Fix: destructure `resetField` from `useField`; in `onSearch`, short-circuit empty/blank
+  input (clear items + `resetField()`, no validate); in `onSelect`, replace
+  `term.value = ''` with `resetField()` so value AND error/touched state clear together.
+- Verified: `npm run lint` clean, `vue-tsc --noEmit` exit 0, full `npx vitest run` 10/10
+  pass. No new dependency, no behavior change to the search/geocode path itself.
+
+## Git
+
+- Per the user's "No commits, inline" choice, NO `git add` / `git commit` was run. All
+  Phase 3 changes (and the 03-01-SUMMARY.md) sit in the working tree for the user to review
+  and commit. STATE.md / ROADMAP.md untouched.

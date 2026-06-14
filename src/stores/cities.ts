@@ -32,7 +32,8 @@ function isValidSavedCity(c: unknown): c is SavedCity {
 
 export const useCitiesStore = defineStore('cities', () => {
   // Persisted list. The raw stored value is validated below so corrupt entries are dropped.
-  const cities = useLocalStorage<SavedCity[]>('weather-cities', [])
+  // flush: 'sync' so an add/remove persists immediately (survives a fast reload).
+  const cities = useLocalStorage<SavedCity[]>('weather-cities', [], { flush: 'sync' })
 
   // Repair the read-back value once at store creation: drop malformed entries.
   if (!Array.isArray(cities.value)) {

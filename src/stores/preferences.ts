@@ -41,6 +41,9 @@ export const usePreferencesStore = defineStore('preferences', () => {
   // entry stays forward-compatible.
   const prefs = useLocalStorage<Preferences>('weather-prefs', DEFAULT_PREFERENCES, {
     mergeDefaults: true,
+    // Write through to localStorage synchronously so a preference change persists
+    // immediately (it survives even a very fast reload, and tests can read it back at once).
+    flush: 'sync',
   })
 
   // Validate once at store creation: rewrite the persisted value to its sanitized form so a

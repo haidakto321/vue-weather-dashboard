@@ -303,3 +303,71 @@ anything the user should know. Plan-prescribed work is not repeated here.
 - Per the user's "No commits, inline" choice, NO `git add` / `git commit` was run. All
   Phase 3 changes (and the 03-01-SUMMARY.md) sit in the working tree for the user to review
   and commit. STATE.md / ROADMAP.md untouched.
+
+# Implementation Notes - Phase 4 (Preferences backbone + unit slice, plan 04-01)
+
+A running log of decisions not spelled out in 04-01-PLAN.md, plus tradeoffs.
+
+## Libraries added
+
+- `@vueuse/core` (VueUse) - backs localStorage persistence (CMPS-01, PERS-01).
+- `vue-i18n@9` - installed now so plan 04-03 needs no install step (I18N-01/02). The Vue 3
+  line is v9; npm prints a deprecation notice that v9/v10 are no longer maintained and
+  suggests v11. The plan explicitly pins v9 (the agreed stack), so v9 was installed as
+  written; a migration to v11 can be a later decision when 04-03 actually wires i18n. No
+  other dependency was added.
+
+## Persistence approach (decisions)
+
+- Both stores were rewritten as setup-style stores (`defineStore('id', () => { ... })`)
+  because the options style cannot cleanly own a VueUse `useLocalStorage` ref. The cities
+  store's public surface (`cities`, `hasCities`, `addCity`, `removeCity`, dedupe-by-key) is
+  unchanged.
+- localStorage keys: `weather-prefs` (preferences) and `weather-cities` (saved cities).
+- `mergeDefaults: true` on the preferences ref so a partial/older stored object merges with
+  DEFAULT_PREFERENCES (forward-compatible when 04-02/04-03 begin writing theme/language).
+- Read-back sanitize: the preferences store validates `unit`/`theme`/`language` against the
+  option arrays on creation and rewrites the persisted value to its sanitized form; an
+  unknown/corrupt value falls back to the default (threat T-04-01). The cities store drops
+  any read-back entry that is not an object with a string `key`/`name` and numeric
+  `id`/`latitude`/`longitude` (threat T-04-02).
+
+## Deviations / things to know
+
+- `flush: 'sync'` was added to both `useLocalStorage` calls. By default VueUse flushes the
+  write on a 'pre' watcher (async), so a setter's change is not in `localStorage` until the
+  next tick. The plan's behavior requires a setter to persist to the key, and immediate
+  persistence is also what a user expects (a fast reload must not lose the change). Sync
+  flush makes the write happen at once. This also fixed the preferences store test that
+  reads `localStorage.getItem('weather-prefs')` right after a setter.
+- `cities.store.spec.ts` gained a `localStorage.clear()` in `beforeEach` (before
+  `setActivePinia`). A fresh Pinia no longer resets the list now that it persists, so without
+  clearing, state leaked between tests. The store's behavior/public surface is unchanged;
+  only test isolation was added.
+
+## Convert-at-display-edge
+
+- Stored temperatures stay in °C everywhere (CurrentWeather, DailyForecast). The
+  `useTemperature` composable is the ONE place unit logic lives: `celsiusToFahrenheit` is a
+  pure exported function; `useTemperature()` returns `{ unit, unitSymbol, convert, format }`
+  all derived from the reactive store unit. WeatherCard/ForecastList/ForecastChart convert at
+  the display edge only, so switching the unit re-renders them live (success #1, CHRT-02).
+
+## Settings placeholders for later plans
+
+- `SettingsPage.vue` is laid out as three titled `v-card` sections: "Temperature unit"
+  (wired, `v-btn-toggle` -> `setUnit`), "Theme" (placeholder, 04-02 wires it), "Language"
+  (placeholder, 04-03 wires it). Those plans only need to drop a control into the matching
+  section, not restructure the page.
+- Plain-text UI strings 04-03 must translate (i18n keys): "Settings", "Temperature unit",
+  "Celsius (°C)", "Fahrenheit (°F)", "Theme", "Light / dark theme switching arrives in a
+  later step.", "Language", "Language switching (English / Japanese) arrives in a later
+  step.". (Other chrome/page/component strings across the app are also in scope for 04-03.)
+
+## Git
+
+- Unlike Phase 3, plan 04-01 was executed via the GSD executor commit protocol: each task
+  was committed atomically (the authorized path for plan execution), and STATE.md / ROADMAP.md
+  were updated as part of completion.
+
+

@@ -56,8 +56,8 @@ Requirements for the initial release. Each maps to a roadmap phase.
 
 ### Internationalization
 
-- [ ] **I18N-01**: vue-i18n configured with English and Japanese message sets
-- [ ] **I18N-02**: User can switch language at runtime and UI text updates
+- [x] **I18N-01**: vue-i18n configured with English and Japanese message sets
+- [x] **I18N-02**: User can switch language at runtime and UI text updates
 
 ### Persistence
 
@@ -67,7 +67,7 @@ Requirements for the initial release. Each maps to a roadmap phase.
 
 - [x] **TEST-01**: Unit test covers one Pinia store
 - [x] **TEST-02**: Unit test covers one composable
-- [ ] **TEST-03**: Component test covers one component (e.g. a weather card)
+- [x] **TEST-03**: Component test covers one component (e.g. a weather card)
 
 ## v2 Requirements
 
@@ -122,12 +122,12 @@ Which phases cover which requirements.
 | UI-02 | Phase 4 | Pending |
 | STATE-02 | Phase 4 | Done (04-01) |
 | CMPS-01 | Phase 4 | Done (04-01) |
-| I18N-01 | Phase 4 | Pending |
-| I18N-02 | Phase 4 | Pending |
+| I18N-01 | Phase 4 | Done (04-03) |
+| I18N-02 | Phase 4 | Done (04-03) |
 | PERS-01 | Phase 4 | Done (04-01) |
 | TEST-01 | Phase 4 | Done (04-01) |
 | TEST-02 | Phase 4 | Done (04-01) |
-| TEST-03 | Phase 4 | Pending |
+| TEST-03 | Phase 4 | Done (04-03) |
 
 **Coverage:**
 

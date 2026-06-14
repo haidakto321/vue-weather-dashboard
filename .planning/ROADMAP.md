@@ -75,7 +75,7 @@ Plans:
 **Goal:** Settings let the user change temperature unit, theme (light/dark), and language; choices persist across reloads; and the project has representative tests.
 **Mode:** mvp
 **Requirements:** UI-02, STATE-02, CMPS-01, I18N-01, I18N-02, PERS-01, TEST-01, TEST-02, TEST-03
-**Plans:** 2/3 plans complete
+**Plans:** 3/3 plans complete (whole-phase human-verify pending)
 
 **Wave 1**
 
@@ -87,7 +87,7 @@ Plans:
 
 **Wave 3** *(blocked on Waves 1-2)*
 
-- [ ] 04-03-PLAN.md — i18n slice + component test: vue-i18n en/ja catalogues, useLanguagePreference syncing the persisted language to the active locale, Settings language switcher, all chrome/page/component strings i18n-keyed, SettingsPage component test (+ whole-phase human-verify checkpoint)
+- [x] 04-03-PLAN.md — i18n slice + component test: vue-i18n en/ja catalogues, useLanguagePreference syncing the persisted language to the active locale, Settings language switcher, all chrome/page/component strings i18n-keyed, SettingsPage component test (+ whole-phase human-verify checkpoint)
 
 **Success Criteria**:
 
@@ -103,5 +103,5 @@ All 29 v1 requirements mapped to exactly one phase. See REQUIREMENTS.md traceabi
 
 ---
 *Roadmap created: 2026-06-11*
-*Last updated: 2026-06-14 after executing 04-02 (theme slice, human-verified)*
+*Last updated: 2026-06-14 after executing 04-03 (i18n slice + SettingsPage test); all 3 plans done, phase awaiting whole-phase human-verify*
 </content>

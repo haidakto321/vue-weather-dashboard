@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useField } from 'vee-validate'
+import { useI18n } from 'vue-i18n'
 import * as yup from 'yup'
 
 import { geocodeCity } from '@/lib/openMeteo'
@@ -8,6 +9,11 @@ import { useCitiesStore } from '@/stores/cities'
 import type { GeoCity } from '@/types/weather'
 
 const store = useCitiesStore()
+
+// t() localizes the search box label/placeholder. The vee-validate error messages stay as
+// authored strings for now (validation copy is out of this slice's scope - noted in
+// implementation-notes).
+const { t } = useI18n()
 
 // vee-validate + yup = validation: only geocode a non-empty, sensible-length term.
 const schema = yup
@@ -101,8 +107,8 @@ function cityTitle(city: GeoCity): string {
     clearable
     :loading="loading"
     :error-messages="errorMessage ? [errorMessage] : []"
-    label="Search for a city"
-    placeholder="Start typing a city name"
+    :label="t('search.label')"
+    :placeholder="t('search.placeholder')"
     prepend-inner-icon="mdi-magnify"
     @update:search="onSearch"
     @update:model-value="onSelect"

@@ -1,21 +1,26 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
 
 import { usePreferencesStore } from '@/stores/preferences'
-import type { TemperatureUnit } from '@/types/preferences'
+import type { TemperatureUnit, Language } from '@/types/preferences'
 
-// Pinia preferences store = the single source of preference state. Binding the unit and
-// theme controls to it drives the live UI update and the persistence from 04-01/04-02.
+// Pinia preferences store = the single source of preference state. Binding the unit, theme,
+// and language controls to it drives the live UI update and the persistence from 04-01/02/03.
 const store = usePreferencesStore()
-const { unit, theme } = storeToRefs(store)
+const { unit, theme, language } = storeToRefs(store)
 
-// Human labels for the segmented unit control, sourced from the same value set the store
-// validates against.
-const unitOptions: { value: TemperatureUnit; label: string }[] = [
-  { value: 'celsius', label: 'Celsius (°C)' },
-  { value: 'fahrenheit', label: 'Fahrenheit (°F)' },
-]
+// t() = the active-locale translator. SettingsPage's own labels are translated too, so the
+// whole page switches language live alongside the rest of the app.
+const { t } = useI18n()
+
+// Human labels for the segmented unit control come from i18n so they localize. Values are
+// the store's validated TemperatureUnit set (single source of truth).
+const unitOptions = computed<{ value: TemperatureUnit; label: string }[]>(() => [
+  { value: 'celsius', label: t('settings.celsius') },
+  { value: 'fahrenheit', label: t('settings.fahrenheit') },
+])
 
 // A change immediately calls setUnit, which writes into the persisted store ref.
 function onUnitChange(value: unknown) {
@@ -30,17 +35,32 @@ const darkMode = computed({
   get: () => theme.value === 'dark',
   set: (on: boolean) => store.setTheme(on ? 'dark' : 'light'),
 })
+
+// Language: the en/ja switcher (04-03). Labels are the language's OWN name (English / 日本語)
+// so they read the same regardless of the current locale. Changing it calls setLanguage,
+// which via useLanguagePreference switches every string in the app live and persists.
+const languageOptions: { value: Language; label: string }[] = [
+  { value: 'en', label: 'English' },
+  { value: 'ja', label: '日本語' },
+]
+
+function onLanguageChange(value: unknown) {
+  if (value === 'en' || value === 'ja') {
+    store.setLanguage(value)
+  }
+}
 </script>
 
 <template>
   <section class="pa-4">
-    <h1 class="text-h4 mb-4">Settings</h1>
+    <h1 class="text-h4 mb-4">{{ t('settings.heading') }}</h1>
 
-    <!-- Temperature unit: the only control wired in this plan (04-01). -->
+    <!-- Temperature unit: the unit slice (04-01). -->
     <v-card class="mb-4">
-      <v-card-title>Temperature unit</v-card-title>
+      <v-card-title>{{ t('settings.unitSection') }}</v-card-title>
       <v-card-text>
         <v-btn-toggle
+          data-testid="unit-toggle"
           :model-value="unit"
           color="primary"
           mandatory
@@ -54,26 +74,39 @@ const darkMode = computed({
       </v-card-text>
     </v-card>
 
-    <!-- Theme: live light/dark toggle wired in this plan (04-02). The switch binds to the
-         store; flipping it calls setTheme, which switches the whole UI live and persists. -->
+    <!-- Theme: live light/dark toggle (04-02). The switch binds to the store; flipping it
+         calls setTheme, which switches the whole UI live and persists. -->
     <v-card class="mb-4">
-      <v-card-title>Theme</v-card-title>
+      <v-card-title>{{ t('settings.themeSection') }}</v-card-title>
       <v-card-text>
         <v-switch
           v-model="darkMode"
+          data-testid="theme-switch"
           color="primary"
           density="comfortable"
           hide-details
-          label="Dark mode"
+          :label="t('settings.darkModeLabel')"
         />
       </v-card-text>
     </v-card>
 
-    <!-- Language section: placeholder. 04-03 drops the en/ja switcher in here. -->
+    <!-- Language: the en/ja switcher (04-03). Bound to the store; changing it switches all
+         UI text live (via useLanguagePreference) and persists. -->
     <v-card>
-      <v-card-title>Language</v-card-title>
-      <v-card-text class="text-medium-emphasis">
-        Language switching (English / Japanese) arrives in a later step.
+      <v-card-title>{{ t('settings.languageSection') }}</v-card-title>
+      <v-card-text>
+        <v-btn-toggle
+          data-testid="language-toggle"
+          :model-value="language"
+          color="primary"
+          mandatory
+          density="comfortable"
+          @update:model-value="onLanguageChange"
+        >
+          <v-btn v-for="opt in languageOptions" :key="opt.value" :value="opt.value">
+            {{ opt.label }}
+          </v-btn>
+        </v-btn-toggle>
       </v-card-text>
     </v-card>
   </section>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, watch, ref, type Ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 import ForecastList from '@/components/ForecastList.vue'
 import ForecastChart from '@/components/ForecastChart.vue'
@@ -12,6 +13,8 @@ import type { DailyForecast, SavedCity } from '@/types/weather'
 // so it is only ever used to LOOK UP an existing saved city - never to build a request.
 const route = useRoute()
 const store = useCitiesStore()
+
+const { t } = useI18n()
 
 // Resolve the route param to a SavedCity reactively: a computed on params.id so changing
 // :id (navigating to another city) re-resolves and re-keys the forecast query (CHRT-02).
@@ -56,12 +59,12 @@ const forecast = computed<DailyForecast | undefined>(() => data.value)
   <section class="pa-4">
     <!-- Not found: the param did not match any saved city. Friendly, no crash. -->
     <template v-if="!city">
-      <h1 class="text-h4 mb-2">City not found</h1>
+      <h1 class="text-h4 mb-2">{{ t('detail.notFoundTitle') }}</h1>
       <p class="mb-4 text-medium-emphasis">
-        We do not have that city saved - return to the dashboard and search for it.
+        {{ t('detail.notFoundBody') }}
       </p>
       <v-btn :to="{ name: 'dashboard' }" color="primary" prepend-icon="mdi-arrow-left">
-        Back to dashboard
+        {{ t('detail.backToDashboard') }}
       </v-btn>
     </template>
 
@@ -75,18 +78,18 @@ const forecast = computed<DailyForecast | undefined>(() => data.value)
 
       <!-- Error: generic inline message, never the raw error object. -->
       <v-alert v-else-if="isError" type="error" variant="tonal" density="compact">
-        Could not load the forecast - check your connection.
+        {{ t('detail.loadError') }}
       </v-alert>
 
       <!-- Content: forecast list + temperature chart, both reactive to the city. -->
       <template v-else-if="forecast">
         <v-row>
           <v-col cols="12" md="5">
-            <h2 class="text-h6 mb-2">7-day forecast</h2>
+            <h2 class="text-h6 mb-2">{{ t('detail.forecastHeading') }}</h2>
             <ForecastList :forecast="forecast" />
           </v-col>
           <v-col cols="12" md="7">
-            <h2 class="text-h6 mb-2">Temperature</h2>
+            <h2 class="text-h6 mb-2">{{ t('detail.temperatureHeading') }}</h2>
             <ForecastChart :forecast="forecast" />
           </v-col>
         </v-row>

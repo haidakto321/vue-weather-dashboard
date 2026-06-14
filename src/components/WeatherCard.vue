@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { isAxiosError } from 'axios'
+import { useI18n } from 'vue-i18n'
 
 import { useCurrentWeather } from '@/composables/useCurrentWeather'
 import { useTemperature } from '@/composables/useTemperature'
@@ -11,6 +12,8 @@ import type { SavedCity } from '@/types/weather'
 const props = defineProps<{ city: SavedCity }>()
 
 const store = useCitiesStore()
+
+const { t } = useI18n()
 
 // Unit-aware temperature display; wind/humidity stay as-is (the toggle is temperature only).
 const { format } = useTemperature()
@@ -32,9 +35,9 @@ const subtitle = computed(() =>
 const errorMessage = computed(() => {
   const e = error.value
   if (isAxiosError(e) && e.response?.status === 404) {
-    return 'City not found.'
+    return t('card.notFound')
   }
-  return 'Could not load weather - check your connection.'
+  return t('card.loadError')
 })
 
 function remove() {
@@ -47,7 +50,7 @@ function remove() {
        @click.stop so removing a card does not also trigger navigation. -->
   <v-card
     :to="{ name: 'city-detail', params: { id: String(city.id) } }"
-    :aria-label="`View forecast for ${city.name}`"
+    :aria-label="t('card.viewForecast', { city: city.name })"
   >
     <v-card-title class="d-flex align-center">
       <span>{{ city.name }}</span>
@@ -56,7 +59,7 @@ function remove() {
         icon="mdi-close"
         variant="text"
         size="small"
-        :aria-label="`Remove ${city.name}`"
+        :aria-label="t('card.remove', { city: city.name })"
         @click.stop="remove"
       />
     </v-card-title>
@@ -83,11 +86,11 @@ function remove() {
         <div class="d-flex ga-4 text-body-2">
           <span>
             <v-icon icon="mdi-weather-windy" size="small" />
-            {{ Math.round(data.windSpeed) }} km/h
+            {{ t('card.wind', { value: Math.round(data.windSpeed) }) }}
           </span>
           <span>
             <v-icon icon="mdi-water-percent" size="small" />
-            {{ data.humidity }}%
+            {{ t('card.humidity', { value: data.humidity }) }}
           </span>
         </div>
       </template>

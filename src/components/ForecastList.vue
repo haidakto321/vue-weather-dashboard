@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { useTemperature } from '@/composables/useTemperature'
 import { wmoToCondition } from '@/lib/wmo'
@@ -10,25 +11,34 @@ const props = defineProps<{ forecast: DailyForecast }>()
 // High/low render through the active unit; switching units updates them live.
 const { format } = useTemperature()
 
-// Zip the parallel arrays into one row object per day so the template iterates a single
-// list. Index i = day i across all four arrays.
-const days = computed(() =>
-  props.forecast.dates.map((date, i) => ({
-    date,
-    high: props.forecast.tempMax[i],
-    low: props.forecast.tempMin[i],
-    condition: wmoToCondition(props.forecast.weatherCodes[i]),
-  })),
-)
+// Active i18n locale drives the date formatting too, so dates localize with the language.
+const { locale } = useI18n()
 
-// Render the ISO date as a short, readable weekday + day-month label.
+// Map the app locale ('en'/'ja') to a BCP-47 tag for toLocaleDateString. Kept simple: 'en'
+// uses 'en-GB' (day-month order, matching the prior behavior) and 'ja' uses 'ja-JP'.
+const dateLocale = computed(() => (locale.value === 'ja' ? 'ja-JP' : 'en-GB'))
+
+// Render the ISO date as a short, readable weekday + day-month label in the active locale.
 function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('en-GB', {
+  return new Date(iso).toLocaleDateString(dateLocale.value, {
     weekday: 'short',
     day: 'numeric',
     month: 'short',
   })
 }
+
+// Zip the parallel arrays into one row object per day so the template iterates a single
+// list. Index i = day i across all four arrays. The computed reads dateLocale (via
+// formatDate) so the labels re-render when the language switches.
+const days = computed(() =>
+  props.forecast.dates.map((date, i) => ({
+    date,
+    label: formatDate(date),
+    high: props.forecast.tempMax[i],
+    low: props.forecast.tempMin[i],
+    condition: wmoToCondition(props.forecast.weatherCodes[i]),
+  })),
+)
 </script>
 
 <template>
@@ -37,7 +47,7 @@ function formatDate(iso: string): string {
       <template #prepend>
         <v-icon :icon="day.condition.icon" class="mr-3" />
       </template>
-      <v-list-item-title>{{ formatDate(day.date) }}</v-list-item-title>
+      <v-list-item-title>{{ day.label }}</v-list-item-title>
       <v-list-item-subtitle>{{ day.condition.label }}</v-list-item-subtitle>
       <template #append>
         <span class="text-no-wrap"> {{ format(day.high) }} / {{ format(day.low) }} </span>

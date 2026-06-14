@@ -2,8 +2,13 @@
 import { computed, ref } from 'vue'
 import { useDisplay } from 'vuetify'
 import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
 
 import { usePreferencesStore } from '@/stores/preferences'
+
+// t() translates the chrome (app-bar title, nav titles, aria-labels) so the shell switches
+// language live with the rest of the app.
+const { t } = useI18n()
 
 // The app shell: a Vuetify app bar + responsive navigation drawer that route to the
 // three pages, with <RouterView /> rendered in the main area.
@@ -36,22 +41,29 @@ function toggleDrawer() {
 // nav test's three-item expectation holds), but it no longer hardcodes a fake city id.
 // It navigates to a placeholder detail route which - matching no saved city - renders the
 // friendly "city not found / back to dashboard" state instead of a dead link.
-const navLinks = [
-  { title: 'Dashboard', icon: 'mdi-view-dashboard', to: { name: 'dashboard' } },
-  { title: 'City Detail', icon: 'mdi-city', to: { name: 'city-detail', params: { id: 'detail' } } },
-  { title: 'Settings', icon: 'mdi-cog', to: { name: 'settings' } },
-]
+// A computed so the titles re-translate when the active locale changes (live switch). Keep
+// exactly three items (the navigation spec's three-item expectation).
+const navLinks = computed(() => [
+  { key: 'dashboard', title: t('nav.dashboard'), icon: 'mdi-view-dashboard', to: { name: 'dashboard' } },
+  {
+    key: 'city-detail',
+    title: t('nav.cityDetail'),
+    icon: 'mdi-city',
+    to: { name: 'city-detail', params: { id: 'detail' } },
+  },
+  { key: 'settings', title: t('nav.settings'), icon: 'mdi-cog', to: { name: 'settings' } },
+])
 </script>
 
 <template>
   <v-app>
     <v-app-bar color="primary" density="comfortable">
-      <v-app-bar-nav-icon aria-label="Toggle navigation" @click="toggleDrawer" />
-      <v-app-bar-title>Vue Weather Dashboard</v-app-bar-title>
+      <v-app-bar-nav-icon :aria-label="t('app.toggleNavigation')" @click="toggleDrawer" />
+      <v-app-bar-title>{{ t('app.title') }}</v-app-bar-title>
       <!-- Quick theme toggle, outside the nav drawer list (drawer keeps exactly three items). -->
       <v-btn
         :icon="themeIcon"
-        aria-label="Toggle dark mode"
+        :aria-label="t('app.toggleDarkMode')"
         variant="text"
         @click="toggleTheme"
       />
@@ -61,7 +73,7 @@ const navLinks = [
       <v-list nav>
         <v-list-item
           v-for="link in navLinks"
-          :key="link.title"
+          :key="link.key"
           :to="link.to"
           :prepend-icon="link.icon"
           :title="link.title"

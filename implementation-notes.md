@@ -416,4 +416,73 @@ A running log of decisions for the theme slice that were not spelled out in 04-0
   store's `'dark'`/`'light'`. The 04-01 unit control and the 04-03 Language placeholder were
   left untouched.
 
+# Phase 4 / 04-03 (i18n slice)
+
+## Key structure and en/ja parity
+- Messages live in `src/i18n/messages/en.ts` and `ja.ts`, each a `export default` object.
+- Keys are grouped by UI area: `nav`, `app`, `dashboard`, `search`, `card`, `detail`,
+  `settings`. Both files share the EXACT same key shape - every en key exists in ja, so a
+  language switch never hits a missing key (no fallback gaps).
+- DECISION: WMO weather-condition labels (e.g. "Partly cloudy") are NOT translated - they
+  stay English-only in `src/lib/wmo.ts`. For a study artifact, translating the app
+  chrome/pages is the clear, readable scope; the condition vocabulary is one English source.
+  (If full localization were wanted later, add a `wmo` key group keyed by code and translate
+  in `wmoToCondition` consumers.)
+
+## legacy: false (Composition API mode)
+- `createI18n({ legacy: false, ... })` so `<script setup>` components can call `useI18n()`
+  and read `t(...)` / the reactive `locale`. This is the Vue 3 idiomatic mode.
+
+## How the initial locale is derived (no flash on reload)
+- `src/i18n/index.ts` reads the persisted language straight from the raw `'weather-prefs'`
+  localStorage value for the INITIAL locale, validated against `LANGUAGES` with a fallback to
+  the default. This avoids a Pinia-before-i18n bootstrapping problem (the i18n module is
+  imported while building the app, before plugins are installed, so it cannot read the Pinia
+  store yet). The result: the correct locale is active at first paint, mirroring the
+  no-flash-on-reload approach used for the theme in 04-02 (threat T-04-07: the raw value is
+  sanitized here just like the store sanitizes on read-back).
+- `fallbackLocale: 'en'` so a missing key degrades to English rather than crashing (T-04-09).
+
+## Store <-> locale binding (mirrors useThemePreference)
+- `src/composables/useLanguagePreference.ts` reads `usePreferencesStore()` + vue-i18n's
+  `useI18n()` `locale`, applies the persisted `language` on setup, and `watch`es the store
+  `language` (immediate) to push later `setLanguage(...)` changes into the active locale live.
+- Called exactly once in `App.vue` `<script setup>`, alongside `useThemePreference()`, so the
+  binding is app-wide and route-independent (not per page).
+- `main.ts` registers `.use(i18n)` after pinia/VueQuery and before `.mount('#app')`.
+
+## Settings language control
+- A `v-btn-toggle` over `en`/`ja` with the language's OWN name as the label ("English" /
+  "日本語") so the option labels read the same regardless of the active locale. Changing it
+  calls `store.setLanguage(...)`, which the App-root binding mirrors into vue-i18n - all UI
+  text switches live and the choice persists.
+- SettingsPage's own labels (section headings, unit option labels) are now `t('settings...')`
+  keys too, so the page itself localizes.
+
+## Date locale follows the language
+- `ForecastList.vue` now maps the active i18n locale to a BCP-47 tag (`en` -> `en-GB`, `ja`
+  -> `ja-JP`) and feeds it to `toLocaleDateString`, so the forecast dates localize with the
+  language. The formatted label is computed inside the reactive `days` so it re-renders on a
+  live language switch.
+
+## Deferred: vee-validate error copy
+- The CitySearch box label/placeholder ARE translated (`search.*`), but the vee-validate
+  validation messages ("Enter a city name", "Type at least 2 characters", "City name is too
+  long") are left as authored English strings. They are out of this UI slice's scope and the
+  phase's "switch language and the chrome/pages update" goal is fully demonstrated without
+  them. Translating validation copy can be a small follow-up.
+
+## Test-harness adjustment
+- `App` now mounts chrome that calls `t()`, so the existing `navigation.spec.ts` and
+  `cityDetail.spec.ts` that mount `App` had the real `i18n` instance added to their
+  `global.plugins`. Assertions still read the default `'en'` messages (e.g. "Dashboard",
+  "Settings", "City Detail" come from the en catalogue), so no real assertion was weakened -
+  this is the same test-plumbing pattern used in Phases 2-3.
+
+## vue-i18n@9 deprecation (carried from 04-01)
+- npm still flags `vue-i18n@9` as deprecated (v11 is current). The agreed Vue 3 stack pins
+  v9 and it works as installed (Composition API mode, `useI18n`, interpolation all fine), so
+  v9 was used as-is. A future migration to v11 is a separate, optional task - not silently
+  done here.
+
 

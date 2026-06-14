@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { isAxiosError } from 'axios'
 
 import { useCurrentWeather } from '@/composables/useCurrentWeather'
+import { useTemperature } from '@/composables/useTemperature'
 import { wmoToCondition } from '@/lib/wmo'
 import { useCitiesStore } from '@/stores/cities'
 import type { SavedCity } from '@/types/weather'
@@ -10,6 +11,9 @@ import type { SavedCity } from '@/types/weather'
 const props = defineProps<{ city: SavedCity }>()
 
 const store = useCitiesStore()
+
+// Unit-aware temperature display; wind/humidity stay as-is (the toggle is temperature only).
+const { format } = useTemperature()
 
 // Vue Query owns this card's loading/error/content + caching, keyed by city.key.
 const { data, isPending, isError, error } = useCurrentWeather(props.city)
@@ -72,7 +76,7 @@ function remove() {
         <div class="d-flex align-center mb-2">
           <v-icon :icon="condition.icon" size="40" class="mr-3" />
           <div>
-            <div class="text-h4">{{ Math.round(data.temperature) }}°C</div>
+            <div class="text-h4">{{ format(data.temperature) }}</div>
             <div class="text-body-2">{{ condition.label }}</div>
           </div>
         </div>

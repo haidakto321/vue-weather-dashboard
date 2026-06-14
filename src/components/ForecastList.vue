@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import { useTemperature } from '@/composables/useTemperature'
 import { wmoToCondition } from '@/lib/wmo'
 import type { DailyForecast } from '@/types/weather'
 
 const props = defineProps<{ forecast: DailyForecast }>()
+
+// High/low render through the active unit; switching units updates them live.
+const { format } = useTemperature()
 
 // Zip the parallel arrays into one row object per day so the template iterates a single
 // list. Index i = day i across all four arrays.
@@ -36,9 +40,7 @@ function formatDate(iso: string): string {
       <v-list-item-title>{{ formatDate(day.date) }}</v-list-item-title>
       <v-list-item-subtitle>{{ day.condition.label }}</v-list-item-subtitle>
       <template #append>
-        <span class="text-no-wrap">
-          {{ Math.round(day.high) }}° / {{ Math.round(day.low) }}°
-        </span>
+        <span class="text-no-wrap"> {{ format(day.high) }} / {{ format(day.low) }} </span>
       </template>
     </v-list-item>
   </v-list>

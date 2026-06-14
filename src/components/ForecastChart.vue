@@ -11,6 +11,7 @@ import {
 } from 'chart.js'
 import { Line } from 'vue-chartjs'
 
+import { useTemperature } from '@/composables/useTemperature'
 import type { DailyForecast } from '@/types/weather'
 
 // vue-chartjs = the temperature chart; Vue reactivity re-renders it when the data prop
@@ -20,21 +21,27 @@ ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Tooltip,
 
 const props = defineProps<{ forecast: DailyForecast }>()
 
-// chartData is computed over the prop, so passing a different city's forecast produces a
-// new object and Vue re-renders <Line> - no manual chart.update() needed (CHRT-02).
+// Convert stored °C values to the active unit for display. chartData also depends on the
+// reactive unit, so switching units re-renders the chart with converted values + updated
+// labels live (CHRT-02).
+const { convert, unitSymbol } = useTemperature()
+
+// chartData is computed over the prop AND the reactive unit, so a different city's forecast
+// or a unit change produces a new object and Vue re-renders <Line> - no manual
+// chart.update() needed (CHRT-02).
 const chartData = computed(() => ({
   labels: props.forecast.dates,
   datasets: [
     {
-      label: 'High °C',
-      data: props.forecast.tempMax,
+      label: `High ${unitSymbol.value}`,
+      data: props.forecast.tempMax.map((t) => convert(t)),
       borderColor: '#e53935',
       backgroundColor: '#e53935',
       tension: 0.3,
     },
     {
-      label: 'Low °C',
-      data: props.forecast.tempMin,
+      label: `Low ${unitSymbol.value}`,
+      data: props.forecast.tempMin.map((t) => convert(t)),
       borderColor: '#1e88e5',
       backgroundColor: '#1e88e5',
       tension: 0.3,

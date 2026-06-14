@@ -370,4 +370,50 @@ A running log of decisions not spelled out in 04-01-PLAN.md, plus tradeoffs.
   was committed atomically (the authorized path for plan execution), and STATE.md / ROADMAP.md
   were updated as part of completion.
 
+# Implementation Notes - Phase 4 / 04-02 (Theme slice)
+
+A running log of decisions for the theme slice that were not spelled out in 04-02-PLAN.md.
+
+## Theme keys equal the ThemeMode values (1:1 store <-> Vuetify mapping)
+- The Vuetify `themes` map keys are exactly `light` / `dark`, identical to the `ThemeMode`
+  union from `src/types/preferences.ts`. So the persisted preference value is passed straight
+  to Vuetify with no translation layer, and the store's read-back sanitize (04-01, T-04-01)
+  guarantees only a registered theme name ever reaches Vuetify (threat T-04-05).
+- The themes are kept minimal on purpose (`{ dark: false }` / `{ dark: true }`, i.e. Vuetify's
+  built-in base palettes) - readability over cleverness, per the project rule. No custom
+  color design was added.
+
+## Store <-> Vuetify sync lives in one composable, mounted once
+- `src/composables/useThemePreference.ts` is the single binding point. It reads the store
+  `theme` and Vuetify's `useTheme()`, applies the persisted theme on setup, and `watch`es the
+  store value to push later changes into Vuetify.
+- It is called exactly once, in `App.vue` `<script setup>`, so the binding is app-wide and
+  route-independent (not per page).
+
+## Chosen Vuetify 4 API: theme.change(name)
+- Verified against the installed Vuetify 4.1.1 `ThemeInstance` type. It exposes both a
+  writable `theme.global.name` ref and a `theme.change(themeName)` action.
+- DECISION: use `theme.change(...)`. It is the documented, intent-revealing action for
+  switching the global theme and avoids mutating a ref directly. `theme.global.name` is read
+  where the current value is needed.
+
+## No flash of the wrong theme on reload
+- The persisted theme is applied synchronously in the composable's setup (`change(theme.value)`)
+  in addition to the `watch(..., { immediate: true })`. Because Pinia is registered before
+  `App` mounts and the store hydrates from localStorage at creation, the correct theme is
+  active at first paint - so a reload into dark mode does not flash light first.
+
+## App-bar quick toggle
+- Added a single icon `v-btn` (`mdi-weather-night` in light mode, `mdi-weather-sunny` in dark)
+  with `aria-label="Toggle dark mode"` in the `v-app-bar`, next to the title. It flips the
+  store theme directly (`prefs.setTheme(...)`), reusing the same store-driven path.
+- Deliberately placed in the app bar, NOT in the navigation drawer `v-list`, so the navigation
+  spec's "exactly three drawer items" and active-route-highlight expectations stay intact
+  (the button is outside `.v-list`/`.v-list-item`). Confirmed the spec still passes unchanged.
+
+## Settings control
+- Used a `v-switch` ("Dark mode") bound via a `computed` get/set that maps boolean <-> the
+  store's `'dark'`/`'light'`. The 04-01 unit control and the 04-03 Language placeholder were
+  left untouched.
+
 

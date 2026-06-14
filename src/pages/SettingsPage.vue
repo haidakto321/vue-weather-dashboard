@@ -1,13 +1,14 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import { usePreferencesStore } from '@/stores/preferences'
 import type { TemperatureUnit } from '@/types/preferences'
 
-// Pinia preferences store = the single source of preference state. Binding the unit control
-// to it drives the live UI update (cards/list/chart) and the persistence from Tasks 1-2.
+// Pinia preferences store = the single source of preference state. Binding the unit and
+// theme controls to it drives the live UI update and the persistence from 04-01/04-02.
 const store = usePreferencesStore()
-const { unit } = storeToRefs(store)
+const { unit, theme } = storeToRefs(store)
 
 // Human labels for the segmented unit control, sourced from the same value set the store
 // validates against.
@@ -22,6 +23,13 @@ function onUnitChange(value: unknown) {
     store.setUnit(value)
   }
 }
+
+// Theme: a "Dark mode" switch maps the boolean to the store's 'dark'/'light' value. Calling
+// setTheme flips the whole UI live (via useThemePreference's binding) and persists the choice.
+const darkMode = computed({
+  get: () => theme.value === 'dark',
+  set: (on: boolean) => store.setTheme(on ? 'dark' : 'light'),
+})
 </script>
 
 <template>
@@ -46,11 +54,18 @@ function onUnitChange(value: unknown) {
       </v-card-text>
     </v-card>
 
-    <!-- Theme section: placeholder. 04-02 drops the live light/dark toggle in here. -->
+    <!-- Theme: live light/dark toggle wired in this plan (04-02). The switch binds to the
+         store; flipping it calls setTheme, which switches the whole UI live and persists. -->
     <v-card class="mb-4">
       <v-card-title>Theme</v-card-title>
-      <v-card-text class="text-medium-emphasis">
-        Light / dark theme switching arrives in a later step.
+      <v-card-text>
+        <v-switch
+          v-model="darkMode"
+          color="primary"
+          density="comfortable"
+          hide-details
+          label="Dark mode"
+        />
       </v-card-text>
     </v-card>
 

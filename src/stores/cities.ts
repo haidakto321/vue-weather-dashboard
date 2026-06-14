@@ -1,9 +1,13 @@
+import { computed } from 'vue'
 import { defineStore } from 'pinia'
+import { useLocalStorage } from '@vueuse/core'
 
 import type { GeoCity, SavedCity } from '@/types/weather'
 
-// Pinia = client state: the list of cities the user has saved. In-memory only this
-// phase - no localStorage (persistence is Phase 4).
+// Pinia = client state: the list of cities the user has saved.
+// VueUse useLocalStorage persists that list to the 'weather-cities' key, so saved cities
+// survive a page reload (PERS-01). A setup-style store is used so it can own the
+// useLocalStorage ref directly.
 
 // Derive a stable dedupe key: prefer the geocoding id, else fall back to a
 // lat,lon,name composite (covers the rare result without an id).
@@ -11,31 +15,53 @@ function cityKey(c: Pick<GeoCity, 'id' | 'latitude' | 'longitude' | 'name'>): st
   return c.id ? String(c.id) : `${c.latitude},${c.longitude},${c.name}`
 }
 
-export const useCitiesStore = defineStore('cities', {
-  state: () => ({
-    cities: [] as SavedCity[],
-  }),
-  getters: {
-    hasCities: (state): boolean => state.cities.length > 0,
-  },
-  actions: {
-    // Add a geocoded city. Dedupe by stable key: a city already saved is a no-op.
-    addCity(geo: GeoCity) {
-      const key = cityKey(geo)
-      if (this.cities.some((c) => c.key === key)) return
-      this.cities.push({
-        key,
-        id: geo.id,
-        name: geo.name,
-        latitude: geo.latitude,
-        longitude: geo.longitude,
-        country: geo.country,
-        admin1: geo.admin1,
-      })
-    },
-    // Remove the city with this key; unknown key is a no-op.
-    removeCity(key: string) {
-      this.cities = this.cities.filter((c) => c.key !== key)
-    },
-  },
+// localStorage is user/tamper-controllable. On read-back keep only well-formed entries: an
+// object with a string `key` and numeric id/latitude/longitude. A tampered 'weather-cities'
+// array therefore cannot inject malformed objects into the cards/queries (threat T-04-02).
+function isValidSavedCity(c: unknown): c is SavedCity {
+  if (typeof c !== 'object' || c === null) return false
+  const o = c as Record<string, unknown>
+  return (
+    typeof o.key === 'string' &&
+    typeof o.id === 'number' &&
+    typeof o.latitude === 'number' &&
+    typeof o.longitude === 'number' &&
+    typeof o.name === 'string'
+  )
+}
+
+export const useCitiesStore = defineStore('cities', () => {
+  // Persisted list. The raw stored value is validated below so corrupt entries are dropped.
+  const cities = useLocalStorage<SavedCity[]>('weather-cities', [])
+
+  // Repair the read-back value once at store creation: drop malformed entries.
+  if (!Array.isArray(cities.value)) {
+    cities.value = []
+  } else {
+    cities.value = cities.value.filter(isValidSavedCity)
+  }
+
+  const hasCities = computed<boolean>(() => cities.value.length > 0)
+
+  // Add a geocoded city. Dedupe by stable key: a city already saved is a no-op.
+  function addCity(geo: GeoCity) {
+    const key = cityKey(geo)
+    if (cities.value.some((c) => c.key === key)) return
+    cities.value.push({
+      key,
+      id: geo.id,
+      name: geo.name,
+      latitude: geo.latitude,
+      longitude: geo.longitude,
+      country: geo.country,
+      admin1: geo.admin1,
+    })
+  }
+
+  // Remove the city with this key; unknown key is a no-op.
+  function removeCity(key: string) {
+    cities.value = cities.value.filter((c) => c.key !== key)
+  }
+
+  return { cities, hasCities, addCity, removeCity }
 })

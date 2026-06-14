@@ -24,6 +24,10 @@ const tokyo: GeoCity = {
 
 describe('cities store', () => {
   beforeEach(() => {
+    // The store now persists via VueUse useLocalStorage, so each test must start from a
+    // clean storage key (a fresh Pinia alone no longer resets the list). Clear before
+    // setActivePinia so the store reads back an empty list.
+    localStorage.clear()
     setActivePinia(createPinia())
   })
 

@@ -8,6 +8,9 @@ import { createPinia } from 'pinia'
 import { VueQueryPlugin } from '@tanstack/vue-query'
 
 import App from '@/App.vue'
+// App now mounts chrome that calls t(), so the i18n plugin must be installed to mount it.
+// Installing the real app instance keeps assertions reading the default 'en' messages.
+import { i18n } from '@/i18n'
 import DashboardPage from '@/pages/DashboardPage.vue'
 import CityDetailPage from '@/pages/CityDetailPage.vue'
 import SettingsPage from '@/pages/SettingsPage.vue'
@@ -54,7 +57,7 @@ function mountApp(router: Router) {
   // both plugins must be installed for the dashboard route to mount under test.
   return mount(App, {
     global: {
-      plugins: [router, vuetify, createPinia(), VueQueryPlugin],
+      plugins: [router, vuetify, createPinia(), VueQueryPlugin, i18n],
     },
   })
 }

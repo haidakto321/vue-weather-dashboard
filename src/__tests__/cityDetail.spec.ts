@@ -8,6 +8,8 @@ import { VueQueryPlugin } from '@tanstack/vue-query'
 
 import App from '@/App.vue'
 import router from '@/router'
+// App's chrome now calls t(), so the i18n plugin must be installed to mount App under test.
+import { i18n } from '@/i18n'
 import { useCitiesStore } from '@/stores/cities'
 import type { GeoCity } from '@/types/weather'
 
@@ -79,7 +81,7 @@ function mountApp() {
     global: {
       // Use the SAME real router instance from @/router (it defines /city/:id) and the
       // SAME seeded Pinia instance the test set active above.
-      plugins: [router, vuetify, pinia, VueQueryPlugin],
+      plugins: [router, vuetify, pinia, VueQueryPlugin, i18n],
     },
   })
 }

@@ -28,7 +28,7 @@ Requirements for the initial release. Each maps to a roadmap phase.
 ### State
 
 - [ ] **STATE-01**: Pinia store holds the user's saved cities
-- [ ] **STATE-02**: Pinia store holds preferences (temperature unit, language, theme)
+- [x] **STATE-02**: Pinia store holds preferences (temperature unit, language, theme)
 - [ ] **STATE-03**: User can add and remove saved cities through the store
 
 ### Search
@@ -52,7 +52,7 @@ Requirements for the initial release. Each maps to a roadmap phase.
 
 ### Composables
 
-- [ ] **CMPS-01**: At least one VueUse composable is used where it fits naturally (e.g. useDark, useLocalStorage)
+- [x] **CMPS-01**: At least one VueUse composable is used where it fits naturally (e.g. useDark, useLocalStorage)
 
 ### Internationalization
 
@@ -61,12 +61,12 @@ Requirements for the initial release. Each maps to a roadmap phase.
 
 ### Persistence
 
-- [ ] **PERS-01**: Saved cities and preferences persist across page reloads (localStorage)
+- [x] **PERS-01**: Saved cities and preferences persist across page reloads (localStorage)
 
 ### Testing
 
-- [ ] **TEST-01**: Unit test covers one Pinia store
-- [ ] **TEST-02**: Unit test covers one composable
+- [x] **TEST-01**: Unit test covers one Pinia store
+- [x] **TEST-02**: Unit test covers one composable
 - [ ] **TEST-03**: Component test covers one component (e.g. a weather card)
 
 ## v2 Requirements
@@ -120,13 +120,13 @@ Which phases cover which requirements.
 | CHRT-01 | Phase 3 | Pending |
 | CHRT-02 | Phase 3 | Pending |
 | UI-02 | Phase 4 | Pending |
-| STATE-02 | Phase 4 | Pending |
-| CMPS-01 | Phase 4 | Pending |
+| STATE-02 | Phase 4 | Done (04-01) |
+| CMPS-01 | Phase 4 | Done (04-01) |
 | I18N-01 | Phase 4 | Pending |
 | I18N-02 | Phase 4 | Pending |
-| PERS-01 | Phase 4 | Pending |
-| TEST-01 | Phase 4 | Pending |
-| TEST-02 | Phase 4 | Pending |
+| PERS-01 | Phase 4 | Done (04-01) |
+| TEST-01 | Phase 4 | Done (04-01) |
+| TEST-02 | Phase 4 | Done (04-01) |
 | TEST-03 | Phase 4 | Pending |
 
 **Coverage:**

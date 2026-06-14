@@ -75,7 +75,7 @@ Plans:
 **Goal:** Settings let the user change temperature unit, theme (light/dark), and language; choices persist across reloads; and the project has representative tests.
 **Mode:** mvp
 **Requirements:** UI-02, STATE-02, CMPS-01, I18N-01, I18N-02, PERS-01, TEST-01, TEST-02, TEST-03
-**Plans:** 3/3 plans complete (whole-phase human-verify pending)
+**Plans:** 3/3 plans complete (human-verified)
 
 **Wave 1**
 
@@ -103,5 +103,5 @@ All 29 v1 requirements mapped to exactly one phase. See REQUIREMENTS.md traceabi
 
 ---
 *Roadmap created: 2026-06-11*
-*Last updated: 2026-06-14 after executing 04-03 (i18n slice + SettingsPage test); all 3 plans done, phase awaiting whole-phase human-verify*
+*Last updated: 2026-06-14 - Phase 4 complete and human-verified; all 4 phases done, milestone v1 ready to ship*
 </content>

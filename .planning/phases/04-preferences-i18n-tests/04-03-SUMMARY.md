@@ -150,12 +150,12 @@ city name) render via `{{ }}` / bound props with no `v-html` (T-04-08).
 None. The 04-01 Language placeholder in SettingsPage is now fully replaced by the working en/ja
 switcher; no remaining placeholder/coming-soon text in the touched files.
 
-## Checkpoint: PENDING (blocking whole-phase human-verify)
+## Checkpoint: APPROVED (blocking whole-phase human-verify)
 
-Task 4 is a `checkpoint:human-verify` (gate="blocking") that verifies the WHOLE phase end to end
-in a real browser. The three code tasks are complete, committed, and all automated checks pass;
-the human-verify gate requires the dev server and a browser, which the executor cannot evaluate.
-Returned to the orchestrator for the user to run. Steps the user must perform:
+Task 4 `checkpoint:human-verify` (gate="blocking") - the whole-phase end-to-end gate - was relayed
+to the user, who ran the dev server and replied "approved" on 2026-06-14. Phase 4 is complete and
+milestone v1 is code-complete. The three code tasks were committed and all automated checks passed;
+the steps the user verified in the browser:
 
 1. `npm run dev`. Add two cities (e.g. London, Tokyo) so cards and a detail page have content.
 2. In Settings, confirm three controls: Temperature unit, Theme, and Language.

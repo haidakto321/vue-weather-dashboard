@@ -75,7 +75,7 @@ Plans:
 **Goal:** Settings let the user change temperature unit, theme (light/dark), and language; choices persist across reloads; and the project has representative tests.
 **Mode:** mvp
 **Requirements:** UI-02, STATE-02, CMPS-01, I18N-01, I18N-02, PERS-01, TEST-01, TEST-02, TEST-03
-**Plans:** 1/3 plans complete
+**Plans:** 2/3 plans complete
 
 **Wave 1**
 
@@ -83,7 +83,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 04-02-PLAN.md — Theme slice: register light/dark Vuetify themes, useThemePreference syncing the persisted theme to Vuetify, Settings theme toggle + app-bar quick-toggle, live whole-UI switching + persistence (human-verify checkpoint)
+- [x] 04-02-PLAN.md — Theme slice: register light/dark Vuetify themes, useThemePreference syncing the persisted theme to Vuetify, Settings theme toggle + app-bar quick-toggle, live whole-UI switching + persistence (human-verify checkpoint)
 
 **Wave 3** *(blocked on Waves 1-2)*
 
@@ -103,5 +103,5 @@ All 29 v1 requirements mapped to exactly one phase. See REQUIREMENTS.md traceabi
 
 ---
 *Roadmap created: 2026-06-11*
-*Last updated: 2026-06-14 after executing 04-01 (preferences backbone + unit slice)*
+*Last updated: 2026-06-14 after executing 04-02 (theme slice, human-verified)*
 </content>

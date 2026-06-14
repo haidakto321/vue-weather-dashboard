@@ -96,13 +96,13 @@ No new surface beyond the plan's `<threat_model>`. The binding only passes the s
 already-sanitized `'light'`/`'dark'` value to Vuetify (T-04-05 mitigated upstream in 04-01);
 controls render only static labels with no `v-html` (T-04-06 mitigated).
 
-## Checkpoint: PENDING (blocking human-verify)
+## Checkpoint: APPROVED (blocking human-verify)
 
-Task 3 is a `checkpoint:human-verify` with `gate="blocking"`. Both auto tasks are committed
-and all automated gates are green, but the plan is NOT fully done until a human verifies the
-live behavior in the dev server. The orchestrator should relay the steps below to the user.
+Task 3 `checkpoint:human-verify` (gate="blocking") was relayed to the user, who verified the
+live dev-server behavior and replied "approved" on 2026-06-14. Plan 04-02 is complete; STATE.md
+and ROADMAP.md were flipped to done after approval.
 
-**How to verify (run `npm run dev`):**
+**Verification steps the user ran (`npm run dev`):**
 1. Add a city or two on the dashboard so cards are visible.
 2. Go to Settings - confirm a "Temperature unit" control and a "Theme" (Dark mode) control show.
 3. Switch the unit (Celsius <-> Fahrenheit) - every temperature on cards AND a city detail

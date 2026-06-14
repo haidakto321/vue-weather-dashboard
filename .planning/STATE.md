@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 04
 status: Executing Phase 04
-last_updated: "2026-06-14T06:02:39Z"
+last_updated: "2026-06-14T07:23:57Z"
 progress:
   total_phases: 4
   completed_phases: 3
   total_plans: 7
-  completed_plans: 5
-  percent: 71
+  completed_plans: 6
+  percent: 86
 ---
 
 # Project State
@@ -36,14 +36,15 @@ See: .planning/PROJECT.md (updated 2026-06-11)
 | 1. Foundation & Shell | ✓ Complete | Walking skeleton + nav shell |
 | 2. First Weather Slice | ✓ Complete | Search -> store -> Vue Query -> card (human-verified) |
 | 3. Detail & Charts | ✓ Complete | Card -> /city/:id -> forecast list + Chart.js chart (human-verified) |
-| 4. Preferences, i18n & Tests | ◐ In progress | 04-01 done: persisted prefs + cities, unit toggle live |
+| 4. Preferences, i18n & Tests | ◐ In progress | 04-01 + 04-02 done: prefs/cities persist, unit toggle + dark theme live (human-verified) |
 
 ## Notes
 
 - Greenfield learning project; stack mirrors `ai-studio-csp` plus Pinia, TanStack Vue Query, VueUse, Chart.js, and TypeScript.
 - Data source: Open-Meteo (no API key).
 - 04-01 was executed via the GSD executor protocol with atomic per-task commits (9158263, d3f8d04, 3c3224b); preferences + cities now persist via VueUse useLocalStorage with read-back validation.
-- Next: 04-02 (theme slice), then 04-03 (i18n slice + component test). vue-i18n@9 and @vueuse/core are already installed.
+- 04-02 (theme slice) executed + human-verified: light/dark Vuetify themes, useThemePreference syncs persisted theme to Vuetify, Settings switch + app-bar quick-toggle (commits acb9a0f, 8f81067).
+- Next: 04-03 (i18n slice en/ja + SettingsPage component test). vue-i18n@9 and @vueuse/core already installed. Note: vue-i18n@9 is npm-deprecated (v11 current) - revisit during 04-03.
 
 ---
-*Last updated: 2026-06-14 after executing 04-01 (preferences backbone + unit slice). 20/20 tests pass; lint + vue-tsc clean.*
+*Last updated: 2026-06-14 after executing 04-02 (theme slice, human-verified). 20/20 tests pass; lint + vue-tsc clean.*

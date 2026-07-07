@@ -10,6 +10,25 @@ Audience: the developer (a Vue beginner) using it as a study/reference project.
 
 Each popular Vue library has one obvious, visible job in a real app - so learning Vue is learning how the pieces connect. If everything else fails, the app must clearly demonstrate Vue 3 + the chosen stack working together end to end.
 
+## Current Milestone: v1.1 Code Quality + Richer Weather
+
+**Goal:** Fix v1.0 rough edges (reactive query composables, router gaps, theme/i18n holes) and add the next layer of real-app features - geolocation, hourly chart, city reorder, richer current data - with proper API-layer and e2e test coverage.
+
+**Target features:**
+- Reactive query composables (`MaybeRefOrGetter` + `enabled` guard) - removes the CityDetailPage Proxy hack and the null-island fetch
+- Router hardening: lazy-loaded routes + catch-all 404 page
+- Theme-aware, i18n'd, locale-formatted forecast chart
+- CitySearch cleanup: VueUse `useDebounceFn`, unmount cleanup, dead 404 branch removal, retry buttons on error states
+- vue-i18n v9 -> v11 migration; vee-validate messages + WMO labels i18n-keyed
+- Geolocation "use my location" (VueUse `useGeolocation` + reverse geocode)
+- Hourly forecast chart (mixed bar/line)
+- Reorder saved cities via drag-and-drop (vuedraggable)
+- Richer current conditions: feels-like, precipitation, UV, sunrise/sunset
+- Last-updated timestamp + manual refresh on cards; wind unit preference
+- MSW tests for the API layer, CitySearch component tests, Playwright e2e smoke flow
+
+**Approved new deps:** msw (dev), vuedraggable, @playwright/test (dev). PWA explicitly rejected.
+
 ## Requirements
 
 ### Validated
@@ -33,7 +52,21 @@ Each popular Vue library has one obvious, visible job in a real app - so learnin
 
 <!-- Current scope. Building toward these. Next milestone candidates. -->
 
-(None - v1.0 shipped. Next milestone defined via /gsd-new-milestone. Candidates: geolocation, hourly forecast, richer weather icons, reorder saved cities - see v2 enhancements.)
+- Reactive query composables with `enabled` guard (fixes Proxy hack + null-island fetch)
+- Router lazy-loading + catch-all 404 route
+- Theme-aware + fully i18n'd forecast chart (colors, labels, localized dates)
+- CitySearch polish: VueUse `useDebounceFn`, unmount cleanup, dead 404 branch removed
+- Retry affordance on all error states (Vue Query `refetch`)
+- vue-i18n v9 -> v11 migration
+- vee-validate error copy + WMO condition labels i18n-keyed (en/ja)
+- Geolocation "use my location" adds current location as a city
+- Hourly forecast chart (temperature line + precipitation bars)
+- Drag-and-drop reorder of saved cities (persisted)
+- Richer current conditions: feels-like, precipitation, UV index, sunrise/sunset
+- Last-updated timestamp + manual refresh on weather cards
+- Wind speed unit preference (km/h / mph)
+- MSW-mocked tests for `openMeteo.ts`; CitySearch component tests
+- Playwright e2e smoke flow (search -> card -> detail)
 
 ### Out of Scope
 
@@ -99,4 +132,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-14 after v1.0 MVP milestone*
+*Last updated: 2026-07-07 - milestone v1.1 Code Quality + Richer Weather started*

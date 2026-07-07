@@ -84,7 +84,29 @@ No other new dependencies without explicit approval.
 
 | REQ-ID | Phase | Status |
 |--------|-------|--------|
+| DATA-04 | Phase 5 | Pending |
+| DATA-05 | Phase 5 | Pending |
+| NAV-04 | Phase 5 | Pending |
+| NAV-05 | Phase 5 | Pending |
+| SRCH-04 | Phase 5 | Pending |
+| WTHR-03 | Phase 5 | Pending |
+| I18N-03 | Phase 5 | Pending |
+| TEST-04 | Phase 5 | Pending |
+| TEST-05 | Phase 5 | Pending |
+| CHRT-03 | Phase 6 | Pending |
+| CHRT-04 | Phase 6 | Pending |
+| CHRT-05 | Phase 6 | Pending |
+| I18N-04 | Phase 6 | Pending |
+| I18N-05 | Phase 6 | Pending |
+| GEO-01 | Phase 7 | Pending |
+| STATE-04 | Phase 7 | Pending |
+| WTHR-04 | Phase 7 | Pending |
+| WTHR-05 | Phase 7 | Pending |
+| DATA-06 | Phase 7 | Pending |
+| TEST-06 | Phase 7 | Pending |
+
+**Coverage:** 20/20 v1.1 requirements mapped. No orphans, no duplicates.
 
 ---
 *Requirements defined: 2026-07-07*
-*Last updated: 2026-07-07*
+*Last updated: 2026-07-07 - traceability filled by roadmapper (Phases 5-7)*

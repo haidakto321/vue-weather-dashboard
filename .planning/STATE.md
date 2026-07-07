@@ -2,11 +2,11 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Code Quality + Richer Weather
-status: planning
-last_updated: "2026-07-07T13:49:01.942Z"
+status: ready_to_plan
+last_updated: "2026-07-07T13:54:39.000Z"
 last_activity: 2026-07-07
 progress:
-  total_phases: 0
+  total_phases: 3
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -17,46 +17,66 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-14)
+See: .planning/PROJECT.md (updated 2026-07-07)
 
 **Core value:** Each popular Vue library has one obvious, visible job in a real app - so learning Vue is learning how the pieces connect.
-**Current focus:** v1.0 MVP shipped - planning next milestone (/gsd-new-milestone)
-
-## Status
-
-- **Milestone:** v1.0 MVP — SHIPPED 2026-06-14
-- **Mode:** Vertical MVP
-- **Phases:** 4 total, 4 complete
-
-## Progress
-
-| Phase | Status | Notes |
-|-------|--------|-------|
-| 1. Foundation & Shell | ✓ Complete | Walking skeleton + nav shell |
-| 2. First Weather Slice | ✓ Complete | Search -> store -> Vue Query -> card (human-verified) |
-| 3. Detail & Charts | ✓ Complete | Card -> /city/:id -> forecast list + Chart.js chart (human-verified) |
-| 4. Preferences, i18n & Tests | ✓ Complete | 04-01/02/03 done: prefs/cities persist, unit + dark theme + en/ja i18n live; 24 tests pass (human-verified) |
-
-## Notes
-
-- Greenfield learning project; stack mirrors `ai-studio-csp` plus Pinia, TanStack Vue Query, VueUse, Chart.js, and TypeScript.
-- Data source: Open-Meteo (no API key).
-- 04-01 was executed via the GSD executor protocol with atomic per-task commits (9158263, d3f8d04, 3c3224b); preferences + cities now persist via VueUse useLocalStorage with read-back validation.
-- 04-02 (theme slice) executed + human-verified: light/dark Vuetify themes, useThemePreference syncs persisted theme to Vuetify, Settings switch + app-bar quick-toggle (commits acb9a0f, 8f81067).
-- 04-03 (i18n slice) executed: vue-i18n en/ja catalogues (31 keys, strict parity), useLanguagePreference syncs persisted language to the active locale, Settings en/ja switcher, all chrome/page/component strings i18n-keyed, SettingsPage component test (TEST-03). Commits dc606b4, a43ce47, 30e1028. Initial locale read from sanitized localStorage (no flash); WMO labels kept English-only; vee-validate error copy deferred.
-- All 3 phase-4 plans complete and HUMAN-VERIFIED (user approved 2026-06-14): live en/ja + unit + theme switching, all preferences + saved cities persist across reload, no console/missing-key warnings. 24/24 tests pass, lint + vue-tsc clean. Phase 4 done; all 4 phases complete - milestone v1 ready to ship (run /gsd-complete-milestone to archive).
-- vue-i18n@9 remains npm-deprecated (v11 current); pinned v9 used as agreed - optional future migration.
-
----
-*Last updated: 2026-06-14 - Phase 4 human-verified and complete. 24/24 tests pass; lint + vue-tsc clean. All 4 phases done; milestone v1 ready to ship.*
+**Current focus:** Phase 5 - Refactor & Hardening (v1.1)
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-07-07 — Milestone v1.1 started
+Phase: 5 of 7 (Refactor & Hardening) - first phase of milestone v1.1
+Plan: - (not yet planned)
+Status: Ready to plan
+Last activity: 2026-07-07 - v1.1 roadmap created (Phases 5-7, 20 requirements mapped)
 
-## Operator Next Steps
+Progress: [░░░░░░░░░░] 0% (v1.1)
 
-- Start the next milestone with /gsd-new-milestone
+## Performance Metrics
+
+**Velocity (v1.0):**
+- Total plans completed: 7 (Phases 1-4, 2026-06-11 -> 2026-06-14)
+- v1.1 plans completed: 0
+
+**By Phase (v1.1):**
+
+| Phase | Plans | Total | Avg/Plan |
+|-------|-------|-------|----------|
+| - | - | - | - |
+
+## Accumulated Context
+
+### Decisions
+
+Decisions are logged in PROJECT.md Key Decisions table.
+Recent decisions affecting current work:
+
+- v1.0: vue-i18n pinned at v9 for reference-stack parity - now npm-deprecated; v1.1 Phase 5 migrates to v11 (I18N-03)
+- v1.0: WMO labels kept English-only and vee-validate copy not i18n-keyed - v1.1 Phase 6 closes both (I18N-04/05)
+- v1.1 scoping: approved new deps are msw (dev), vuedraggable, @playwright/test (dev) only; PWA explicitly rejected
+- v1.1 sequencing: refactor/foundation first (reactive composables, router, i18n v11) because later features build on it; Playwright e2e is the milestone-closing verification
+
+### Pending Todos
+
+None yet.
+
+### Blockers/Concerns
+
+- CityDetailPage currently uses a Proxy hack and can fire a lat-0/lon-0 fetch - fixed by DATA-04 in Phase 5; downstream features (GEO-01, CHRT-05) should build on the refactored composables, not the old pattern
+
+## Deferred Items
+
+Items acknowledged and carried forward:
+
+| Category | Item | Status | Deferred At |
+|----------|------|--------|-------------|
+| Visual polish | Richer weather icons / animated conditions | Deferred (low learning value) | v1.1 scoping |
+| Feature | Multi-day hourly drill-down per forecast day | Deferred | v1.1 scoping |
+
+## Session Continuity
+
+Last session: 2026-07-07
+Stopped at: v1.1 roadmap created; ROADMAP.md + REQUIREMENTS.md traceability written
+Resume file: None
+
+---
+*Last updated: 2026-07-07 - v1.1 roadmap created. Next: /gsd-plan-phase 5*

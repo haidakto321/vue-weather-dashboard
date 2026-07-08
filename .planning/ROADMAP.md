@@ -104,7 +104,28 @@ Plans:
   4. User can switch wind speed unit (km/h / mph) and it persists and applies wherever wind is shown; each weather card shows when its data was last updated and offers a manual refresh
   5. Playwright e2e smoke flow passes: search a city -> card appears -> open detail -> forecast list + chart render
 
-**Plans**: TBD
+**Plans**: 8 plans
+Plans:
+**Wave 1**
+
+- [ ] 07-01-PLAN.md - Package legitimacy gate + vuedraggable/@playwright-test install + Chromium browser (STATE-04, TEST-06 prep)
+- [ ] 07-02-PLAN.md - Richer current-conditions data layer: extended fetchCurrentWeather + CurrentWeather (WTHR-04)
+- [ ] 07-03-PLAN.md - Wind-unit preference foundation: WindUnit type/store + useWindSpeed composable (WTHR-05)
+- [ ] 07-04-PLAN.md - Geolocation composable + button: useMyLocation + GeolocationButton.vue (GEO-01)
+
+**Wave 2** *(blocked on Wave 1: shares i18n message files / data layer / composables)*
+
+- [ ] 07-05-PLAN.md - Richer conditions + last-updated/refresh UI on WeatherCard + CityDetailPage, route-by-key fix (WTHR-04, WTHR-05, DATA-06)
+- [ ] 07-06-PLAN.md - DashboardPage wiring: drag-and-drop reorder + geolocation button (GEO-01, STATE-04)
+
+**Wave 3** *(blocked on Wave 2: shares i18n message files)*
+
+- [ ] 07-07-PLAN.md - Settings wind-unit toggle (WTHR-05)
+
+**Wave 4** *(blocked on Wave 3: milestone-closing verification)*
+
+- [ ] 07-08-PLAN.md - Playwright e2e smoke test (TEST-06)
+
 **UI hint**: yes
 
 ## Progress
@@ -112,14 +133,14 @@ Plans:
 **Execution Order:** Phases execute in numeric order: 5 → 6 → 7
 
 | Phase | Milestone | Plans Complete | Status   | Completed  |
-| ----- | --------- | -------------- | -------- | ---------- |
+| ----- | --------- | --------------- | -------- | ---------- |
 | 1. Foundation & Shell        | v1.0 | 1/1 | Complete | 2026-06-11 |
 | 2. First Weather Slice       | v1.0 | 2/2 | Complete | 2026-06-12 |
 | 3. Detail & Charts           | v1.0 | 1/1 | Complete | 2026-06-12 |
 | 4. Preferences, i18n & Tests | v1.0 | 3/3 | Complete | 2026-06-14 |
 | 5. Refactor & Hardening      | v1.1 | 4/4 | Complete    | 2026-07-08 |
 | 6. Localized, Theme-Aware Charts | v1.1 | 3/3 | Complete   | 2026-07-08 |
-| 7. Richer Weather & Milestone Verification | v1.1 | 0/? | Not started | - |
+| 7. Richer Weather & Milestone Verification | v1.1 | 0/8 | Planned | - |
 
 ## Coverage (v1.1)
 
@@ -127,4 +148,4 @@ All 20 v1.1 requirements mapped to exactly one phase. See REQUIREMENTS.md tracea
 
 ---
 *Roadmap created: 2026-06-11*
-*Last updated: 2026-07-09 - Phase 6 executed (3/3 plans, code review done, WR-01 fixed)*
+*Last updated: 2026-07-09 - Phase 7 planned (8 plans, 4 waves)*

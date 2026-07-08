@@ -40,7 +40,14 @@ Full phase details archived in `milestones/v1.0-ROADMAP.md`.
   3. Visiting an unknown URL shows a friendly 404 page with a working link back to the dashboard, and each page ships as its own lazy-loaded chunk (visible in build output)
   4. City search debounces via VueUse `useDebounceFn` and cleans up on unmount; CitySearch component tests cover debounce, abort-on-new-input, and select-clears-field
   5. App runs on vue-i18n v11 with no deprecation warnings and all v1.0 language behavior intact; `openMeteo.ts` passes MSW-mocked tests for success, empty-result, and error shapes
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 05-01-PLAN.md - Reactive query composables + retry buttons + accurate error copy (DATA-04, DATA-05, WTHR-03)
+- [ ] 05-02-PLAN.md - Lazy routes + 404 page + CitySearch useDebounceFn cleanup (NAV-04, NAV-05, SRCH-04)
+- [ ] 05-03-PLAN.md - Package legitimacy gate + vue-i18n v11 upgrade + msw install (I18N-03)
+- [ ] 05-04-PLAN.md - MSW API-layer tests + CitySearch component tests (TEST-04, TEST-05)
+
 **UI hint**: yes
 
 ### Phase 6: Localized, Theme-Aware Charts
@@ -81,7 +88,7 @@ Full phase details archived in `milestones/v1.0-ROADMAP.md`.
 | 2. First Weather Slice       | v1.0 | 2/2 | Complete | 2026-06-12 |
 | 3. Detail & Charts           | v1.0 | 1/1 | Complete | 2026-06-12 |
 | 4. Preferences, i18n & Tests | v1.0 | 3/3 | Complete | 2026-06-14 |
-| 5. Refactor & Hardening      | v1.1 | 0/? | Not started | - |
+| 5. Refactor & Hardening      | v1.1 | 0/4 | Planned | - |
 | 6. Localized, Theme-Aware Charts | v1.1 | 0/? | Not started | - |
 | 7. Richer Weather & Milestone Verification | v1.1 | 0/? | Not started | - |
 
@@ -91,4 +98,4 @@ All 20 v1.1 requirements mapped to exactly one phase. See REQUIREMENTS.md tracea
 
 ---
 *Roadmap created: 2026-06-11*
-*Last updated: 2026-07-07 - v1.1 roadmap created (Phases 5-7, 20 requirements mapped)*
+*Last updated: 2026-07-08 - Phase 5 planned (4 plans, 4 waves)*

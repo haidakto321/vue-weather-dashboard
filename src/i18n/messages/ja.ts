@@ -38,6 +38,11 @@ export default {
     loadError: '予報を読み込めませんでした - 接続を確認してください。',
     retry: '再試行',
   },
+  notFound: {
+    title: 'ページが見つかりません',
+    body: 'その URL は存在しません - ダッシュボードに戻ってください。',
+    backToDashboard: 'ダッシュボードに戻る',
+  },
   settings: {
     heading: '設定',
     unitSection: '温度の単位',

@@ -51,6 +51,11 @@ export default {
     loadError: 'Could not load the forecast - check your connection.',
     retry: 'Retry',
   },
+  notFound: {
+    title: 'Page not found',
+    body: 'That URL does not match anything here - return to the dashboard.',
+    backToDashboard: 'Back to dashboard',
+  },
   settings: {
     heading: 'Settings',
     unitSection: 'Temperature unit',

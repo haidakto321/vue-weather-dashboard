@@ -10,8 +10,8 @@ REQ-ID numbering continues from v1.0 (see `.planning/milestones/v1.0-REQUIREMENT
 
 ### Server State (DATA)
 
-- [ ] **DATA-04**: Weather/forecast composables accept a reactive city (`MaybeRefOrGetter<SavedCity | undefined>`) with an `enabled` guard - no fetch fires when no city is resolved (removes the CityDetailPage Proxy hack and the lat-0/lon-0 "null island" fetch)
-- [ ] **DATA-05**: User can retry a failed weather or forecast load via a retry button (Vue Query `refetch`)
+- [x] **DATA-04**: Weather/forecast composables accept a reactive city (`MaybeRefOrGetter<SavedCity | undefined>`) with an `enabled` guard - no fetch fires when no city is resolved (removes the CityDetailPage Proxy hack and the lat-0/lon-0 "null island" fetch)
+- [x] **DATA-05**: User can retry a failed weather or forecast load via a retry button (Vue Query `refetch`)
 - [ ] **DATA-06**: User can see when a card's data was last updated and manually refresh it
 
 ### Navigation (NAV)
@@ -27,7 +27,7 @@ REQ-ID numbering continues from v1.0 (see `.planning/milestones/v1.0-REQUIREMENT
 
 ### Weather Display (WTHR)
 
-- [ ] **WTHR-03**: Card error copy is accurate - dead 404 "city not found" branch removed from WeatherCard error mapping
+- [x] **WTHR-03**: Card error copy is accurate - dead 404 "city not found" branch removed from WeatherCard error mapping
 - [ ] **WTHR-04**: User can see richer current conditions on cards/detail: feels-like, precipitation, UV index, sunrise/sunset
 - [ ] **WTHR-05**: User can switch wind speed unit (km/h / mph); choice persists and applies wherever wind is shown
 
@@ -84,12 +84,12 @@ No other new dependencies without explicit approval.
 
 | REQ-ID | Phase | Status |
 |--------|-------|--------|
-| DATA-04 | Phase 5 | Pending |
-| DATA-05 | Phase 5 | Pending |
+| DATA-04 | Phase 5 | Complete |
+| DATA-05 | Phase 5 | Complete |
 | NAV-04 | Phase 5 | Pending |
 | NAV-05 | Phase 5 | Pending |
 | SRCH-04 | Phase 5 | Pending |
-| WTHR-03 | Phase 5 | Pending |
+| WTHR-03 | Phase 5 | Complete |
 | I18N-03 | Phase 5 | Pending |
 | TEST-04 | Phase 5 | Pending |
 | TEST-05 | Phase 5 | Pending |

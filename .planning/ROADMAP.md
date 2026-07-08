@@ -46,7 +46,7 @@ Full phase details archived in `milestones/v1.0-ROADMAP.md`.
 Plans:
 **Wave 1**
 
-- [ ] 05-01-PLAN.md - Reactive query composables + retry buttons + accurate error copy (DATA-04, DATA-05, WTHR-03)
+- [x] 05-01-PLAN.md - Reactive query composables + retry buttons + accurate error copy (DATA-04, DATA-05, WTHR-03)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -104,7 +104,7 @@ Plans:
 | 2. First Weather Slice       | v1.0 | 2/2 | Complete | 2026-06-12 |
 | 3. Detail & Charts           | v1.0 | 1/1 | Complete | 2026-06-12 |
 | 4. Preferences, i18n & Tests | v1.0 | 3/3 | Complete | 2026-06-14 |
-| 5. Refactor & Hardening      | v1.1 | 0/4 | Planned | - |
+| 5. Refactor & Hardening      | v1.1 | 1/4 | In Progress|  |
 | 6. Localized, Theme-Aware Charts | v1.1 | 0/? | Not started | - |
 | 7. Richer Weather & Milestone Verification | v1.1 | 0/? | Not started | - |
 

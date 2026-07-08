@@ -29,6 +29,10 @@ export default {
     wind: '{value} km/h',
     humidity: '{value}%',
   },
+  chart: {
+    tempHigh: '最高 {unit}',
+    tempLow: '最低 {unit}',
+  },
   detail: {
     forecastHeading: '7日間の予報',
     temperatureHeading: '気温',

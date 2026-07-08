@@ -32,24 +32,37 @@ const { convert, unitSymbol } = useTemperature()
 // theme flip or a language switch restyles/relabels it with no reload (CHRT-03/CHRT-04).
 // theme.current.value is Vuetify's active theme; locale is vue-i18n's active language.
 const theme = useTheme()
-const { locale } = useI18n()
+const { t, locale } = useI18n()
+
+// Map the app locale ('en'/'ja') to a BCP-47 tag for toLocaleDateString - copied verbatim
+// from ForecastList.vue so the chart x-axis dates localize exactly like the forecast list.
+const dateLocale = computed(() => (locale.value === 'ja' ? 'ja-JP' : 'en-GB'))
 
 // chartData is computed over the prop AND the reactive unit, so a different city's forecast
 // or a unit change produces a new object and Vue re-renders <Line> - no manual
 // chart.update() needed (CHRT-02).
 const chartData = computed(() => ({
-  labels: props.forecast.dates,
+  // Reading t() and dateLocale (locale.value) INSIDE the computed is what makes the labels and
+  // axis dates re-render on a language switch (Pitfall 3 - reading them outside would freeze
+  // the strings at first render).
+  labels: props.forecast.dates.map((iso) =>
+    new Date(iso).toLocaleDateString(dateLocale.value, {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'short',
+    }),
+  ),
   datasets: [
     {
-      label: `High ${unitSymbol.value}`,
-      data: props.forecast.tempMax.map((t) => convert(t)),
+      label: t('chart.tempHigh', { unit: unitSymbol.value }),
+      data: props.forecast.tempMax.map((temp) => convert(temp)),
       borderColor: '#e53935',
       backgroundColor: '#e53935',
       tension: 0.3,
     },
     {
-      label: `Low ${unitSymbol.value}`,
-      data: props.forecast.tempMin.map((t) => convert(t)),
+      label: t('chart.tempLow', { unit: unitSymbol.value }),
+      data: props.forecast.tempMin.map((temp) => convert(temp)),
       borderColor: '#1e88e5',
       backgroundColor: '#1e88e5',
       tension: 0.3,

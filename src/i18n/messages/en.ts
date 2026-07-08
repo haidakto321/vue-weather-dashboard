@@ -42,6 +42,10 @@ export default {
     wind: '{value} km/h',
     humidity: '{value}%',
   },
+  chart: {
+    tempHigh: 'High {unit}',
+    tempLow: 'Low {unit}',
+  },
   detail: {
     forecastHeading: '7-day forecast',
     temperatureHeading: 'Temperature',

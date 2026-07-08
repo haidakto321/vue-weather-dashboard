@@ -23,7 +23,7 @@ REQ-ID numbering continues from v1.0 (see `.planning/milestones/v1.0-REQUIREMENT
 
 - [x] **CHRT-03**: Forecast chart colors, axis and legend text adapt to the active light/dark theme
 - [x] **CHRT-04**: Chart dataset labels are i18n-keyed and axis dates render in the active locale
-- [ ] **CHRT-05**: User can see an hourly forecast chart on the detail page (temperature line + precipitation bars, mixed chart)
+- [x] **CHRT-05**: User can see an hourly forecast chart on the detail page (temperature line + precipitation bars, mixed chart)
 
 ### Weather Display (WTHR)
 
@@ -95,7 +95,7 @@ No other new dependencies without explicit approval.
 | TEST-05 | Phase 5 | Complete |
 | CHRT-03 | Phase 6 | Complete |
 | CHRT-04 | Phase 6 | Complete |
-| CHRT-05 | Phase 6 | Pending |
+| CHRT-05 | Phase 6 | Complete |
 | I18N-04 | Phase 6 | Pending |
 | I18N-05 | Phase 6 | Pending |
 | GEO-01 | Phase 7 | Pending |

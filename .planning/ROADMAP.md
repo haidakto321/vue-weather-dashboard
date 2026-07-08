@@ -83,7 +83,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1: shares the i18n `chart` block)*
 
-- [ ] 06-02-PLAN.md - Hourly mixed chart end-to-end: API + composable + HourlyChart (CHRT-05)
+- [x] 06-02-PLAN.md - Hourly mixed chart end-to-end: API + composable + HourlyChart (CHRT-05)
 
 **Wave 3** *(blocked on Wave 2: shares the i18n message files)*
 
@@ -118,7 +118,7 @@ Plans:
 | 3. Detail & Charts           | v1.0 | 1/1 | Complete | 2026-06-12 |
 | 4. Preferences, i18n & Tests | v1.0 | 3/3 | Complete | 2026-06-14 |
 | 5. Refactor & Hardening      | v1.1 | 4/4 | Complete    | 2026-07-08 |
-| 6. Localized, Theme-Aware Charts | v1.1 | 1/3 | In Progress|  |
+| 6. Localized, Theme-Aware Charts | v1.1 | 2/3 | In Progress|  |
 | 7. Richer Weather & Milestone Verification | v1.1 | 0/? | Not started | - |
 
 ## Coverage (v1.1)

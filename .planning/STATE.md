@@ -4,13 +4,13 @@ milestone: v1.1
 milestone_name: Code Quality + Richer Weather
 status: executing
 stopped_at: Completed 06-01-PLAN.md
-last_updated: "2026-07-08T13:58:05.124Z"
+last_updated: "2026-07-08T14:05:01.340Z"
 last_activity: 2026-07-08 -- Phase 06 execution started
 progress:
   total_phases: 3
   completed_phases: 1
   total_plans: 7
-  completed_plans: 5
+  completed_plans: 6
   percent: 33
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-07-07)
 ## Current Position
 
 Phase: 06 (localized-theme-aware-charts) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Ready to execute
 Last activity: 2026-07-08 -- Phase 06 execution started
 
@@ -47,6 +47,7 @@ Progress: [██████████] 100% (Phase 05 plans)
 | Phase 05 P04 | 4min | 2 tasks | 2 files |
 | 05 | 4 | - | - |
 | Phase 06 P01 | 4min | 2 tasks | 3 files |
+| Phase 06 P02 | 3min | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -64,6 +65,8 @@ Recent decisions affecting current work:
 - [Phase 5]: API-layer tests use MSW node interception; component tests stub the HTTP module - two documented strategies (TEST-04/05)
 - [Phase ?]: [Phase 6]: only chart chrome (ticks/grid/legend) is theme-driven; fixed brand hues #e53935/#1e88e5 stay constant across themes
 - [Phase ?]: [Phase 6]: dateLocale computed copied verbatim from ForecastList so chart x-axis dates localize identically
+- [Phase ?]: forecast_days=1 (24 points) keeps the hourly chart readable (Pitfall 5)
+- [Phase ?]: Precipitation exempt from unit toggle - mm on its own right y1 axis (Pitfall 8)
 
 ### Pending Todos
 
@@ -84,7 +87,7 @@ Items acknowledged and carried forward:
 
 ## Session Continuity
 
-Last session: 2026-07-08T13:58:05.115Z
+Last session: 2026-07-08T14:04:41.579Z
 Stopped at: Completed 06-01-PLAN.md
 Resume file: None
 

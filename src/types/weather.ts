@@ -42,3 +42,13 @@ export interface DailyForecast {
   tempMin: number[] // daily low, °C
   weatherCodes: number[] // WMO weather code per day
 }
+
+// An hourly forecast (Phase 6, CHRT-05). Same parallel-array convention as DailyForecast:
+// the three arrays share length and index order (index i = hour i). Feeds the mixed
+// HourlyChart - the temperature line and precipitation bars read the same index. Metric
+// (°C, mm); the temperature unit toggle is applied at display time, precipitation stays mm.
+export interface HourlyForecast {
+  times: string[] // ISO timestamps, one per hour
+  temperature: number[] // hourly temperature, °C
+  precipitation: number[] // hourly precipitation, mm
+}

@@ -3,7 +3,12 @@ import { describe, it, expect, beforeAll, afterEach, afterAll } from 'vitest'
 import { http, HttpResponse } from 'msw'
 import { setupServer } from 'msw/node'
 
-import { geocodeCity, fetchCurrentWeather, fetchForecast } from '@/lib/openMeteo'
+import {
+  geocodeCity,
+  fetchCurrentWeather,
+  fetchForecast,
+  fetchHourlyForecast,
+} from '@/lib/openMeteo'
 
 // MSW's one obvious job here: it intercepts Node's http layer (this spec runs in the
 // node environment via the first-line docblock, so axios uses its http adapter - the
@@ -156,6 +161,42 @@ describe('openMeteo API layer (MSW node tests)', () => {
       server.use(http.get(FORECAST_URL, () => HttpResponse.error()))
 
       await expect(fetchForecast(51.5, -0.12)).rejects.toBeTruthy()
+    })
+  })
+
+  describe('fetchHourlyForecast', () => {
+    it('normalizes the snake_case hourly arrays into the HourlyForecast parallel arrays (success)', async () => {
+      // openMeteo.ts remaps hourly.time -> times, temperature_2m -> temperature,
+      // precipitation -> precipitation, and requests forecast_days=1 with timezone=auto.
+      server.use(
+        http.get(FORECAST_URL, ({ request }) => {
+          const url = new URL(request.url)
+          expect(url.searchParams.get('hourly')).toBe('temperature_2m,precipitation')
+          expect(url.searchParams.get('forecast_days')).toBe('1')
+          expect(url.searchParams.get('timezone')).toBe('auto')
+          return HttpResponse.json({
+            hourly: {
+              time: ['2026-07-08T00:00', '2026-07-08T01:00', '2026-07-08T02:00'],
+              temperature_2m: [14, 13.5, 13],
+              precipitation: [0, 0.2, 1.1],
+            },
+          })
+        }),
+      )
+
+      const hourly = await fetchHourlyForecast(51.5, -0.12)
+
+      expect(hourly).toEqual({
+        times: ['2026-07-08T00:00', '2026-07-08T01:00', '2026-07-08T02:00'],
+        temperature: [14, 13.5, 13],
+        precipitation: [0, 0.2, 1.1],
+      })
+    })
+
+    it('rejects on a network error (error shape)', async () => {
+      server.use(http.get(FORECAST_URL, () => HttpResponse.error()))
+
+      await expect(fetchHourlyForecast(51.5, -0.12)).rejects.toBeTruthy()
     })
   })
 })

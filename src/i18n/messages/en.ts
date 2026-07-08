@@ -34,6 +34,11 @@ export default {
     label: 'Search for a city',
     placeholder: 'Start typing a city name',
   },
+  validation: {
+    cityRequired: 'Enter a city name',
+    cityMin: 'Type at least 2 characters',
+    cityMax: 'City name is too long',
+  },
   card: {
     viewForecast: 'View forecast for {city}',
     remove: 'Remove {city}',

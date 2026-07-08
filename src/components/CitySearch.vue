@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onScopeDispose, ref } from 'vue'
+import { computed, onScopeDispose, ref } from 'vue'
 import { useField } from 'vee-validate'
 import { useI18n } from 'vue-i18n'
 import { useDebounceFn } from '@vueuse/core'
@@ -11,17 +11,23 @@ import type { GeoCity } from '@/types/weather'
 
 const store = useCitiesStore()
 
-// t() localizes the search box label/placeholder. The vee-validate error messages stay as
-// authored strings for now (validation copy is out of this slice's scope - noted in
-// implementation-notes).
+// t() localizes the search box label/placeholder AND the validation error messages. The
+// yup messages are now i18n-keyed (I18N-04): the schema is a `computed` reading t(), so a
+// language switch produces a new schema identity and vee-validate re-validates in the new
+// language.
 const { t } = useI18n()
 
-// vee-validate + yup = validation: only geocode a non-empty, sensible-length term.
-const schema = yup
-  .string()
-  .required('Enter a city name')
-  .min(2, 'Type at least 2 characters')
-  .max(80, 'City name is too long')
+// vee-validate + yup = validation: only geocode a non-empty, sensible-length term. The
+// schema is wrapped in a `computed` so its messages come from t() - `useField`'s `rules` is
+// a MaybeRef, so passing this ref lets vee-validate re-validate when the locale (and thus
+// the schema identity) changes.
+const schema = computed(() =>
+  yup
+    .string()
+    .required(t('validation.cityRequired'))
+    .min(2, t('validation.cityMin'))
+    .max(80, t('validation.cityMax')),
+)
 
 // validateOnValueUpdate: false -> vee-validate does NOT auto-validate when `term` changes.
 // We validate explicitly in the debounce (non-empty input only). This stops the "required"

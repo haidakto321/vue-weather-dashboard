@@ -21,6 +21,11 @@ export default {
     label: '都市を検索',
     placeholder: '都市名を入力してください',
   },
+  validation: {
+    cityRequired: '都市名を入力してください',
+    cityMin: '2文字以上入力してください',
+    cityMax: '都市名が長すぎます',
+  },
   card: {
     viewForecast: '{city}の予報を見る',
     remove: '{city}を削除',

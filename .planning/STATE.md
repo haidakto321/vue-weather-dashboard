@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Code Quality + Richer Weather
-status: executing
+status: completed
 stopped_at: Completed 05-04-PLAN.md
-last_updated: "2026-07-08T12:51:56.387Z"
-last_activity: 2026-07-08 -- Phase 05 execution started
+last_updated: "2026-07-08T12:54:29.062Z"
+last_activity: 2026-07-08
 progress:
   total_phases: 3
   completed_phases: 1
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-07-07)
 
 ## Current Position
 
-Phase: 05 (refactor-hardening) — COMPLETE (4 of 4 plans)
-Plan: 4 of 4
+Phase: 6 of 4 (localized, theme aware charts)
+Plan: Not started
 Status: Phase 05 complete - ready for Phase 06
-Last activity: 2026-07-08 -- Phase 05 complete (all 4 plans)
+Last activity: 2026-07-08
 
 Progress: [██████████] 100% (Phase 05 plans)
 
@@ -36,7 +36,7 @@ Progress: [██████████] 100% (Phase 05 plans)
 
 **Velocity (v1.0):**
 
-- Total plans completed: 7 (Phases 1-4, 2026-06-11 -> 2026-06-14)
+- Total plans completed: 11 (Phases 1-4, 2026-06-11 -> 2026-06-14)
 - v1.1 plans completed: 1
 
 **By Phase (v1.1):**
@@ -45,6 +45,7 @@ Progress: [██████████] 100% (Phase 05 plans)
 |-------|-------|-------|----------|
 | Phase 5 P1 | 5min | 3 tasks | 6 files |
 | Phase 05 P04 | 4min | 2 tasks | 2 files |
+| 05 | 4 | - | - |
 
 ## Accumulated Context
 

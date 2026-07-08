@@ -104,7 +104,7 @@ Plans:
 | 2. First Weather Slice       | v1.0 | 2/2 | Complete | 2026-06-12 |
 | 3. Detail & Charts           | v1.0 | 1/1 | Complete | 2026-06-12 |
 | 4. Preferences, i18n & Tests | v1.0 | 3/3 | Complete | 2026-06-14 |
-| 5. Refactor & Hardening      | v1.1 | 4/4 | Complete   | 2026-07-08 |
+| 5. Refactor & Hardening      | v1.1 | 4/4 | Complete    | 2026-07-08 |
 | 6. Localized, Theme-Aware Charts | v1.1 | 0/? | Not started | - |
 | 7. Richer Weather & Milestone Verification | v1.1 | 0/? | Not started | - |
 

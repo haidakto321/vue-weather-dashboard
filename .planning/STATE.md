@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Code Quality + Richer Weather
 status: executing
-stopped_at: Completed 05-01-PLAN.md
-last_updated: "2026-07-08T11:39:36.934Z"
+stopped_at: Completed 05-04-PLAN.md
+last_updated: "2026-07-08T12:51:56.387Z"
 last_activity: 2026-07-08 -- Phase 05 execution started
 progress:
   total_phases: 3
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 4
-  completed_plans: 2
-  percent: 0
+  completed_plans: 4
+  percent: 33
 ---
 
 # Project State
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-07-07)
 
 ## Current Position
 
-Phase: 05 (refactor-hardening) — EXECUTING
-Plan: 2 of 4
-Status: Ready to execute
-Last activity: 2026-07-08 -- Phase 05 execution started
+Phase: 05 (refactor-hardening) — COMPLETE (4 of 4 plans)
+Plan: 4 of 4
+Status: Phase 05 complete - ready for Phase 06
+Last activity: 2026-07-08 -- Phase 05 complete (all 4 plans)
 
-Progress: [███░░░░░░░] 25% (v1.1)
+Progress: [██████████] 100% (Phase 05 plans)
 
 ## Performance Metrics
 
@@ -44,6 +44,7 @@ Progress: [███░░░░░░░] 25% (v1.1)
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | Phase 5 P1 | 5min | 3 tasks | 6 files |
+| Phase 05 P04 | 4min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -58,6 +59,7 @@ Recent decisions affecting current work:
 - v1.1 sequencing: refactor/foundation first (reactive composables, router, i18n v11) because later features build on it; Playwright e2e is the milestone-closing verification
 - [Phase 5]: ja retry copy is the short imperative 再試行, matching existing ja locale copy style - consistency with detail.backToDashboard
 - [Phase 5]: queryFn uses guard-throw instead of non-null assertion when city is unresolved - safer and teaches why the enabled gate exists (RESEARCH Pitfall 1)
+- [Phase 5]: API-layer tests use MSW node interception; component tests stub the HTTP module - two documented strategies (TEST-04/05)
 
 ### Pending Todos
 
@@ -78,9 +80,9 @@ Items acknowledged and carried forward:
 
 ## Session Continuity
 
-Last session: 2026-07-08T00:39:48.182Z
-Stopped at: Completed 05-01-PLAN.md
+Last session: 2026-07-08T12:51:56.379Z
+Stopped at: Completed 05-04-PLAN.md
 Resume file: None
 
 ---
-*Last updated: 2026-07-08 - Plan 05-01 complete (reactive composables + retry). Next: execute 05-02*
+*Last updated: 2026-07-08 - Plan 05-04 complete (openMeteo MSW + CitySearch tests). Phase 05 complete; next: Phase 06.*

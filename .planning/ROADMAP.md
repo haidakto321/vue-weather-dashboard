@@ -23,7 +23,7 @@ Full phase details archived in `milestones/v1.0-ROADMAP.md`.
 
 **Milestone Goal:** Fix v1.0 rough edges (reactive query composables, router gaps, theme/i18n holes) and add the next layer of real-app features - geolocation, hourly chart, city reorder, richer current data - with proper API-layer and e2e test coverage.
 
-- [ ] **Phase 5: Refactor & Hardening** - Reactive query composables + retry, lazy routes + 404 page, CitySearch cleanup, accurate error copy, vue-i18n v11 migration, MSW API tests + CitySearch component tests
+- [x] **Phase 5: Refactor & Hardening** - Reactive query composables + retry, lazy routes + 404 page, CitySearch cleanup, accurate error copy, vue-i18n v11 migration, MSW API tests + CitySearch component tests (completed 2026-07-08)
 - [ ] **Phase 6: Localized, Theme-Aware Charts** - Forecast chart adapts to theme and locale, new hourly mixed chart, vee-validate messages + WMO labels i18n-keyed (en/ja)
 - [ ] **Phase 7: Richer Weather & Milestone Verification** - Geolocation "use my location", drag-and-drop city reorder, richer current conditions, wind unit preference, last-updated + refresh, Playwright e2e smoke
 
@@ -58,7 +58,7 @@ Plans:
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
-- [ ] 05-04-PLAN.md - MSW API-layer tests + CitySearch component tests (TEST-04, TEST-05)
+- [x] 05-04-PLAN.md - MSW API-layer tests + CitySearch component tests (TEST-04, TEST-05)
 
 **UI hint**: yes
 
@@ -104,7 +104,7 @@ Plans:
 | 2. First Weather Slice       | v1.0 | 2/2 | Complete | 2026-06-12 |
 | 3. Detail & Charts           | v1.0 | 1/1 | Complete | 2026-06-12 |
 | 4. Preferences, i18n & Tests | v1.0 | 3/3 | Complete | 2026-06-14 |
-| 5. Refactor & Hardening      | v1.1 | 3/4 | In Progress|  |
+| 5. Refactor & Hardening      | v1.1 | 4/4 | Complete   | 2026-07-08 |
 | 6. Localized, Theme-Aware Charts | v1.1 | 0/? | Not started | - |
 | 7. Richer Weather & Milestone Verification | v1.1 | 0/? | Not started | - |
 

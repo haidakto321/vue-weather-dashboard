@@ -50,7 +50,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 05-02-PLAN.md - Lazy routes + 404 page + CitySearch useDebounceFn cleanup (NAV-04, NAV-05, SRCH-04)
+- [x] 05-02-PLAN.md - Lazy routes + 404 page + CitySearch useDebounceFn cleanup (NAV-04, NAV-05, SRCH-04)
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
@@ -104,7 +104,7 @@ Plans:
 | 2. First Weather Slice       | v1.0 | 2/2 | Complete | 2026-06-12 |
 | 3. Detail & Charts           | v1.0 | 1/1 | Complete | 2026-06-12 |
 | 4. Preferences, i18n & Tests | v1.0 | 3/3 | Complete | 2026-06-14 |
-| 5. Refactor & Hardening      | v1.1 | 1/4 | In Progress|  |
+| 5. Refactor & Hardening      | v1.1 | 2/4 | In Progress|  |
 | 6. Localized, Theme-Aware Charts | v1.1 | 0/? | Not started | - |
 | 7. Richer Weather & Milestone Verification | v1.1 | 0/? | Not started | - |
 

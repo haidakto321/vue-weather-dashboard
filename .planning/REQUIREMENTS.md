@@ -16,8 +16,8 @@ REQ-ID numbering continues from v1.0 (see `.planning/milestones/v1.0-REQUIREMENT
 
 ### Navigation (NAV)
 
-- [ ] **NAV-04**: Page routes are lazy-loaded so each page ships as its own chunk
-- [ ] **NAV-05**: User visiting an unknown URL sees a friendly 404 page with a link back to the dashboard
+- [x] **NAV-04**: Page routes are lazy-loaded so each page ships as its own chunk
+- [x] **NAV-05**: User visiting an unknown URL sees a friendly 404 page with a link back to the dashboard
 
 ### Charts (CHRT)
 
@@ -33,7 +33,7 @@ REQ-ID numbering continues from v1.0 (see `.planning/milestones/v1.0-REQUIREMENT
 
 ### Search (SRCH)
 
-- [ ] **SRCH-04**: CitySearch debounce uses VueUse `useDebounceFn` with proper cleanup on unmount (replaces hand-rolled `setTimeout`)
+- [x] **SRCH-04**: CitySearch debounce uses VueUse `useDebounceFn` with proper cleanup on unmount (replaces hand-rolled `setTimeout`)
 
 ### Geolocation (GEO)
 
@@ -86,9 +86,9 @@ No other new dependencies without explicit approval.
 |--------|-------|--------|
 | DATA-04 | Phase 5 | Complete |
 | DATA-05 | Phase 5 | Complete |
-| NAV-04 | Phase 5 | Pending |
-| NAV-05 | Phase 5 | Pending |
-| SRCH-04 | Phase 5 | Pending |
+| NAV-04 | Phase 5 | Complete |
+| NAV-05 | Phase 5 | Complete |
+| SRCH-04 | Phase 5 | Complete |
 | WTHR-03 | Phase 5 | Complete |
 | I18N-03 | Phase 5 | Pending |
 | TEST-04 | Phase 5 | Pending |

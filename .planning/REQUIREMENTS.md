@@ -46,8 +46,8 @@ REQ-ID numbering continues from v1.0 (see `.planning/milestones/v1.0-REQUIREMENT
 ### i18n (I18N)
 
 - [x] **I18N-03**: vue-i18n migrated from v9 to v11 with no deprecation warning and all existing i18n behavior intact
-- [ ] **I18N-04**: vee-validate error messages are i18n-keyed (en/ja)
-- [ ] **I18N-05**: WMO weather condition labels are i18n-keyed (en/ja)
+- [x] **I18N-04**: vee-validate error messages are i18n-keyed (en/ja)
+- [x] **I18N-05**: WMO weather condition labels are i18n-keyed (en/ja)
 
 ### Testing (TEST)
 
@@ -96,8 +96,8 @@ No other new dependencies without explicit approval.
 | CHRT-03 | Phase 6 | Complete |
 | CHRT-04 | Phase 6 | Complete |
 | CHRT-05 | Phase 6 | Complete |
-| I18N-04 | Phase 6 | Pending |
-| I18N-05 | Phase 6 | Pending |
+| I18N-04 | Phase 6 | Complete |
+| I18N-05 | Phase 6 | Complete |
 | GEO-01 | Phase 7 | Pending |
 | STATE-04 | Phase 7 | Pending |
 | WTHR-04 | Phase 7 | Pending |

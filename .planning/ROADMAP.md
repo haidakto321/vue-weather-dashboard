@@ -75,7 +75,20 @@ Plans:
   4. Form validation error messages appear in the active language (en/ja)
   5. WMO weather condition labels display in the active language wherever conditions are shown
 
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+**Wave 1**
+
+- [x] 06-01-PLAN.md - Theme-aware + localized ForecastChart (CHRT-03, CHRT-04)
+
+**Wave 2** *(blocked on Wave 1: shares the i18n `chart` block)*
+
+- [ ] 06-02-PLAN.md - Hourly mixed chart end-to-end: API + composable + HourlyChart (CHRT-05)
+
+**Wave 3** *(blocked on Wave 2: shares the i18n message files)*
+
+- [ ] 06-03-PLAN.md - Localized validation messages + WMO labels (I18N-04, I18N-05)
+
 **UI hint**: yes
 
 ### Phase 7: Richer Weather & Milestone Verification
@@ -105,7 +118,7 @@ Plans:
 | 3. Detail & Charts           | v1.0 | 1/1 | Complete | 2026-06-12 |
 | 4. Preferences, i18n & Tests | v1.0 | 3/3 | Complete | 2026-06-14 |
 | 5. Refactor & Hardening      | v1.1 | 4/4 | Complete    | 2026-07-08 |
-| 6. Localized, Theme-Aware Charts | v1.1 | 0/? | Not started | - |
+| 6. Localized, Theme-Aware Charts | v1.1 | 1/3 | In Progress|  |
 | 7. Richer Weather & Milestone Verification | v1.1 | 0/? | Not started | - |
 
 ## Coverage (v1.1)
@@ -114,4 +127,4 @@ All 20 v1.1 requirements mapped to exactly one phase. See REQUIREMENTS.md tracea
 
 ---
 *Roadmap created: 2026-06-11*
-*Last updated: 2026-07-08 - Phase 5 planned (4 plans, 4 waves)*
+*Last updated: 2026-07-08 - Phase 6 planned (3 plans, 3 waves)*

@@ -54,7 +54,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 05-03-PLAN.md - Package legitimacy gate + vue-i18n v11 upgrade + msw install (I18N-03)
+- [x] 05-03-PLAN.md - Package legitimacy gate + vue-i18n v11 upgrade + msw install (I18N-03)
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
@@ -104,7 +104,7 @@ Plans:
 | 2. First Weather Slice       | v1.0 | 2/2 | Complete | 2026-06-12 |
 | 3. Detail & Charts           | v1.0 | 1/1 | Complete | 2026-06-12 |
 | 4. Preferences, i18n & Tests | v1.0 | 3/3 | Complete | 2026-06-14 |
-| 5. Refactor & Hardening      | v1.1 | 2/4 | In Progress|  |
+| 5. Refactor & Hardening      | v1.1 | 3/4 | In Progress|  |
 | 6. Localized, Theme-Aware Charts | v1.1 | 0/? | Not started | - |
 | 7. Richer Weather & Milestone Verification | v1.1 | 0/? | Not started | - |
 

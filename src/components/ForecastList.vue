@@ -21,7 +21,10 @@ const dateLocale = computed(() => (locale.value === 'ja' ? 'ja-JP' : 'en-GB'))
 
 // Render the ISO date as a short, readable weekday + day-month label in the active locale.
 function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString(dateLocale.value, {
+  // Parse the 'YYYY-MM-DD' date-only string as LOCAL time. `new Date(iso)` treats a
+  // bare date as UTC midnight, so at negative UTC offsets the label rolls back one day.
+  const [y, m, d] = iso.split('-').map(Number)
+  return new Date(y, m - 1, d).toLocaleDateString(dateLocale.value, {
     weekday: 'short',
     day: 'numeric',
     month: 'short',

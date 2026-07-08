@@ -45,13 +45,16 @@ const chartData = computed(() => ({
   // Reading t() and dateLocale (locale.value) INSIDE the computed is what makes the labels and
   // axis dates re-render on a language switch (Pitfall 3 - reading them outside would freeze
   // the strings at first render).
-  labels: props.forecast.dates.map((iso) =>
-    new Date(iso).toLocaleDateString(dateLocale.value, {
+  labels: props.forecast.dates.map((iso) => {
+    // Parse the 'YYYY-MM-DD' date-only string as LOCAL time. `new Date(iso)` treats a
+    // bare date as UTC midnight, so at negative UTC offsets the label rolls back one day.
+    const [y, m, d] = iso.split('-').map(Number)
+    return new Date(y, m - 1, d).toLocaleDateString(dateLocale.value, {
       weekday: 'short',
       day: 'numeric',
       month: 'short',
-    }),
-  ),
+    })
+  }),
   datasets: [
     {
       label: t('chart.tempHigh', { unit: unitSymbol.value }),

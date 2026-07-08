@@ -12,7 +12,8 @@ const props = defineProps<{ forecast: DailyForecast }>()
 const { format } = useTemperature()
 
 // Active i18n locale drives the date formatting too, so dates localize with the language.
-const { locale } = useI18n()
+// t() translates the WMO condition label key (I18N-05) at the render site.
+const { locale, t } = useI18n()
 
 // Map the app locale ('en'/'ja') to a BCP-47 tag for toLocaleDateString. Kept simple: 'en'
 // uses 'en-GB' (day-month order, matching the prior behavior) and 'ja' uses 'ja-JP'.
@@ -48,7 +49,7 @@ const days = computed(() =>
         <v-icon :icon="day.condition.icon" class="mr-3" />
       </template>
       <v-list-item-title>{{ day.label }}</v-list-item-title>
-      <v-list-item-subtitle>{{ day.condition.label }}</v-list-item-subtitle>
+      <v-list-item-subtitle>{{ t(day.condition.labelKey) }}</v-list-item-subtitle>
       <template #append>
         <span class="text-no-wrap"> {{ format(day.high) }} / {{ format(day.low) }} </span>
       </template>

@@ -1,7 +1,8 @@
 // Japanese message catalogue for vue-i18n.
 //
 // Same key shape as en.ts (every en key exists here, none missing). Values are natural
-// Japanese for the app chrome and pages. WMO condition labels stay English-only (see en.ts).
+// Japanese for the app chrome and pages. WMO condition labels are now translated too
+// (I18N-05) under the `wmo` block, keyed by numeric WMO code + `unknown` (see en.ts).
 export default {
   nav: {
     dashboard: 'ダッシュボード',
@@ -39,6 +40,37 @@ export default {
     tempLow: '最低 {unit}',
     temperature: '気温 {unit}',
     precipitation: '降水量',
+  },
+  wmo: {
+    '0': '快晴',
+    '1': 'おおむね晴れ',
+    '2': '一部曇り',
+    '3': '曇り',
+    '45': '霧',
+    '48': '着氷性の霧',
+    '51': '弱い霧雨',
+    '53': '霧雨',
+    '55': '強い霧雨',
+    '56': '弱い着氷性の霧雨',
+    '57': '強い着氷性の霧雨',
+    '61': '弱い雨',
+    '63': '雨',
+    '65': '強い雨',
+    '66': '弱い着氷性の雨',
+    '67': '強い着氷性の雨',
+    '71': '弱い雪',
+    '73': '雪',
+    '75': '強い雪',
+    '77': '霧雪',
+    '80': '弱いにわか雨',
+    '81': 'にわか雨',
+    '82': '激しいにわか雨',
+    '85': '弱いにわか雪',
+    '86': '強いにわか雪',
+    '95': '雷雨',
+    '96': '弱いひょうを伴う雷雨',
+    '99': '強いひょうを伴う雷雨',
+    unknown: '不明',
   },
   detail: {
     forecastHeading: '7日間の予報',

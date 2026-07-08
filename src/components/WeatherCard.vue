@@ -81,7 +81,7 @@ function remove() {
           <v-icon :icon="condition.icon" size="40" class="mr-3" />
           <div>
             <div class="text-h4">{{ format(data.temperature) }}</div>
-            <div class="text-body-2">{{ condition.label }}</div>
+            <div class="text-body-2">{{ t(condition.labelKey) }}</div>
           </div>
         </div>
         <div class="d-flex ga-4 text-body-2">

@@ -10,11 +10,13 @@
 //   - card     : the weather card (errors + aria labels + unit words)
 //   - detail   : the city-detail page
 //   - settings : the settings page controls
+//   - validation: the city-search form validation messages
+//   - wmo      : WMO weather-condition labels (keyed by numeric WMO code + `unknown`)
 //
-// WMO weather-condition labels are intentionally NOT translated here - they stay English-only
-// in src/lib/wmo.ts. For a study artifact, translating the app chrome/pages is the clear,
-// readable scope; the condition vocabulary (e.g. "Partly cloudy") is left as one English
-// source. This decision is recorded in implementation-notes.md.
+// WMO weather-condition labels ARE now translated here (I18N-05): src/lib/wmo.ts maps each
+// WMO code to a `wmo.<code>` message KEY, and the render sites (WeatherCard, ForecastList)
+// translate it via t(). The keys are numeric-strings ('0', '1', ... '99') plus `unknown` for
+// the fallback - vue-i18n accepts numeric-string leaf keys.
 export default {
   nav: {
     dashboard: 'Dashboard',
@@ -52,6 +54,37 @@ export default {
     tempLow: 'Low {unit}',
     temperature: 'Temperature {unit}',
     precipitation: 'Precipitation',
+  },
+  wmo: {
+    '0': 'Clear sky',
+    '1': 'Mainly clear',
+    '2': 'Partly cloudy',
+    '3': 'Overcast',
+    '45': 'Fog',
+    '48': 'Depositing rime fog',
+    '51': 'Light drizzle',
+    '53': 'Moderate drizzle',
+    '55': 'Dense drizzle',
+    '56': 'Light freezing drizzle',
+    '57': 'Dense freezing drizzle',
+    '61': 'Slight rain',
+    '63': 'Moderate rain',
+    '65': 'Heavy rain',
+    '66': 'Light freezing rain',
+    '67': 'Heavy freezing rain',
+    '71': 'Slight snowfall',
+    '73': 'Moderate snowfall',
+    '75': 'Heavy snowfall',
+    '77': 'Snow grains',
+    '80': 'Slight rain showers',
+    '81': 'Moderate rain showers',
+    '82': 'Violent rain showers',
+    '85': 'Slight snow showers',
+    '86': 'Heavy snow showers',
+    '95': 'Thunderstorm',
+    '96': 'Thunderstorm with slight hail',
+    '99': 'Thunderstorm with heavy hail',
+    unknown: 'Unknown',
   },
   detail: {
     forecastHeading: '7-day forecast',

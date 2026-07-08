@@ -36,6 +36,7 @@ export default {
     notFoundBody: 'その都市は保存されていません - ダッシュボードに戻って検索してください。',
     backToDashboard: 'ダッシュボードに戻る',
     loadError: '予報を読み込めませんでした - 接続を確認してください。',
+    retry: '再試行',
   },
   settings: {
     heading: '設定',

@@ -49,6 +49,7 @@ export default {
     notFoundBody: 'We do not have that city saved - return to the dashboard and search for it.',
     backToDashboard: 'Back to dashboard',
     loadError: 'Could not load the forecast - check your connection.',
+    retry: 'Retry',
   },
   settings: {
     heading: 'Settings',

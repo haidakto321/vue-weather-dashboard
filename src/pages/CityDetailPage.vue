@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch, ref, type Ref } from 'vue'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
@@ -27,30 +27,12 @@ const subtitle = computed(() =>
   city.value ? [city.value.admin1, city.value.country].filter(Boolean).join(', ') : '',
 )
 
-// Vue Query owns loading/error/cache for the forecast. We only have a city to query for
-// when the param resolved, so the query is driven by a fallback ref that updates when the
-// resolved city changes. When there is no city we render the not-found state instead and
-// the forecast result is ignored.
-const queryCity: Ref<SavedCity> = ref(
-  city.value ?? { key: '', id: 0, name: '', latitude: 0, longitude: 0, country: '' },
-)
-watch(
-  city,
-  (c) => {
-    if (c) queryCity.value = c
-  },
-  { immediate: true },
-)
-
-// useForecast is keyed by city.key, so when queryCity changes to a different saved city
-// the query refetches and both the list and chart re-render (CHRT-02).
-const { data, isPending, isError } = useForecast(
-  // Pass a reactive proxy: the composable reads city.key at call time, and Vue Query's
-  // reactive query key follows queryCity. Use a getter-backed object so key stays live.
-  new Proxy({} as SavedCity, {
-    get: (_t, prop: keyof SavedCity) => queryCity.value[prop],
-  }),
-)
+// Vue Query owns loading/error/cache for the forecast. The composable accepts the city
+// computed directly (it may be undefined while the param has not resolved); its enabled
+// guard keeps the query off until a saved city matches, so no request ever fires with
+// placeholder data. This replaces the old getter-trap workaround wholesale (DATA-04).
+// refetch comes free from Vue Query - it powers the retry button below (DATA-05).
+const { data, isPending, isError, refetch } = useForecast(city)
 
 const forecast = computed<DailyForecast | undefined>(() => data.value)
 </script>
@@ -79,6 +61,10 @@ const forecast = computed<DailyForecast | undefined>(() => data.value)
       <!-- Error: generic inline message, never the raw error object. -->
       <v-alert v-else-if="isError" type="error" variant="tonal" density="compact">
         {{ t('detail.loadError') }}
+        <template #append>
+          <!-- Retry (DATA-05): refetch comes free from Vue Query's useQuery result. -->
+          <v-btn size="small" variant="text" @click="refetch()">{{ t('detail.retry') }}</v-btn>
+        </template>
       </v-alert>
 
       <!-- Content: forecast list + temperature chart, both reactive to the city. -->

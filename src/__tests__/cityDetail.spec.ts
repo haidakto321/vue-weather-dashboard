@@ -32,6 +32,13 @@ vi.mock('@/lib/openMeteo', () => ({
     windSpeed: 5,
     humidity: 50,
   }),
+  // The detail page now also reaches Open-Meteo through fetchHourlyForecast; stub it to a
+  // small fixed HourlyForecast so the hourly Vue Query resolves and HourlyChart mounts.
+  fetchHourlyForecast: vi.fn().mockResolvedValue({
+    times: ['2026-06-12T00:00', '2026-06-12T01:00', '2026-06-12T02:00'],
+    temperature: [14, 13.5, 13],
+    precipitation: [0, 0.2, 1.1],
+  }),
 }))
 
 // London with its real geocoding id - the route param we navigate to.
@@ -117,5 +124,10 @@ describe('City Detail (E2E)', () => {
     // The temperature chart container is wired in (CHRT-01).
     const chart = wrapper.find('[data-testid="forecast-chart"]')
     expect(chart.exists()).toBe(true)
+
+    // The hourly mixed chart container is wired in and renders after the mocked hourly
+    // query settles (CHRT-05).
+    const hourlyChart = wrapper.find('[data-testid="hourly-chart"]')
+    expect(hourlyChart.exists()).toBe(true)
   })
 })

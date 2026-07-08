@@ -32,10 +32,13 @@ export default {
   chart: {
     tempHigh: '最高 {unit}',
     tempLow: '最低 {unit}',
+    temperature: '気温 {unit}',
+    precipitation: '降水量',
   },
   detail: {
     forecastHeading: '7日間の予報',
     temperatureHeading: '気温',
+    hourlyHeading: '時間ごとの予報',
     notFoundTitle: '都市が見つかりません',
     notFoundBody: 'その都市は保存されていません - ダッシュボードに戻って検索してください。',
     backToDashboard: 'ダッシュボードに戻る',

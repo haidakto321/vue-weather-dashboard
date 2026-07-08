@@ -5,7 +5,9 @@ import { useI18n } from 'vue-i18n'
 
 import ForecastList from '@/components/ForecastList.vue'
 import ForecastChart from '@/components/ForecastChart.vue'
+import HourlyChart from '@/components/HourlyChart.vue'
 import { useForecast } from '@/composables/useForecast'
+import { useHourlyForecast } from '@/composables/useHourlyForecast'
 import { useCitiesStore } from '@/stores/cities'
 import type { DailyForecast, SavedCity } from '@/types/weather'
 
@@ -35,6 +37,12 @@ const subtitle = computed(() =>
 const { data, isPending, isError, refetch } = useForecast(city)
 
 const forecast = computed<DailyForecast | undefined>(() => data.value)
+
+// Hourly forecast reuses the SAME resolved `city` computed - the untrusted route :id only
+// ever selects a saved city, and the fetch uses that city's stored lat/lon, never the raw
+// param (T-06-03). The composable's enabled guard means no hourly request fires before the
+// param resolves to a saved city (DATA-04).
+const { data: hourly } = useHourlyForecast(city)
 </script>
 
 <template>
@@ -77,6 +85,10 @@ const forecast = computed<DailyForecast | undefined>(() => data.value)
           <v-col cols="12" md="7">
             <h2 class="text-h6 mb-2">{{ t('detail.temperatureHeading') }}</h2>
             <ForecastChart :forecast="forecast" />
+            <!-- Hourly mixed chart under the temperature chart. v-if guards the render until
+                 the hourly query settles (an errored/empty state just hides it - T-06-05). -->
+            <h2 class="text-h6 mb-2 mt-4">{{ t('detail.hourlyHeading') }}</h2>
+            <HourlyChart v-if="hourly" :hourly="hourly" />
           </v-col>
         </v-row>
       </template>

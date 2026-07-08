@@ -45,10 +45,13 @@ export default {
   chart: {
     tempHigh: 'High {unit}',
     tempLow: 'Low {unit}',
+    temperature: 'Temperature {unit}',
+    precipitation: 'Precipitation',
   },
   detail: {
     forecastHeading: '7-day forecast',
     temperatureHeading: 'Temperature',
+    hourlyHeading: 'Hourly forecast',
     notFoundTitle: 'City not found',
     notFoundBody: 'We do not have that city saved - return to the dashboard and search for it.',
     backToDashboard: 'Back to dashboard',

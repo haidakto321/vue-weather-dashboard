@@ -35,17 +35,29 @@ Full phase details archived in `milestones/v1.0-ROADMAP.md`.
 **Depends on**: Phase 4 (v1.0 shipped)
 **Requirements**: DATA-04, DATA-05, NAV-04, NAV-05, SRCH-04, WTHR-03, I18N-03, TEST-04, TEST-05
 **Success Criteria** (what must be TRUE):
+
   1. Deep-linking or reloading a city detail page loads that city's data with no fetch firing before the city resolves - no lat-0/lon-0 "null island" request ever appears, and the CityDetailPage Proxy hack is gone
   2. When a weather or forecast load fails, the user sees accurate error copy (no false "city not found") and can recover with a retry button that refetches
   3. Visiting an unknown URL shows a friendly 404 page with a working link back to the dashboard, and each page ships as its own lazy-loaded chunk (visible in build output)
   4. City search debounces via VueUse `useDebounceFn` and cleans up on unmount; CitySearch component tests cover debounce, abort-on-new-input, and select-clears-field
   5. App runs on vue-i18n v11 with no deprecation warnings and all v1.0 language behavior intact; `openMeteo.ts` passes MSW-mocked tests for success, empty-result, and error shapes
-**Plans**: 4 plans
 
+**Plans**: 4 plans
 Plans:
+**Wave 1**
+
 - [ ] 05-01-PLAN.md - Reactive query composables + retry buttons + accurate error copy (DATA-04, DATA-05, WTHR-03)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 05-02-PLAN.md - Lazy routes + 404 page + CitySearch useDebounceFn cleanup (NAV-04, NAV-05, SRCH-04)
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
 - [ ] 05-03-PLAN.md - Package legitimacy gate + vue-i18n v11 upgrade + msw install (I18N-03)
+
+**Wave 4** *(blocked on Wave 3 completion)*
+
 - [ ] 05-04-PLAN.md - MSW API-layer tests + CitySearch component tests (TEST-04, TEST-05)
 
 **UI hint**: yes
@@ -56,11 +68,13 @@ Plans:
 **Depends on**: Phase 5 (vue-i18n v11 in place before new i18n keys; reactive composables pattern for the hourly data)
 **Requirements**: CHRT-03, CHRT-04, CHRT-05, I18N-04, I18N-05
 **Success Criteria** (what must be TRUE):
+
   1. Toggling light/dark theme restyles the forecast chart immediately - colors, axis text, and legend text all match the active theme
   2. Switching language (en/ja) updates chart dataset labels, and axis dates render in the active locale's format
   3. The city detail page shows an hourly forecast chart mixing a temperature line with precipitation bars, and it reacts to city and unit changes
   4. Form validation error messages appear in the active language (en/ja)
   5. WMO weather condition labels display in the active language wherever conditions are shown
+
 **Plans**: TBD
 **UI hint**: yes
 
@@ -70,11 +84,13 @@ Plans:
 **Depends on**: Phase 5 (reactive composables + refetch), Phase 6 (i18n key conventions for new feature strings; charts stable for e2e)
 **Requirements**: GEO-01, STATE-04, WTHR-04, WTHR-05, DATA-06, TEST-06
 **Success Criteria** (what must be TRUE):
+
   1. User can add their current location as a saved city via a "use my location" action, and sees a clear message when permission is denied or geolocation is unavailable
   2. User can reorder saved city cards by drag-and-drop, and the order survives a page reload
   3. Cards/detail show richer current conditions: feels-like, precipitation, UV index, and sunrise/sunset
   4. User can switch wind speed unit (km/h / mph) and it persists and applies wherever wind is shown; each weather card shows when its data was last updated and offers a manual refresh
   5. Playwright e2e smoke flow passes: search a city -> card appears -> open detail -> forecast list + chart render
+
 **Plans**: TBD
 **UI hint**: yes
 

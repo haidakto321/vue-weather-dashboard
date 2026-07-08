@@ -37,8 +37,8 @@ export default {
   card: {
     viewForecast: 'View forecast for {city}',
     remove: 'Remove {city}',
-    notFound: 'City not found.',
     loadError: 'Could not load weather - check your connection.',
+    retry: 'Retry',
     wind: '{value} km/h',
     humidity: '{value}%',
   },

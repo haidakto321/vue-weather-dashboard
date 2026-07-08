@@ -24,8 +24,8 @@ export default {
   card: {
     viewForecast: '{city}の予報を見る',
     remove: '{city}を削除',
-    notFound: '都市が見つかりません。',
     loadError: '天気を読み込めませんでした - 接続を確認してください。',
+    retry: '再試行',
     wind: '{value} km/h',
     humidity: '{value}%',
   },

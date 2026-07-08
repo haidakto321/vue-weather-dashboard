@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { isAxiosError } from 'axios'
 import { useI18n } from 'vue-i18n'
 
 import { useCurrentWeather } from '@/composables/useCurrentWeather'
@@ -19,7 +18,10 @@ const { t } = useI18n()
 const { format } = useTemperature()
 
 // Vue Query owns this card's loading/error/content + caching, keyed by city.key.
-const { data, isPending, isError, error } = useCurrentWeather(props.city)
+// Pass a GETTER, not props.city itself: a plain value would snapshot the prop, so a
+// changed prop would never re-key the query. The getter keeps it reactive (DATA-04).
+// refetch comes free from Vue Query - it powers the retry button below (DATA-05).
+const { data, isPending, isError, refetch } = useCurrentWeather(() => props.city)
 
 // wmoToCondition turns the WMO code into a human label + mdi icon.
 const condition = computed(() =>
@@ -29,16 +31,6 @@ const condition = computed(() =>
 const subtitle = computed(() =>
   [props.city.admin1, props.city.country].filter(Boolean).join(', '),
 )
-
-// Distinguish "city not found" (404) from a network/other failure (D-08). Never render
-// the raw error object.
-const errorMessage = computed(() => {
-  const e = error.value
-  if (isAxiosError(e) && e.response?.status === 404) {
-    return t('card.notFound')
-  }
-  return t('card.loadError')
-})
 
 function remove() {
   store.removeCity(props.city.key)
@@ -69,9 +61,18 @@ function remove() {
       <!-- Loading (D-07) -->
       <v-skeleton-loader v-if="isPending" type="list-item-two-line" />
 
-      <!-- Error (D-08) -->
+      <!-- Error (D-08): generic copy only, never the raw error object. This copy is now
+           accurate for every failure - Open-Meteo signals "city not found" via empty
+           geocoder results at search time, never via a coordinate-fetch status here. -->
       <v-alert v-else-if="isError" type="error" variant="tonal" density="compact">
-        {{ errorMessage }}
+        {{ t('card.loadError') }}
+        <template #append>
+          <!-- Retry (DATA-05): .stop.prevent because the card root is a router-link -
+               retrying must refetch, not navigate (same idea as the remove button). -->
+          <v-btn size="small" variant="text" @click.stop.prevent="refetch()">
+            {{ t('card.retry') }}
+          </v-btn>
+        </template>
       </v-alert>
 
       <!-- Content -->

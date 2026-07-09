@@ -20,6 +20,13 @@ interface ForecastResponse {
     relative_humidity_2m: number
     weather_code: number
     wind_speed_10m: number
+    apparent_temperature: number
+    precipitation: number
+    uv_index: number
+  }
+  daily: {
+    sunrise: string[]
+    sunset: string[]
   }
 }
 
@@ -64,17 +71,29 @@ export async function fetchCurrentWeather(
     params: {
       latitude,
       longitude,
-      current: 'temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m',
+      current:
+        'temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,apparent_temperature,precipitation,uv_index',
       wind_speed_unit: 'kmh',
+      // Sunrise/sunset ride along in the SAME request (one daily point, forecast_days=1)
+      // so this stays a single HTTP call instead of a second round trip.
+      daily: 'sunrise,sunset',
+      forecast_days: 1,
+      // timezone=auto so sunrise/sunset are the city's local wall-clock times.
+      timezone: 'auto',
     },
     signal,
   })
-  const { current } = response.data
+  const { current, daily } = response.data
   return {
     temperature: current.temperature_2m,
     humidity: current.relative_humidity_2m,
     weatherCode: current.weather_code,
     windSpeed: current.wind_speed_10m,
+    feelsLike: current.apparent_temperature,
+    precipitation: current.precipitation,
+    uvIndex: current.uv_index,
+    sunrise: daily.sunrise[0],
+    sunset: daily.sunset[0],
   }
 }
 

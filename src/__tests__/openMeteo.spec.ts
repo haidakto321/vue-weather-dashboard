@@ -90,15 +90,25 @@ describe('openMeteo API layer (MSW node tests)', () => {
           expect(url.searchParams.get('latitude')).toBe('51.5085')
           expect(url.searchParams.get('longitude')).toBe('-0.1257')
           expect(url.searchParams.get('current')).toBe(
-            'temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m',
+            'temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,apparent_temperature,precipitation,uv_index',
           )
           expect(url.searchParams.get('wind_speed_unit')).toBe('kmh')
+          expect(url.searchParams.get('daily')).toBe('sunrise,sunset')
+          expect(url.searchParams.get('forecast_days')).toBe('1')
+          expect(url.searchParams.get('timezone')).toBe('auto')
           return HttpResponse.json({
             current: {
               temperature_2m: 14.2,
               relative_humidity_2m: 72,
               weather_code: 3,
               wind_speed_10m: 18.5,
+              apparent_temperature: 13.1,
+              precipitation: 0.4,
+              uv_index: 2.3,
+            },
+            daily: {
+              sunrise: ['2026-07-08T04:52'],
+              sunset: ['2026-07-08T19:47'],
             },
           })
         }),
@@ -111,6 +121,11 @@ describe('openMeteo API layer (MSW node tests)', () => {
         humidity: 72,
         weatherCode: 3,
         windSpeed: 18.5,
+        feelsLike: 13.1,
+        precipitation: 0.4,
+        uvIndex: 2.3,
+        sunrise: '2026-07-08T04:52',
+        sunset: '2026-07-08T19:47',
       })
     })
 

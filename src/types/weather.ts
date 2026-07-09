@@ -30,6 +30,11 @@ export interface CurrentWeather {
   weatherCode: number
   windSpeed: number
   humidity: number
+  feelsLike: number // apparent temperature, °C, same unit toggle as temperature
+  precipitation: number // current precipitation, mm, no unit toggle
+  uvIndex: number // UV index, 0-11+ scale, no unit
+  sunrise: string // local ISO datetime, no offset
+  sunset: string // local ISO datetime, no offset
 }
 
 // A multi-day forecast (Phase 3, WTHR-02). Stored as four parallel arrays that share

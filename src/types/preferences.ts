@@ -10,6 +10,10 @@
 // Temperature display unit. Stored temps stay °C; the unit only affects display.
 export type TemperatureUnit = 'celsius' | 'fahrenheit'
 
+// Wind speed display unit. Stored wind speeds stay km/h; the unit only affects display
+// (mirrors TemperatureUnit exactly - see useWindSpeed.ts).
+export type WindUnit = 'kmh' | 'mph'
+
 // Vuetify theme mode (wired live in 04-02).
 export type ThemeMode = 'light' | 'dark'
 
@@ -19,6 +23,7 @@ export type Language = 'en' | 'ja'
 // The full preference object held by the preferences store.
 export interface Preferences {
   unit: TemperatureUnit
+  windUnit: WindUnit
   theme: ThemeMode
   language: Language
 }
@@ -26,6 +31,7 @@ export interface Preferences {
 // App defaults: metric, light theme, English - matches how the app behaves today.
 export const DEFAULT_PREFERENCES: Preferences = {
   unit: 'celsius',
+  windUnit: 'kmh',
   theme: 'light',
   language: 'en',
 }
@@ -33,5 +39,6 @@ export const DEFAULT_PREFERENCES: Preferences = {
 // Valid values per axis. Reused by both the Settings controls (dropdown items) and the
 // read-back validators in the store, so there is exactly one list of allowed values.
 export const TEMPERATURE_UNITS = ['celsius', 'fahrenheit'] as const
+export const WIND_UNITS = ['kmh', 'mph'] as const
 export const THEME_MODES = ['light', 'dark'] as const
 export const LANGUAGES = ['en', 'ja'] as const

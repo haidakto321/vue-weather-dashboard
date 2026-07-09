@@ -5,10 +5,17 @@ import { useLocalStorage } from '@vueuse/core'
 import {
   DEFAULT_PREFERENCES,
   TEMPERATURE_UNITS,
+  WIND_UNITS,
   THEME_MODES,
   LANGUAGES,
 } from '@/types/preferences'
-import type { Preferences, TemperatureUnit, ThemeMode, Language } from '@/types/preferences'
+import type {
+  Preferences,
+  TemperatureUnit,
+  WindUnit,
+  ThemeMode,
+  Language,
+} from '@/types/preferences'
 
 // Pinia = the single source of preference state (unit/theme/language).
 // VueUse useLocalStorage = persistence: it reads/writes the 'weather-prefs' key and keeps
@@ -26,6 +33,9 @@ function sanitize(p: Partial<Preferences> | null | undefined): Preferences {
     unit: (TEMPERATURE_UNITS as readonly string[]).includes(source.unit as string)
       ? (source.unit as TemperatureUnit)
       : DEFAULT_PREFERENCES.unit,
+    windUnit: (WIND_UNITS as readonly string[]).includes(source.windUnit as string)
+      ? (source.windUnit as WindUnit)
+      : DEFAULT_PREFERENCES.windUnit,
     theme: (THEME_MODES as readonly string[]).includes(source.theme as string)
       ? (source.theme as ThemeMode)
       : DEFAULT_PREFERENCES.theme,
@@ -52,12 +62,16 @@ export const usePreferencesStore = defineStore('preferences', () => {
 
   // Reactive getters - components read these.
   const unit = computed(() => prefs.value.unit)
+  const windUnit = computed(() => prefs.value.windUnit)
   const theme = computed(() => prefs.value.theme)
   const language = computed(() => prefs.value.language)
 
   // Explicit setters - writing into the persisted ref auto-persists via VueUse.
   function setUnit(u: TemperatureUnit) {
     prefs.value.unit = u
+  }
+  function setWindUnit(w: WindUnit) {
+    prefs.value.windUnit = w
   }
   function setTheme(t: ThemeMode) {
     prefs.value.theme = t
@@ -66,5 +80,5 @@ export const usePreferencesStore = defineStore('preferences', () => {
     prefs.value.language = l
   }
 
-  return { unit, theme, language, setUnit, setTheme, setLanguage }
+  return { unit, windUnit, theme, language, setUnit, setWindUnit, setTheme, setLanguage }
 })

@@ -22,6 +22,13 @@ export default {
     label: '都市を検索',
     placeholder: '都市名を入力してください',
   },
+  geo: {
+    myLocation: '現在地',
+    useMyLocation: '現在地を使用',
+    denied: '位置情報の使用が許可されませんでした。検索して都市を追加してください。',
+    unavailable: '現在地を取得できませんでした。検索して都市を追加してください。',
+    unsupported: 'このブラウザは位置情報に対応していません。検索して都市を追加してください。',
+  },
   validation: {
     cityRequired: '都市名を入力してください',
     cityMin: '2文字以上入力してください',

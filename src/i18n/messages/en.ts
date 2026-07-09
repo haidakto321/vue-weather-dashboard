@@ -7,6 +7,7 @@
 //   - app      : app-bar / global chrome
 //   - dashboard: the dashboard page
 //   - search   : the city-search control labels
+//   - geo      : the "use my location" button + denied/unavailable/unsupported messages
 //   - card     : the weather card (errors + aria labels + unit words)
 //   - detail   : the city-detail page
 //   - settings : the settings page controls
@@ -35,6 +36,13 @@ export default {
   search: {
     label: 'Search for a city',
     placeholder: 'Start typing a city name',
+  },
+  geo: {
+    myLocation: 'My Location',
+    useMyLocation: 'Use my location',
+    denied: 'Location permission denied. Add cities by searching instead.',
+    unavailable: 'Could not determine your location. Add cities by searching instead.',
+    unsupported: 'Geolocation is not supported in this browser. Add cities by searching instead.',
   },
   validation: {
     cityRequired: 'Enter a city name',

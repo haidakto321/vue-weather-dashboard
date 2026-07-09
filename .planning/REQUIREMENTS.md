@@ -41,7 +41,7 @@ REQ-ID numbering continues from v1.0 (see `.planning/milestones/v1.0-REQUIREMENT
 
 ### Saved Cities (STATE)
 
-- [ ] **STATE-04**: User can reorder saved cities by drag-and-drop (vuedraggable); order persists across reload
+- [x] **STATE-04**: User can reorder saved cities by drag-and-drop (vuedraggable); order persists across reload
 
 ### i18n (I18N)
 
@@ -99,7 +99,7 @@ No other new dependencies without explicit approval.
 | I18N-04 | Phase 6 | Complete |
 | I18N-05 | Phase 6 | Complete |
 | GEO-01 | Phase 7 | Complete |
-| STATE-04 | Phase 7 | Pending |
+| STATE-04 | Phase 7 | Complete |
 | WTHR-04 | Phase 7 | Complete |
 | WTHR-05 | Phase 7 | Complete |
 | DATA-06 | Phase 7 | Complete |

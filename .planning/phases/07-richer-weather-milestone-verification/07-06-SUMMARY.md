@@ -113,3 +113,7 @@ None - no external service configuration required.
 ---
 *Phase: 07-richer-weather-milestone-verification*
 *Completed: 2026-07-09*
+
+## Self-Check: PASSED
+
+All created/modified files found on disk; all task commits (`ae04df7`, `8e36d11`) and the summary commit (`101f262`) found in git log.

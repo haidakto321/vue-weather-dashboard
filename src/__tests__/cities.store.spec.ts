@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
+import { nextTick } from 'vue'
 import { setActivePinia, createPinia } from 'pinia'
 
 import { useCitiesStore } from '@/stores/cities'
@@ -60,5 +61,28 @@ describe('cities store', () => {
     store.addCity(london)
     store.removeCity('does-not-exist')
     expect(store.cities).toHaveLength(1)
+  })
+
+  it('reorderCities replaces the city order and persists it', async () => {
+    const store = useCitiesStore()
+    // useLocalStorage self-dispatches a 'storage' event on every write (to sync other tabs),
+    // and that event handler briefly pauses/resumes its own watcher across a nextTick. Await
+    // a tick after each mutation so the watcher is re-armed before the next one - otherwise
+    // back-to-back synchronous writes in the same tick can silently skip persisting.
+    store.addCity(london)
+    await nextTick()
+    store.addCity(tokyo)
+    await nextTick()
+    expect(store.cities[0].name).toBe('London')
+    expect(store.cities[1].name).toBe('Tokyo')
+
+    store.reorderCities([store.cities[1], store.cities[0]])
+    await nextTick()
+
+    expect(store.cities[0].name).toBe('Tokyo')
+    expect(store.cities[1].name).toBe('London')
+
+    const persisted = JSON.parse(localStorage.getItem('weather-cities') ?? '[]')
+    expect(persisted[0].name).toBe('Tokyo')
   })
 })

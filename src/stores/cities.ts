@@ -64,5 +64,11 @@ export const useCitiesStore = defineStore('cities', () => {
     cities.value = cities.value.filter((c) => c.key !== key)
   }
 
-  return { cities, hasCities, addCity, removeCity }
+  // Replace the whole order - useLocalStorage's watcher persists it the same way
+  // addCity's push and removeCity's filter already do.
+  function reorderCities(newOrder: SavedCity[]) {
+    cities.value = newOrder
+  }
+
+  return { cities, hasCities, addCity, removeCity, reorderCities }
 })

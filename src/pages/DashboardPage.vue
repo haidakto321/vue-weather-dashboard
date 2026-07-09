@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
+import draggable from 'vuedraggable'
 
 import CitySearch from '@/components/CitySearch.vue'
+import GeolocationButton from '@/components/GeolocationButton.vue'
 import WeatherCard from '@/components/WeatherCard.vue'
 import { useCitiesStore } from '@/stores/cities'
 
@@ -19,6 +21,8 @@ const { t } = useI18n()
 
     <CitySearch class="mb-6" />
 
+    <GeolocationButton class="mb-4" />
+
     <!-- Empty state (D-09) -->
     <v-sheet
       v-if="!hasCities"
@@ -29,11 +33,22 @@ const { t } = useI18n()
       <p>{{ t('dashboard.emptyState') }}</p>
     </v-sheet>
 
-    <!-- One card per saved city -->
-    <v-row v-else>
-      <v-col v-for="city in cities" :key="city.key" cols="12" sm="6" md="4">
-        <WeatherCard :city="city" />
-      </v-col>
-    </v-row>
+    <!-- Draggable card grid (STATE-04): tag="div" + a v-col inside the #item slot, never a
+         Vuetify component object passed as the tag prop (RESEARCH Pattern 2/Pitfall 4). The
+         reorder handler calls the store action directly (not a storeToRefs ref). -->
+    <draggable
+      v-else
+      :model-value="cities"
+      item-key="key"
+      tag="div"
+      class="d-flex flex-wrap ga-4"
+      @update:model-value="store.reorderCities"
+    >
+      <template #item="{ element }">
+        <v-col cols="12" sm="6" md="4" class="pa-0" style="min-width: 280px">
+          <WeatherCard :city="element" />
+        </v-col>
+      </template>
+    </draggable>
   </section>
 </template>

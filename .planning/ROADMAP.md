@@ -110,7 +110,7 @@ Plans:
 
 - [x] 07-01-PLAN.md - Package legitimacy gate + vuedraggable/@playwright-test install + Chromium browser (STATE-04, TEST-06 prep)
 - [x] 07-02-PLAN.md - Richer current-conditions data layer: extended fetchCurrentWeather + CurrentWeather (WTHR-04)
-- [ ] 07-03-PLAN.md - Wind-unit preference foundation: WindUnit type/store + useWindSpeed composable (WTHR-05)
+- [x] 07-03-PLAN.md - Wind-unit preference foundation: WindUnit type/store + useWindSpeed composable (WTHR-05)
 - [ ] 07-04-PLAN.md - Geolocation composable + button: useMyLocation + GeolocationButton.vue (GEO-01)
 
 **Wave 2** *(blocked on Wave 1: shares i18n message files / data layer / composables)*
@@ -140,7 +140,7 @@ Plans:
 | 4. Preferences, i18n & Tests | v1.0 | 3/3 | Complete | 2026-06-14 |
 | 5. Refactor & Hardening      | v1.1 | 4/4 | Complete    | 2026-07-08 |
 | 6. Localized, Theme-Aware Charts | v1.1 | 3/3 | Complete   | 2026-07-08 |
-| 7. Richer Weather & Milestone Verification | v1.1 | 2/8 | In Progress|  |
+| 7. Richer Weather & Milestone Verification | v1.1 | 3/8 | In Progress|  |
 
 ## Coverage (v1.1)
 

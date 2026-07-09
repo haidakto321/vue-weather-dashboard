@@ -4,12 +4,12 @@ import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 
 import { usePreferencesStore } from '@/stores/preferences'
-import type { TemperatureUnit, Language } from '@/types/preferences'
+import type { TemperatureUnit, WindUnit, Language } from '@/types/preferences'
 
 // Pinia preferences store = the single source of preference state. Binding the unit, theme,
 // and language controls to it drives the live UI update and the persistence from 04-01/02/03.
 const store = usePreferencesStore()
-const { unit, theme, language } = storeToRefs(store)
+const { unit, windUnit, theme, language } = storeToRefs(store)
 
 // t() = the active-locale translator. SettingsPage's own labels are translated too, so the
 // whole page switches language live alongside the rest of the app.
@@ -26,6 +26,20 @@ const unitOptions = computed<{ value: TemperatureUnit; label: string }[]>(() => 
 function onUnitChange(value: unknown) {
   if (value === 'celsius' || value === 'fahrenheit') {
     store.setUnit(value)
+  }
+}
+
+// Wind speed unit (WTHR-05): mirrors unitOptions/onUnitChange exactly. The composable/store
+// field was built in Plan 07-03; WeatherCard/CityDetailPage already consume it (07-05) - this
+// is the last piece, the UI control the user actually interacts with.
+const windUnitOptions = computed<{ value: WindUnit; label: string }[]>(() => [
+  { value: 'kmh', label: t('settings.kmh') },
+  { value: 'mph', label: t('settings.mph') },
+])
+
+function onWindUnitChange(value: unknown) {
+  if (value === 'kmh' || value === 'mph') {
+    store.setWindUnit(value)
   }
 }
 
@@ -68,6 +82,26 @@ function onLanguageChange(value: unknown) {
           @update:model-value="onUnitChange"
         >
           <v-btn v-for="opt in unitOptions" :key="opt.value" :value="opt.value">
+            {{ opt.label }}
+          </v-btn>
+        </v-btn-toggle>
+      </v-card-text>
+    </v-card>
+
+    <!-- Wind speed unit: the last piece of WTHR-05 (composable/store in 07-03, consumed by
+         WeatherCard/CityDetailPage in 07-05). Mirrors the temperature-unit control exactly. -->
+    <v-card class="mb-4">
+      <v-card-title>{{ t('settings.windUnitSection') }}</v-card-title>
+      <v-card-text>
+        <v-btn-toggle
+          data-testid="wind-unit-toggle"
+          :model-value="windUnit"
+          color="primary"
+          mandatory
+          density="comfortable"
+          @update:model-value="onWindUnitChange"
+        >
+          <v-btn v-for="opt in windUnitOptions" :key="opt.value" :value="opt.value">
             {{ opt.label }}
           </v-btn>
         </v-btn-toggle>

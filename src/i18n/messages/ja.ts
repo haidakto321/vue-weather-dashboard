@@ -105,10 +105,13 @@ export default {
   settings: {
     heading: '設定',
     unitSection: '温度の単位',
+    windUnitSection: '風速の単位',
     themeSection: 'テーマ',
     languageSection: '言語',
     celsius: '摂氏 (°C)',
     fahrenheit: '華氏 (°F)',
+    kmh: 'km/h',
+    mph: 'mph',
     darkModeLabel: 'ダークモード',
     english: 'English',
     japanese: '日本語',

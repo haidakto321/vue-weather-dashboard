@@ -120,10 +120,13 @@ export default {
   settings: {
     heading: 'Settings',
     unitSection: 'Temperature unit',
+    windUnitSection: 'Wind speed unit',
     themeSection: 'Theme',
     languageSection: 'Language',
     celsius: 'Celsius (°C)',
     fahrenheit: 'Fahrenheit (°F)',
+    kmh: 'km/h',
+    mph: 'mph',
     darkModeLabel: 'Dark mode',
     english: 'English',
     japanese: '日本語',

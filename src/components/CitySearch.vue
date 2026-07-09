@@ -118,6 +118,7 @@ function cityTitle(city: GeoCity): string {
 <template>
   <v-autocomplete
     v-model="selected"
+    data-testid="city-search"
     :items="items"
     :item-title="cityTitle"
     item-value="id"

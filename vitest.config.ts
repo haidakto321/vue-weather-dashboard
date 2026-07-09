@@ -21,5 +21,9 @@ export default defineConfig({
         inline: ['vuetify'],
       },
     },
+    // e2e/ holds Playwright specs, not Vitest specs - Vitest's default include glob
+    // would otherwise also pick up e2e/smoke.spec.ts and crash with "Playwright Test
+    // did not expect test() to be called here" (two different test runners collide).
+    exclude: ['**/node_modules/**', '**/dist/**', 'e2e/**'],
   },
 })

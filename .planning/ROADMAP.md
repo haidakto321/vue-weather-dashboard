@@ -25,7 +25,7 @@ Full phase details archived in `milestones/v1.0-ROADMAP.md`.
 
 - [x] **Phase 5: Refactor & Hardening** - Reactive query composables + retry, lazy routes + 404 page, CitySearch cleanup, accurate error copy, vue-i18n v11 migration, MSW API tests + CitySearch component tests (completed 2026-07-08)
 - [x] **Phase 6: Localized, Theme-Aware Charts** - Forecast chart adapts to theme and locale, new hourly mixed chart, vee-validate messages + WMO labels i18n-keyed (en/ja) (completed 2026-07-08)
-- [ ] **Phase 7: Richer Weather & Milestone Verification** - Geolocation "use my location", drag-and-drop city reorder, richer current conditions, wind unit preference, last-updated + refresh, Playwright e2e smoke
+- [x] **Phase 7: Richer Weather & Milestone Verification** - Geolocation "use my location", drag-and-drop city reorder, richer current conditions, wind unit preference, last-updated + refresh, Playwright e2e smoke (completed 2026-07-09)
 
 ## Phase Details (v1.1)
 
@@ -124,7 +124,7 @@ Plans:
 
 **Wave 4** *(blocked on Wave 3: milestone-closing verification)*
 
-- [ ] 07-08-PLAN.md - Playwright e2e smoke test (TEST-06)
+- [x] 07-08-PLAN.md - Playwright e2e smoke test (TEST-06)
 
 **UI hint**: yes
 
@@ -140,7 +140,7 @@ Plans:
 | 4. Preferences, i18n & Tests | v1.0 | 3/3 | Complete | 2026-06-14 |
 | 5. Refactor & Hardening      | v1.1 | 4/4 | Complete    | 2026-07-08 |
 | 6. Localized, Theme-Aware Charts | v1.1 | 3/3 | Complete   | 2026-07-08 |
-| 7. Richer Weather & Milestone Verification | v1.1 | 7/8 | In Progress|  |
+| 7. Richer Weather & Milestone Verification | v1.1 | 8/8 | Complete   | 2026-07-09 |
 
 ## Coverage (v1.1)
 

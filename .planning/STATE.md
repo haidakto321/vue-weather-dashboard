@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Code Quality + Richer Weather
-status: executing
-stopped_at: Completed 07-07-PLAN.md
-last_updated: "2026-07-09T13:14:32.654Z"
+status: verifying
+stopped_at: 07-08 complete - all Phase 07 requirements (GEO-01, STATE-04, WTHR-04, WTHR-05, DATA-06, TEST-06) implemented and verified; ready for phase verification
+last_updated: "2026-07-09T14:01:04.952Z"
 last_activity: 2026-07-08 -- Phase 07 execution started
 progress:
   total_phases: 3
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 15
-  completed_plans: 14
-  percent: 67
+  completed_plans: 15
+  percent: 100
 ---
 
 # Project State
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-07-07)
 
 Phase: 07 (Richer Weather & Milestone Verification) — EXECUTING
 Plan: 8 of 8
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-07-08 -- Phase 07 execution started
 
 Progress: [██████████] 100% (Phase 06 plans: 3/3)
@@ -55,6 +55,7 @@ Progress: [██████████] 100% (Phase 06 plans: 3/3)
 | Phase 07-richer-weather-milestone-verification P05 | 25min | 2 tasks | 6 files |
 | Phase 07 P06 | 3min | 2 tasks | 4 files |
 | Phase 07 P07 | 6min | 1 tasks | 4 files |
+| Phase 07 P08 | 25min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -85,6 +86,8 @@ Recent decisions affecting current work:
 - [Phase ?]: reorderCities reassigns cities.value wholesale (mirrors addCity/removeCity) so useLocalStorage persists drag-and-drop order for free
 - [Phase ?]: vuedraggable wrapper uses tag="div" plus a v-col inside the #item slot - never a Vuetify component object as the tag prop
 - [Phase 07]: Wind-unit toggle placed directly after temperature-unit card, before theme card, matching plan-specified ordering
+- [Phase 07-08]: Downgraded vite from ^8.0.16 to ^7.3.6 (user-approved) to fix a Rolldown dev pre-bundler bug that crashed vue-router@5.1.0 at mount time in a real browser
+- [Phase 07-08]: vitest.config.ts excludes e2e/ so Vitest's default glob does not also pick up Playwright's smoke.spec.ts (test-runner collision)
 
 ### Pending Todos
 
@@ -105,8 +108,8 @@ Items acknowledged and carried forward:
 
 ## Session Continuity
 
-Last session: 2026-07-09T13:14:32.641Z
-Stopped at: Completed 07-07-PLAN.md
+Last session: 2026-07-09T14:00:57.474Z
+Stopped at: 07-08 complete - all Phase 07 requirements (GEO-01, STATE-04, WTHR-04, WTHR-05, DATA-06, TEST-06) implemented and verified; ready for phase verification
 Resume file: None
 
 ---

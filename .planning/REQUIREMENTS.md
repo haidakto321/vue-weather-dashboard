@@ -53,7 +53,7 @@ REQ-ID numbering continues from v1.0 (see `.planning/milestones/v1.0-REQUIREMENT
 
 - [x] **TEST-04**: `openMeteo.ts` API layer covered by MSW-mocked tests (success, empty result, error shapes)
 - [x] **TEST-05**: CitySearch component tests cover debounce, abort-on-new-input, and select-clears-field behavior
-- [ ] **TEST-06**: Playwright e2e smoke flow passes: search a city -> card appears -> open detail -> forecast list + chart render
+- [x] **TEST-06**: Playwright e2e smoke flow passes: search a city -> card appears -> open detail -> forecast list + chart render
 
 ## Future Requirements
 
@@ -103,7 +103,7 @@ No other new dependencies without explicit approval.
 | WTHR-04 | Phase 7 | Complete |
 | WTHR-05 | Phase 7 | Complete |
 | DATA-06 | Phase 7 | Complete |
-| TEST-06 | Phase 7 | Pending |
+| TEST-06 | Phase 7 | Complete |
 
 **Coverage:** 20/20 v1.1 requirements mapped. No orphans, no duplicates.
 

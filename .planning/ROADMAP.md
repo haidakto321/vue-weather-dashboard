@@ -120,7 +120,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2: shares i18n message files)*
 
-- [ ] 07-07-PLAN.md - Settings wind-unit toggle (WTHR-05)
+- [x] 07-07-PLAN.md - Settings wind-unit toggle (WTHR-05)
 
 **Wave 4** *(blocked on Wave 3: milestone-closing verification)*
 
@@ -140,7 +140,7 @@ Plans:
 | 4. Preferences, i18n & Tests | v1.0 | 3/3 | Complete | 2026-06-14 |
 | 5. Refactor & Hardening      | v1.1 | 4/4 | Complete    | 2026-07-08 |
 | 6. Localized, Theme-Aware Charts | v1.1 | 3/3 | Complete   | 2026-07-08 |
-| 7. Richer Weather & Milestone Verification | v1.1 | 6/8 | In Progress|  |
+| 7. Richer Weather & Milestone Verification | v1.1 | 7/8 | In Progress|  |
 
 ## Coverage (v1.1)
 

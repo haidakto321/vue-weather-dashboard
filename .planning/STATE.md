@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Code Quality + Richer Weather
 status: executing
-stopped_at: Completed 07-01-PLAN.md
-last_updated: "2026-07-09T12:11:59.624Z"
+stopped_at: Completed 07-02-PLAN.md
+last_updated: "2026-07-09T12:19:09.351Z"
 last_activity: 2026-07-08 -- Phase 07 execution started
 progress:
   total_phases: 3
   completed_phases: 2
   total_plans: 15
-  completed_plans: 8
-  percent: 53
+  completed_plans: 9
+  percent: 60
 ---
 
 # Project State
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-07-07)
 ## Current Position
 
 Phase: 07 (Richer Weather & Milestone Verification) — EXECUTING
-Plan: 2 of 8
+Plan: 3 of 8
 Status: Ready to execute
 Last activity: 2026-07-08 -- Phase 07 execution started
 
@@ -49,6 +49,7 @@ Progress: [██████████] 100% (Phase 06 plans: 3/3)
 | Phase 06 P01 | 4min | 2 tasks | 3 files |
 | Phase 06 P02 | 3min | 2 tasks | 9 files |
 | Phase 07 P01 | 6min | 2 tasks | 2 files |
+| Phase 07 P02 | 5min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -70,6 +71,8 @@ Recent decisions affecting current work:
 - [Phase ?]: Precipitation exempt from unit toggle - mm on its own right y1 axis (Pitfall 8)
 - [Phase 07]: vuedraggable pinned to ^4.1.0 (never bare install) since npm latest dist-tag resolves to Vue-2-only 2.24.3
 - [Phase 07]: @playwright/test installed strictly as devDependency to keep browser-automation code out of the production bundle
+- [Phase 07]: sunrise/sunset fetched via daily block with forecast_days=1 in the SAME request as current conditions - no new HTTP round trip
+- [Phase 07]: precipitation and uvIndex have no unit toggle (mm and 0-11+ scale) - matches existing precipitation convention
 
 ### Pending Todos
 
@@ -90,8 +93,8 @@ Items acknowledged and carried forward:
 
 ## Session Continuity
 
-Last session: 2026-07-09T12:11:59.615Z
-Stopped at: Completed 07-01-PLAN.md
+Last session: 2026-07-09T12:19:09.341Z
+Stopped at: Completed 07-02-PLAN.md
 Resume file: None
 
 ---

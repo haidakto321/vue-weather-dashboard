@@ -28,7 +28,7 @@ REQ-ID numbering continues from v1.0 (see `.planning/milestones/v1.0-REQUIREMENT
 ### Weather Display (WTHR)
 
 - [x] **WTHR-03**: Card error copy is accurate - dead 404 "city not found" branch removed from WeatherCard error mapping
-- [ ] **WTHR-04**: User can see richer current conditions on cards/detail: feels-like, precipitation, UV index, sunrise/sunset
+- [x] **WTHR-04**: User can see richer current conditions on cards/detail: feels-like, precipitation, UV index, sunrise/sunset
 - [ ] **WTHR-05**: User can switch wind speed unit (km/h / mph); choice persists and applies wherever wind is shown
 
 ### Search (SRCH)
@@ -100,7 +100,7 @@ No other new dependencies without explicit approval.
 | I18N-05 | Phase 6 | Complete |
 | GEO-01 | Phase 7 | Pending |
 | STATE-04 | Phase 7 | Pending |
-| WTHR-04 | Phase 7 | Pending |
+| WTHR-04 | Phase 7 | Complete |
 | WTHR-05 | Phase 7 | Pending |
 | DATA-06 | Phase 7 | Pending |
 | TEST-06 | Phase 7 | Pending |

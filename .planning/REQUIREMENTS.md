@@ -37,7 +37,7 @@ REQ-ID numbering continues from v1.0 (see `.planning/milestones/v1.0-REQUIREMENT
 
 ### Geolocation (GEO)
 
-- [ ] **GEO-01**: User can add their current location as a saved city via a "use my location" action (VueUse `useGeolocation` + Open-Meteo reverse geocoding), with a clear denied/unavailable state
+- [x] **GEO-01**: User can add their current location as a saved city via a "use my location" action (VueUse `useGeolocation` + Open-Meteo reverse geocoding), with a clear denied/unavailable state
 
 ### Saved Cities (STATE)
 
@@ -98,7 +98,7 @@ No other new dependencies without explicit approval.
 | CHRT-05 | Phase 6 | Complete |
 | I18N-04 | Phase 6 | Complete |
 | I18N-05 | Phase 6 | Complete |
-| GEO-01 | Phase 7 | Pending |
+| GEO-01 | Phase 7 | Complete |
 | STATE-04 | Phase 7 | Pending |
 | WTHR-04 | Phase 7 | Complete |
 | WTHR-05 | Phase 7 | Complete |

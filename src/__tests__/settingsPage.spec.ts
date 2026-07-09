@@ -69,6 +69,7 @@ describe('SettingsPage (component)', () => {
     const wrapper = mountSettings()
 
     expect(wrapper.find('[data-testid="unit-toggle"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="wind-unit-toggle"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid="theme-switch"]').exists()).toBe(true)
     expect(wrapper.find('[data-testid="language-toggle"]').exists()).toBe(true)
   })
@@ -130,5 +131,22 @@ describe('SettingsPage (component)', () => {
     await fahrenheitButton!.trigger('click')
 
     expect(store.unit).toBe('fahrenheit')
+  })
+
+  it('changing the wind-unit control updates the preferences store', async () => {
+    const store = usePreferencesStore()
+    const wrapper = mountSettings()
+
+    expect(store.windUnit).toBe('kmh')
+
+    const windUnitToggle = wrapper.find('[data-testid="wind-unit-toggle"]')
+    const mphButton = windUnitToggle
+      .findAll('button')
+      .find((b) => b.text().includes('mph'))
+    expect(mphButton).toBeTruthy()
+
+    await mphButton!.trigger('click')
+
+    expect(store.windUnit).toBe('mph')
   })
 })

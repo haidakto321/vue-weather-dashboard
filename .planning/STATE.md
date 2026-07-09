@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Code Quality + Richer Weather
 status: executing
-stopped_at: Completed 07-04-PLAN.md
-last_updated: "2026-07-09T12:34:40.946Z"
+stopped_at: Completed 07-05-PLAN.md
+last_updated: "2026-07-09T12:50:20.347Z"
 last_activity: 2026-07-08 -- Phase 07 execution started
 progress:
   total_phases: 3
   completed_phases: 2
   total_plans: 15
-  completed_plans: 11
+  completed_plans: 12
   percent: 67
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-07-07)
 ## Current Position
 
 Phase: 07 (Richer Weather & Milestone Verification) — EXECUTING
-Plan: 5 of 8
+Plan: 6 of 8
 Status: Ready to execute
 Last activity: 2026-07-08 -- Phase 07 execution started
 
@@ -52,6 +52,7 @@ Progress: [██████████] 100% (Phase 06 plans: 3/3)
 | Phase 07 P02 | 5min | 2 tasks | 4 files |
 | Phase 07 P03 | 3min | 2 tasks | 5 files |
 | Phase 07-richer-weather-milestone-verification P04 | 5min | 2 tasks | 5 files |
+| Phase 07-richer-weather-milestone-verification P05 | 25min | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -77,6 +78,8 @@ Recent decisions affecting current work:
 - [Phase 07]: precipitation and uvIndex have no unit toggle (mm and 0-11+ scale) - matches existing precipitation convention
 - [Phase ?]: [Phase 07] useWindSpeed.format() adds a space before the unit symbol (20 km/h), unlike useTemperature (21°C), since a two-letter unit doesn't read naturally attached to the number
 - [Phase ?]: [Phase 07] GEO-01 uses a static 'My Location' i18n label instead of reverse geocoding - Open-Meteo has no lat/lon -> place-name endpoint
+- [Phase ?]: card.wind i18n key parameterized to '{value} {unit}' for consistency with chart.tempHigh, though WeatherCard/CityDetailPage call sites render wind via useWindSpeed().format() directly
+- [Phase ?]: CityDetailPage's current-conditions panel nests inside the existing forecast v-else-if block to keep Vue's v-if/v-else-if chain contiguous, rather than sitting as a sibling before it
 
 ### Pending Todos
 
@@ -97,8 +100,8 @@ Items acknowledged and carried forward:
 
 ## Session Continuity
 
-Last session: 2026-07-09T12:34:37.432Z
-Stopped at: Completed 07-04-PLAN.md
+Last session: 2026-07-09T12:50:20.323Z
+Stopped at: Completed 07-05-PLAN.md
 Resume file: None
 
 ---

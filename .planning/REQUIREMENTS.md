@@ -12,7 +12,7 @@ REQ-ID numbering continues from v1.0 (see `.planning/milestones/v1.0-REQUIREMENT
 
 - [x] **DATA-04**: Weather/forecast composables accept a reactive city (`MaybeRefOrGetter<SavedCity | undefined>`) with an `enabled` guard - no fetch fires when no city is resolved (removes the CityDetailPage Proxy hack and the lat-0/lon-0 "null island" fetch)
 - [x] **DATA-05**: User can retry a failed weather or forecast load via a retry button (Vue Query `refetch`)
-- [ ] **DATA-06**: User can see when a card's data was last updated and manually refresh it
+- [x] **DATA-06**: User can see when a card's data was last updated and manually refresh it
 
 ### Navigation (NAV)
 
@@ -102,7 +102,7 @@ No other new dependencies without explicit approval.
 | STATE-04 | Phase 7 | Pending |
 | WTHR-04 | Phase 7 | Complete |
 | WTHR-05 | Phase 7 | Complete |
-| DATA-06 | Phase 7 | Pending |
+| DATA-06 | Phase 7 | Complete |
 | TEST-06 | Phase 7 | Pending |
 
 **Coverage:** 20/20 v1.1 requirements mapped. No orphans, no duplicates.

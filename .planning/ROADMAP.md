@@ -115,7 +115,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1: shares i18n message files / data layer / composables)*
 
-- [ ] 07-05-PLAN.md - Richer conditions + last-updated/refresh UI on WeatherCard + CityDetailPage, route-by-key fix (WTHR-04, WTHR-05, DATA-06)
+- [x] 07-05-PLAN.md - Richer conditions + last-updated/refresh UI on WeatherCard + CityDetailPage, route-by-key fix (WTHR-04, WTHR-05, DATA-06)
 - [ ] 07-06-PLAN.md - DashboardPage wiring: drag-and-drop reorder + geolocation button (GEO-01, STATE-04)
 
 **Wave 3** *(blocked on Wave 2: shares i18n message files)*
@@ -140,7 +140,7 @@ Plans:
 | 4. Preferences, i18n & Tests | v1.0 | 3/3 | Complete | 2026-06-14 |
 | 5. Refactor & Hardening      | v1.1 | 4/4 | Complete    | 2026-07-08 |
 | 6. Localized, Theme-Aware Charts | v1.1 | 3/3 | Complete   | 2026-07-08 |
-| 7. Richer Weather & Milestone Verification | v1.1 | 4/8 | In Progress|  |
+| 7. Richer Weather & Milestone Verification | v1.1 | 5/8 | In Progress|  |
 
 ## Coverage (v1.1)
 

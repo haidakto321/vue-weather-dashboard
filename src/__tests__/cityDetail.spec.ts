@@ -134,5 +134,11 @@ describe('City Detail (E2E)', () => {
     // query settles (CHRT-05).
     const hourlyChart = wrapper.find('[data-testid="hourly-chart"]')
     expect(hourlyChart.exists()).toBe(true)
+
+    // The current-conditions panel renders once the mocked current-weather query settles
+    // (WTHR-04/DATA-06); "19" is the feelsLike value from the fixture above.
+    const currentConditions = wrapper.find('[data-testid="current-conditions"]')
+    expect(currentConditions.exists()).toBe(true)
+    expect(currentConditions.text()).toContain('19')
   })
 })

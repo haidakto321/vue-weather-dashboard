@@ -8,6 +8,10 @@ import ForecastChart from '@/components/ForecastChart.vue'
 import HourlyChart from '@/components/HourlyChart.vue'
 import { useForecast } from '@/composables/useForecast'
 import { useHourlyForecast } from '@/composables/useHourlyForecast'
+import { useCurrentWeather } from '@/composables/useCurrentWeather'
+import { useTemperature } from '@/composables/useTemperature'
+import { useWindSpeed } from '@/composables/useWindSpeed'
+import { wmoToCondition } from '@/lib/wmo'
 import { useCitiesStore } from '@/stores/cities'
 import type { DailyForecast, SavedCity } from '@/types/weather'
 
@@ -16,7 +20,7 @@ import type { DailyForecast, SavedCity } from '@/types/weather'
 const route = useRoute()
 const store = useCitiesStore()
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 // Resolve the route param to a SavedCity reactively: a computed on params.id so changing
 // :id (navigating to another city) re-resolves and re-keys the forecast query (CHRT-02).
@@ -27,6 +31,12 @@ const city = computed<SavedCity | undefined>(() => {
 
 const subtitle = computed(() =>
   city.value ? [city.value.admin1, city.value.country].filter(Boolean).join(', ') : '',
+)
+
+// The geolocation-added city's stored name is a static English literal ("My Location" -
+// GEO-01); the render site shows the localized label instead of that raw string.
+const displayName = computed(() =>
+  city.value?.id === 0 ? t('geo.myLocation') : (city.value?.name ?? ''),
 )
 
 // Vue Query owns loading/error/cache for the forecast. The composable accepts the city
@@ -43,6 +53,51 @@ const forecast = computed<DailyForecast | undefined>(() => data.value)
 // param (T-06-03). The composable's enabled guard means no hourly request fires before the
 // param resolves to a saved city (DATA-04).
 const { data: hourly } = useHourlyForecast(city)
+
+// Current conditions reuse the SAME resolved `city` computed too - same untrusted-param
+// discipline as the forecast/hourly calls above (T-06-03). This is the exact composable
+// WeatherCard.vue already uses; no new fetch infrastructure (WTHR-04/DATA-06).
+const {
+  data: current,
+  isPending: currentPending,
+  isError: currentError,
+  refetch: refetchCurrent,
+  dataUpdatedAt,
+  isRefetching,
+} = useCurrentWeather(city)
+
+// wmoToCondition turns the WMO code into a human label + mdi icon, same as WeatherCard.
+const currentCondition = computed(() =>
+  current.value ? wmoToCondition(current.value.weatherCode) : null,
+)
+
+const { format } = useTemperature()
+const { format: formatWind } = useWindSpeed()
+
+// Map the app locale ('en'/'ja') to a BCP-47 tag, copied verbatim from ForecastList so the
+// last-updated/sunrise/sunset labels localize identically to the rest of the app.
+const dateLocale = computed(() => (locale.value === 'ja' ? 'ja-JP' : 'en-GB'))
+
+// dataUpdatedAt is an epoch-ms timestamp Vue Query already tracks per-query (Pattern 5) -
+// no hand-rolled "last updated" bookkeeping.
+const lastUpdatedLabel = computed(() =>
+  dataUpdatedAt.value
+    ? new Date(dataUpdatedAt.value).toLocaleTimeString(dateLocale.value, {
+        hour: '2-digit',
+        minute: '2-digit',
+      })
+    : '',
+)
+
+// sunrise/sunset are local-wall-clock ISO datetime strings (WITH a time component), so
+// `new Date(iso)` already parses them as local time - only formatting is needed here (see
+// interface note; unlike the date-ONLY string bug fixed in WR-01).
+function formatTime(iso: string): string {
+  return new Date(iso).toLocaleTimeString(dateLocale.value, {
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+}
 </script>
 
 <template>
@@ -60,7 +115,7 @@ const { data: hourly } = useHourlyForecast(city)
 
     <!-- Matched a saved city: show its forecast. -->
     <template v-else>
-      <h1 class="text-h4 mb-1">{{ city.name }}</h1>
+      <h1 class="text-h4 mb-1">{{ displayName }}</h1>
       <p v-if="subtitle" class="text-medium-emphasis mb-4">{{ subtitle }}</p>
 
       <!-- Loading (DATA-03) -->
@@ -77,6 +132,71 @@ const { data: hourly } = useHourlyForecast(city)
 
       <!-- Content: forecast list + temperature chart, both reactive to the city. -->
       <template v-else-if="forecast">
+        <!-- Current conditions panel (WTHR-04/DATA-06): its own loading/error/content
+             branches, independent of the forecast isPending/isError above - a slow/failed
+             current-weather fetch never blocks the forecast list/chart from rendering. -->
+        <h2 class="text-h6 mb-2">{{ t('detail.currentHeading') }}</h2>
+        <v-progress-circular v-if="currentPending" indeterminate color="primary" class="my-4" />
+        <v-alert
+          v-else-if="currentError"
+          type="error"
+          variant="tonal"
+          density="compact"
+          class="mb-4"
+        >
+          {{ t('detail.loadError') }}
+          <template #append>
+            <v-btn size="small" variant="text" @click="refetchCurrent()">
+              {{ t('detail.retry') }}
+            </v-btn>
+          </template>
+        </v-alert>
+        <v-card
+          v-else-if="current && currentCondition"
+          class="mb-4"
+          data-testid="current-conditions"
+        >
+          <v-card-text>
+            <div class="d-flex align-center mb-2">
+              <v-icon :icon="currentCondition.icon" size="40" class="mr-3" />
+              <div>
+                <div class="text-h4">{{ format(current.temperature) }}</div>
+                <div class="text-body-2">{{ t(currentCondition.labelKey) }}</div>
+              </div>
+            </div>
+            <div class="d-flex ga-4 text-body-2 flex-wrap mb-2">
+              <span>{{ t('card.feelsLike', { value: format(current.feelsLike) }) }}</span>
+              <span>
+                {{
+                  t('card.precipitation', { value: Math.round(current.precipitation * 10) / 10 })
+                }}
+              </span>
+              <span>{{ t('card.uvIndex', { value: Math.round(current.uvIndex) }) }}</span>
+            </div>
+            <div class="d-flex ga-4 text-body-2 flex-wrap mb-2">
+              <span>{{ t('card.sunrise', { value: formatTime(current.sunrise) }) }}</span>
+              <span>{{ t('card.sunset', { value: formatTime(current.sunset) }) }}</span>
+            </div>
+            <div class="d-flex ga-4 text-body-2 align-center mb-2">
+              <span>
+                <v-icon icon="mdi-weather-windy" size="small" />
+                {{ formatWind(current.windSpeed) }}
+              </span>
+            </div>
+            <div class="d-flex align-center ga-2 text-caption text-medium-emphasis">
+              <span>{{ t('card.lastUpdated', { time: lastUpdatedLabel }) }}</span>
+              <v-btn
+                :icon="isRefetching ? 'mdi-loading mdi-spin' : 'mdi-refresh'"
+                size="x-small"
+                variant="text"
+                :disabled="isRefetching"
+                :aria-label="t('card.refresh')"
+                @click="refetchCurrent()"
+              />
+            </div>
+          </v-card-text>
+        </v-card>
+
         <v-row>
           <v-col cols="12" md="5">
             <h2 class="text-h6 mb-2">{{ t('detail.forecastHeading') }}</h2>

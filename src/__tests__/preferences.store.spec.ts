@@ -17,12 +17,19 @@ describe('preferences store', () => {
     expect(store.unit).toBe(DEFAULT_PREFERENCES.unit)
     expect(store.theme).toBe(DEFAULT_PREFERENCES.theme)
     expect(store.language).toBe(DEFAULT_PREFERENCES.language)
+    expect(store.windUnit).toBe(DEFAULT_PREFERENCES.windUnit)
   })
 
   it('setUnit updates the unit', () => {
     const store = usePreferencesStore()
     store.setUnit('fahrenheit')
     expect(store.unit).toBe('fahrenheit')
+  })
+
+  it('setWindUnit updates the wind unit', () => {
+    const store = usePreferencesStore()
+    store.setWindUnit('mph')
+    expect(store.windUnit).toBe('mph')
   })
 
   it('setTheme updates the theme', () => {
@@ -54,5 +61,15 @@ describe('preferences store', () => {
     )
     const store = usePreferencesStore()
     expect(store.unit).toBe(DEFAULT_PREFERENCES.unit)
+  })
+
+  it('falls back to the default wind unit when localStorage holds an invalid windUnit', () => {
+    // Seed a tampered value before the store reads it (threat T-07-PREF).
+    localStorage.setItem(
+      'weather-prefs',
+      JSON.stringify({ unit: 'celsius', theme: 'light', language: 'en', windUnit: 'knots' }),
+    )
+    const store = usePreferencesStore()
+    expect(store.windUnit).toBe(DEFAULT_PREFERENCES.windUnit)
   })
 })

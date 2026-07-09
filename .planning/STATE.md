@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Code Quality + Richer Weather
-status: verifying
-stopped_at: Completed 06-01-PLAN.md
-last_updated: "2026-07-08T18:33:02.063Z"
-last_activity: 2026-07-09 -- Phase 06 all 3 plans executed
+status: executing
+stopped_at: Completed 07-01-PLAN.md
+last_updated: "2026-07-09T12:11:59.624Z"
+last_activity: 2026-07-08 -- Phase 07 execution started
 progress:
   total_phases: 3
   completed_phases: 2
-  total_plans: 7
-  completed_plans: 7
-  percent: 67
+  total_plans: 15
+  completed_plans: 8
+  percent: 53
 ---
 
 # Project State
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-07)
 
 **Core value:** Each popular Vue library has one obvious, visible job in a real app - so learning Vue is learning how the pieces connect.
-**Current focus:** Phase 06 — localized-theme-aware-charts
+**Current focus:** Phase 07 — Richer Weather & Milestone Verification
 
 ## Current Position
 
-Phase: 06 (localized-theme-aware-charts) — PLANS COMPLETE (pending phase-end gates)
-Plan: 3 of 3 complete
-Status: All plans executed; awaiting code review + human verify gate
-Last activity: 2026-07-09 -- Phase 06 all 3 plans executed
+Phase: 07 (Richer Weather & Milestone Verification) — EXECUTING
+Plan: 2 of 8
+Status: Ready to execute
+Last activity: 2026-07-08 -- Phase 07 execution started
 
 Progress: [██████████] 100% (Phase 06 plans: 3/3)
 
@@ -48,6 +48,7 @@ Progress: [██████████] 100% (Phase 06 plans: 3/3)
 | 05 | 4 | - | - |
 | Phase 06 P01 | 4min | 2 tasks | 3 files |
 | Phase 06 P02 | 3min | 2 tasks | 9 files |
+| Phase 07 P01 | 6min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -67,6 +68,8 @@ Recent decisions affecting current work:
 - [Phase ?]: [Phase 6]: dateLocale computed copied verbatim from ForecastList so chart x-axis dates localize identically
 - [Phase ?]: forecast_days=1 (24 points) keeps the hourly chart readable (Pitfall 5)
 - [Phase ?]: Precipitation exempt from unit toggle - mm on its own right y1 axis (Pitfall 8)
+- [Phase 07]: vuedraggable pinned to ^4.1.0 (never bare install) since npm latest dist-tag resolves to Vue-2-only 2.24.3
+- [Phase 07]: @playwright/test installed strictly as devDependency to keep browser-automation code out of the production bundle
 
 ### Pending Todos
 
@@ -87,8 +90,8 @@ Items acknowledged and carried forward:
 
 ## Session Continuity
 
-Last session: 2026-07-08T14:04:41.579Z
-Stopped at: Completed 06-01-PLAN.md
+Last session: 2026-07-09T12:11:59.615Z
+Stopped at: Completed 07-01-PLAN.md
 Resume file: None
 
 ---

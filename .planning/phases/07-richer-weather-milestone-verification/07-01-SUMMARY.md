@@ -28,7 +28,7 @@ key-decisions:
 
 patterns-established: []
 
-requirements-completed: [STATE-04, TEST-06]
+requirements-completed: []  # STATE-04/TEST-06 dependency prerequisite only satisfied here; functional completion deferred to Plans 07-06/07-08
 
 # Metrics
 duration: 6min
@@ -87,6 +87,14 @@ None - no external service configuration required. The Chromium browser binary w
 - @playwright/test and its Chromium binary are ready for the e2e smoke test in Plan 07-08.
 - No blockers.
 
+**Note on requirements:** STATE-04 and TEST-06 remain unchecked in REQUIREMENTS.md - this plan only satisfies their dependency prerequisite (packages installed, Chromium downloaded). Functional implementation (drag-and-drop reorder behavior; e2e smoke flow) happens in Plans 07-06 and 07-08 respectively, which will mark these requirements complete.
+
 ---
 *Phase: 07-richer-weather-milestone-verification*
 *Completed: 2026-07-09*
+
+## Self-Check: PASSED
+
+- FOUND: `.planning/phases/07-richer-weather-milestone-verification/07-01-SUMMARY.md`
+- FOUND: commit `1b15bad` (Task 2: install vuedraggable + @playwright/test + Chromium)
+- FOUND: commit `44b9c33` (docs: add plan summary)

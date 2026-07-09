@@ -26,3 +26,9 @@ coverage
 
 # Vitest / tsc build info
 *.tsbuildinfo
+
+# Playwright local run artifacts
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

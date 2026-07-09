@@ -31,6 +31,11 @@ vi.mock('@/lib/openMeteo', () => ({
     weatherCode: 0,
     windSpeed: 5,
     humidity: 50,
+    feelsLike: 19,
+    precipitation: 0,
+    uvIndex: 3,
+    sunrise: '2026-06-12T04:35',
+    sunset: '2026-06-12T19:20',
   }),
   // The detail page now also reaches Open-Meteo through fetchHourlyForecast; stub it to a
   // small fixed HourlyForecast so the hourly Vue Query resolves and HourlyChart mounts.

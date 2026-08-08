@@ -26,6 +26,7 @@ export interface Preferences {
   windUnit: WindUnit
   theme: ThemeMode
   language: Language
+  defaultCityKey: string | null
 }
 
 // App defaults: metric, light theme, English - matches how the app behaves today.
@@ -34,6 +35,7 @@ export const DEFAULT_PREFERENCES: Preferences = {
   windUnit: 'kmh',
   theme: 'light',
   language: 'en',
+  defaultCityKey: null,
 }
 
 // Valid values per axis. Reused by both the Settings controls (dropdown items) and the

@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import draggable from 'vuedraggable'
 
 import CitySearch from '@/components/CitySearch.vue'
+import DefaultLocationWidget from '@/components/DefaultLocationWidget.vue'
 import GeolocationButton from '@/components/GeolocationButton.vue'
 import WeatherCard from '@/components/WeatherCard.vue'
 import { useCitiesStore } from '@/stores/cities'
@@ -22,6 +23,8 @@ const { t } = useI18n()
     <CitySearch class="mb-6" />
 
     <GeolocationButton class="mb-4" />
+
+    <DefaultLocationWidget />
 
     <!-- Empty state (D-09) -->
     <v-sheet

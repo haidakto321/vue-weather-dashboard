@@ -32,6 +32,7 @@ export default {
   dashboard: {
     heading: 'Dashboard',
     emptyState: 'Search for a city to see its current weather.',
+    widgetHeading: 'Default location',
   },
   search: {
     label: 'Search for a city',
@@ -63,6 +64,7 @@ export default {
     sunset: 'Sunset {value}',
     lastUpdated: 'Updated {time}',
     refresh: 'Refresh',
+    defaultBadge: 'Default',
   },
   chart: {
     tempHigh: 'High {unit}',
@@ -106,6 +108,7 @@ export default {
     forecastHeading: '7-day forecast',
     temperatureHeading: 'Temperature',
     hourlyHeading: 'Hourly forecast',
+    mapHeading: 'Location map',
     notFoundTitle: 'City not found',
     notFoundBody: 'We do not have that city saved - return to the dashboard and search for it.',
     backToDashboard: 'Back to dashboard',

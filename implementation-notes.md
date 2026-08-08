@@ -485,4 +485,76 @@ A running log of decisions for the theme slice that were not spelled out in 04-0
   v9 was used as-is. A future migration to v11 is a separate, optional task - not silently
   done here.
 
+# iframe + Micro-Frontend Demo (Superpowers brainstorm/plan/execute, 2026-08-08)
+
+Out-of-band addition, not a GSD phase - user explicitly asked to add `<iframe>` as a learning
+topic and waived the "ask before adding scope" CLAUDE.md rule for this work. Spec:
+`docs/superpowers/specs/2026-08-08-iframe-micro-frontend-design.md`. Plan:
+`docs/superpowers/plans/2026-08-08-iframe-micro-frontend.md`.
+
+## Two demos, deliberately different iframe "weights"
+- OSM map embed (`LocationMap.vue` on the city detail page): a one-way, no-messaging iframe -
+  the simple case.
+- `widgets/default-location-widget/`: a genuinely separate npm project (own package.json, own
+  Vite dev server on port 5174, no Vuetify/Pinia/vue-i18n) talking to the main app over
+  `window.postMessage` - the micro-frontend case. Deliberately bare-styled (visible dashed
+  border, plain system font) so it visibly looks like a bolted-on second project rather than a
+  reskinned clone of the main app's design system.
+
+## Env vars became optional fallback constants, not required `.env` files
+- The spec described `.env.development` / `.env` files for `VITE_WIDGET_URL` /
+  `VITE_PARENT_ORIGIN`. DEVIATION: implemented as `import.meta.env.X ?? 'http://localhost:PORT'`
+  fallback constants instead, with no `.env` files created. Reason: the widget's dev port
+  (5174) and the main app's Vite default port (5173) are fixed and predictable, so requiring an
+  `.env` file for the demo to work out of the box added a setup step for zero benefit. The env
+  vars still work as an override if either app is ever served elsewhere - just not required.
+
+## Bug found and fixed during manual E2E verification: one-shot handshake was not enough
+- Original design (per spec/plan): widget sends `widget:ready` once on mount; parent replies
+  once with the current city list. This is a real bug, not a hypothetical - a Playwright-driven
+  browser test caught it directly: the widget's `ready` message fires on mount, which happens
+  before the user has searched for any city, so the one-time reply carries an empty city list
+  and the dropdown never updates afterward.
+- FIX: `DefaultLocationWidget.vue` now also `watch(() => citiesStore.cities, ..., { deep: true
+  })` and re-sends `widget:init` on every change, gated behind a `widgetHandshakeDone` flag so
+  it never fires before the initial handshake completes. This is the actual mechanism that
+  makes the postMessage-based sync live, not just a one-time snapshot - worth knowing if this
+  pattern is reused elsewhere.
+
+## Test-isolation bug found while adding the "Default" badge tests
+- `weatherCard.spec.ts`'s `beforeEach` created a fresh Pinia but never called
+  `localStorage.clear()`. The preferences store persists via `useLocalStorage`, so a
+  `setDefaultCity()` call in one test leaked into the next through real jsdom `localStorage`
+  (a fresh Pinia instance does not reset the underlying storage it reads from). Fixed by adding
+  `localStorage.clear()` to the `beforeEach`, matching the convention already used in
+  `preferences.store.spec.ts` and `dashboardPage.spec.ts`.
+
+## Manual E2E verification: no `chromium-cli` available, drove it with the project's own Playwright
+- The `run` skill's browser-driven pattern assumes `chromium-cli`; it was not installed in this
+  environment. Fallback: wrote a throwaway Node script using `playwright-core` (already a
+  transitive dep of the project's `@playwright/test`) to launch both dev servers, drive a real
+  cross-origin iframe handshake in headless Chromium, and screenshot each step. The script lived
+  briefly at the project root (`.tmp-e2e-drive.mjs`) so Node could resolve `playwright-core`
+  from `node_modules` - deleted after the run, never committed. Screenshots and dev-server logs
+  went to the session scratchpad, not the repo.
+- Two failures during that run were driver-script bugs, not app bugs (kept here so they're not
+  mistaken for real defects later): Playwright's `<option>` elements are never
+  Playwright-"visible" as standalone nodes (needed `waitFor({ state: 'attached' })`), and
+  `selectOption({ label: ... })` requires a plain string, not a regex.
+- The OSM map iframe appeared blank in an early screenshot - not a bug either, just a
+  screenshot-timing artifact (tiles hadn't loaded yet at capture time). Confirmed by waiting
+  longer before the next screenshot; the map renders correctly.
+
+## `sandbox="allow-scripts allow-same-origin"` on the widget iframe
+- This combination is a known general anti-pattern for framing untrusted third-party content
+  (together they let framed content remove its own sandbox restrictions). Used anyway here
+  because the framed content is the developer's own second project running on localhost, not
+  untrusted content - documenting the tradeoff rather than silently picking a "safer-looking"
+  but non-functional sandbox value (removing `allow-same-origin` would break the widget's own
+  `fetch()` calls to Open-Meteo in some browsers' sandboxed-iframe network handling).
+
+## Git
+- Per CLAUDE.md, NO `git add` / `git commit` was run - the user gave explicit consent to work
+  directly on `master` for this session (no feature branch/worktree), but committing still
+  requires a separate explicit ask. All changes sit in the working tree for review.
 

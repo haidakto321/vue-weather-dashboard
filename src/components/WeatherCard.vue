@@ -7,13 +7,17 @@ import { useTemperature } from '@/composables/useTemperature'
 import { useWindSpeed } from '@/composables/useWindSpeed'
 import { wmoToCondition } from '@/lib/wmo'
 import { useCitiesStore } from '@/stores/cities'
+import { usePreferencesStore } from '@/stores/preferences'
 import type { SavedCity } from '@/types/weather'
 
 const props = defineProps<{ city: SavedCity }>()
 
 const store = useCitiesStore()
+const preferencesStore = usePreferencesStore()
 
 const { t, locale } = useI18n()
+
+const isDefault = computed(() => props.city.key === preferencesStore.defaultCityKey)
 
 // Unit-aware temperature/wind display; humidity stays as-is (no unit toggle for it).
 const { format } = useTemperature()
@@ -83,6 +87,9 @@ function remove() {
   >
     <v-card-title class="d-flex align-center">
       <span>{{ displayName }}</span>
+      <v-chip v-if="isDefault" size="small" color="primary" class="ml-2">
+        {{ t('card.defaultBadge') }}
+      </v-chip>
       <v-spacer />
       <v-btn
         icon="mdi-close"

@@ -42,6 +42,10 @@ function sanitize(p: Partial<Preferences> | null | undefined): Preferences {
     language: (LANGUAGES as readonly string[]).includes(source.language as string)
       ? (source.language as Language)
       : DEFAULT_PREFERENCES.language,
+    defaultCityKey:
+      typeof source.defaultCityKey === 'string' || source.defaultCityKey === null
+        ? source.defaultCityKey
+        : DEFAULT_PREFERENCES.defaultCityKey,
   }
 }
 
@@ -65,6 +69,7 @@ export const usePreferencesStore = defineStore('preferences', () => {
   const windUnit = computed(() => prefs.value.windUnit)
   const theme = computed(() => prefs.value.theme)
   const language = computed(() => prefs.value.language)
+  const defaultCityKey = computed(() => prefs.value.defaultCityKey)
 
   // Explicit setters - writing into the persisted ref auto-persists via VueUse.
   function setUnit(u: TemperatureUnit) {
@@ -79,6 +84,20 @@ export const usePreferencesStore = defineStore('preferences', () => {
   function setLanguage(l: Language) {
     prefs.value.language = l
   }
+  function setDefaultCity(key: string | null) {
+    prefs.value.defaultCityKey = key
+  }
 
-  return { unit, windUnit, theme, language, setUnit, setWindUnit, setTheme, setLanguage }
+  return {
+    unit,
+    windUnit,
+    theme,
+    language,
+    defaultCityKey,
+    setUnit,
+    setWindUnit,
+    setTheme,
+    setLanguage,
+    setDefaultCity,
+  }
 })

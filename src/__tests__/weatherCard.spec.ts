@@ -10,6 +10,7 @@ import { VueQueryPlugin } from '@tanstack/vue-query'
 import WeatherCard from '@/components/WeatherCard.vue'
 import { i18n } from '@/i18n'
 import { fetchCurrentWeather } from '@/lib/openMeteo'
+import { usePreferencesStore } from '@/stores/preferences'
 import type { SavedCity } from '@/types/weather'
 
 // Component test stubs the HTTP layer with a module mock (same convention as
@@ -90,6 +91,10 @@ function mountCard(city: SavedCity) {
 
 describe('WeatherCard (richer conditions, wind unit, route-by-key, refresh)', () => {
   beforeEach(() => {
+    // preferences persists via useLocalStorage - clear it so a setDefaultCity call in one
+    // test can't leak into the next through real jsdom localStorage (Pinia alone resets, the
+    // underlying storage does not).
+    localStorage.clear()
     pinia = createPinia()
     setActivePinia(pinia)
     vi.mocked(fetchCurrentWeather).mockClear()
@@ -169,5 +174,24 @@ describe('WeatherCard (richer conditions, wind unit, route-by-key, refresh)', ()
     await flushPromises()
 
     expect(fetchCurrentWeather).toHaveBeenCalledTimes(2)
+  })
+
+  it('shows the Default badge when the city matches the stored default', async () => {
+    const preferences = usePreferencesStore()
+    preferences.setDefaultCity(london.key)
+
+    const wrapper = mountCard(london)
+    await flushPromises()
+    await flushPromises()
+
+    expect(wrapper.text()).toContain('Default')
+  })
+
+  it('does not show the Default badge for a non-default city', async () => {
+    const wrapper = mountCard(london)
+    await flushPromises()
+    await flushPromises()
+
+    expect(wrapper.text()).not.toContain('Default')
   })
 })

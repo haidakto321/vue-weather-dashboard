@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n'
 import ForecastList from '@/components/ForecastList.vue'
 import ForecastChart from '@/components/ForecastChart.vue'
 import HourlyChart from '@/components/HourlyChart.vue'
+import LocationMap from '@/components/LocationMap.vue'
 import { useForecast } from '@/composables/useForecast'
 import { useHourlyForecast } from '@/composables/useHourlyForecast'
 import { useCurrentWeather } from '@/composables/useCurrentWeather'
@@ -196,6 +197,14 @@ function formatTime(iso: string): string {
             </div>
           </v-card-text>
         </v-card>
+
+        <h2 class="text-h6 mb-2">{{ t('detail.mapHeading') }}</h2>
+        <LocationMap
+          :latitude="city.latitude"
+          :longitude="city.longitude"
+          :name="displayName"
+          class="mb-4"
+        />
 
         <v-row>
           <v-col cols="12" md="5">

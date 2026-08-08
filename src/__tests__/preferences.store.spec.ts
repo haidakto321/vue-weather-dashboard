@@ -72,4 +72,33 @@ describe('preferences store', () => {
     const store = usePreferencesStore()
     expect(store.windUnit).toBe(DEFAULT_PREFERENCES.windUnit)
   })
+
+  it('starts with defaultCityKey null', () => {
+    const store = usePreferencesStore()
+    expect(store.defaultCityKey).toBeNull()
+  })
+
+  it('setDefaultCity updates and persists the default city key', () => {
+    const store = usePreferencesStore()
+    store.setDefaultCity('2643743')
+    expect(store.defaultCityKey).toBe('2643743')
+    const raw = localStorage.getItem('weather-prefs')
+    const stored = JSON.parse(raw as string)
+    expect(stored.defaultCityKey).toBe('2643743')
+  })
+
+  it('falls back to null when localStorage holds a non-string defaultCityKey', () => {
+    localStorage.setItem(
+      'weather-prefs',
+      JSON.stringify({
+        unit: 'celsius',
+        theme: 'light',
+        language: 'en',
+        windUnit: 'kmh',
+        defaultCityKey: 123,
+      }),
+    )
+    const store = usePreferencesStore()
+    expect(store.defaultCityKey).toBeNull()
+  })
 })

@@ -17,6 +17,7 @@ export default {
   dashboard: {
     heading: 'ダッシュボード',
     emptyState: '都市を検索して現在の天気を表示します。',
+    widgetHeading: 'デフォルトの場所',
   },
   search: {
     label: '都市を検索',
@@ -48,6 +49,7 @@ export default {
     sunset: '日の入り {value}',
     lastUpdated: '最終更新: {time}',
     refresh: '更新',
+    defaultBadge: 'デフォルト',
   },
   chart: {
     tempHigh: '最高 {unit}',
@@ -91,6 +93,7 @@ export default {
     forecastHeading: '7日間の予報',
     temperatureHeading: '気温',
     hourlyHeading: '時間ごとの予報',
+    mapHeading: '地図',
     notFoundTitle: '都市が見つかりません',
     notFoundBody: 'その都市は保存されていません - ダッシュボードに戻って検索してください。',
     backToDashboard: 'ダッシュボードに戻る',
